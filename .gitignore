@@ -5,3 +5,5 @@ vendor
 node_modules
 cronlog
 error_log
+
+app/config/production/database.php
