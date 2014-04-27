@@ -1,0 +1,43 @@
+<div>
+	<div class="row">
+		<div class="col-xs-4"  ng-click="go(account.id)">{{account.name}}</div>
+		<div ng-class="['col-xs-2',{'text-danger': account.balance < 0} ]">{{account.balance | currency}}</div>
+		<div ng-class="['col-xs-4',{'text-danger': account.mainEnvelope.balance < 0}] ">{{(account.mainEnvelope=(account.envelopes
+		                                                                                |
+		                                                                                filter:{default_spend:1})[0]).balance |
+		                                                                                currency }}
+		                                                                                ({{account.mainEnvelope.name}})
+		</div>
+		<div class="col-xs-2"><a ng-click="account.edit=!account.edit"><span class="glyphicon glyphicon-edit"></span></a></div>
+	</div>
+	<form role="form" name="accountEdit_{{account.id}}" ng-show="account.edit" ng-submit="editAccount(account)">
+		<div class="form-group">
+			<label for="name_{{$i}}">Name</label>
+			<input required class="form-control" type="text" id="name_{{$i}}" ng-model="account.name" ng-change="updateUsername()"/>
+		</div>
+		<div class="form-group">
+			<label for="username_{{$i}}">Username <small>(3 characters or more, no spaces)</small></label>
+			<input required class="form-control" type="text" id="username_{{$i}}" ng-model="account.username" pattern="[a-z0-9_\.-]{3,}" />
+		</div>
+		<div class="form-group">
+			<label for="password_{{$i}}">Password <small>(optional)</small></label>
+			<input class="form-control" type="password" id="password_{{$i}}" ng-model="account.password"/>
+		</div>
+		<div class="form-group">
+			<label for="email_{{$i}}">Email <small>(optional)</small></label>
+			<input class="form-control" type="text" id="email_{{$i}}" ng-model="account.email"/>
+		</div>
+		<div class="checkbox">
+			<label>
+				<input type="checkbox" ng-model="account.user_type" ng-true-value="administrator" ng-false-value="user"/> Administrator?
+			</label>
+		</div>
+		<div class="checkbox">
+			<label>
+				<input type="checkbox" ng-model="account.active" ng-false-value="0" ng-true-value="1"/> Active Account?
+			</label>
+		</div>
+		<alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+		<input type="submit" value="Save {{account.name}}" ng-show="accountEdit_{{account.id}}.$dirty"/>
+	</form>
+</div>

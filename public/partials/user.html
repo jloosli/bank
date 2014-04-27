@@ -1,0 +1,72 @@
+<h2>{{user.name}}
+
+	<div class="btn-group">
+		<button type="button" class="btn btn-small dropdown-toggle" data-toggle="dropdown">
+			Switch Account <span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu" role="menu">
+			<li ng-repeat="accountHolder in accountHolders | notId:user.id "><a
+					ng-href="#/accounts/{{accountHolder.id}}">{{accountHolder.name}}</a></li>
+		</ul>
+	</div>
+</h2>
+<form class="form-horizontal clearfix" role="form" name="addTransaction" ng-submit="submitTransaction(user.id,this)"
+      ng-model="theTransactionForm">
+	<div class="form-group">
+		<label class="col-sm-2 col-lg-push-2 control-label" for="description">Description</label>
+
+		<div class="col-sm-10 col-lg-6 col-lg-push-2">
+			<input type="text" class="form-control" required
+			       id="description" placeholder="Description"
+			       ng-model="trans.description">
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="amount" class="col-sm-2 col-lg-push-2 control-label">Amount</label>
+		<div class="col-sm-10 col-lg-6 col-lg-push-2">
+			<div class="input-group">
+				<span class="input-group-addon">$</span>
+				<input type="number" class="form-control" id="amount" name="amount" step="any" required
+				       placeholder="Amount" ng-model="trans.amount"/>
+			</div>
+		</div>
+	</div>
+	<fieldset>
+		<legend>
+			Envelopes
+			<a ng-href="#/accounts/{{user.id}}/envelopes">
+				<small><span class="glyphicon glyphicon-edit" title="Edit envelopes for {{user.name}}"></span></small>
+			</a>
+		</legend>
+		<envelope env="envelope" trans="{{trans.amount}}"
+		          ng-repeat="envelope in (user.envelopes | filter:{is_active: 1})"></envelope>
+	</fieldset>
+	<button type="submit" class="btn btn-primary btn-lg col-xs-12 col-lg-8 col-lg-push-2">Submit</button>
+</form>
+<alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}
+</alert>
+<copytrans ng-show="(alerts  | filter:{copy:true}).length" message="Copy to another user?"
+           users="accountHolders" current="user" last-trans="{{lastTransaction}}">
+</copytrans>
+<div><a href="#/accounts">Back to the Account List</a></div>
+
+<div>
+	<div class="row">
+		<h3 class="col-xs-12">Transactions
+			<small>(Current Balance: {{user.balance | currency}})</small>
+			<input ng-model="transSearch" placeholder="Transaction Search" type="search"/>
+		</h3>
+	</div>
+	<div class="row">
+		<h4 class="col-xs-8">Click on a line to see the envelopes</h4>
+	</div>
+
+	<div class="row">
+		<h4 class="col-xs-3">Date</h4>
+		<h4 class="col-xs-6">Description</h4>
+		<h4 class="col-xs-3">Amount</h4>
+	</div>
+	<div ng-repeat="transaction in transactions | filter:transSearch | orderBy:'created_at':'reverse'">
+		<transaction-list trans="transaction" envelopes="user.envelopes"></transaction-list>
+	</div>
+</div>

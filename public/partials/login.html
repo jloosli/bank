@@ -1,0 +1,34 @@
+<style>
+	.vertical-offset-50 { padding-top: 50px; }
+</style>
+<div class="row vertical-offset-50">
+	<div class="col-md-4 col-md-offset-4">
+		<div class="panel panel-default">
+			<div class="panel-heading">Please Sign In</div>
+			<div class="panel-body">
+				<form name="loginForm" role="form" ng-submit="doLogin(login)">
+					<div class="alert alert-danger" ng-show="error">{{error}}</div>
+					<div class="form-group"
+					     ng-class="{'has-error': problem.user}">
+						<label for="login">Login</label>
+						<input autofill-hack type="text" class="form-control" name="user" id="login" autocomplete="off"
+						       placeholder="Enter email or username" ng-model="login.nameOrEmail">
+					</div>
+					<div class="form-group"
+					     ng-class="{'has-error': problem.pass}">
+						<label for="password">Password</label>
+						<input autofill-hack type="password" class="form-control" name="pass" id="password" autocomplete="off"
+						       placeholder="Password" ng-model="login.password">
+					</div>
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" ng-model="login.remember"> Remember Me
+						</label>
+					</div>
+					<button type="submit" class="btn btn-primary pull-right">Login</button>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>

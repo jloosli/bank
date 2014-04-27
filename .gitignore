@@ -1,0 +1,7 @@
+.idea
+
+vendor
+
+node_modules
+cronlog
+error_log

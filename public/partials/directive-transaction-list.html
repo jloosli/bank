@@ -1,0 +1,16 @@
+
+<div>
+	<div class="row" ng-click="showDetails=!showDetails">
+		<div class="col-xs-3" ng-bind="getJsDate(transaction.created_at)  | date "></div>
+		<div class="col-xs-6">{{transaction.description}}</div>
+		<div ng-class="{'text-danger': transaction.amount < 0, 'col-xs-3':true}">{{transaction.amount | currency}}</div>
+	</div>
+	<div class="row" ng-hide="!showDetails">
+		<div class="col-xs-3" ng-repeat="envelope in envelopes" ng-class="{cleft: $index % 4 == 0}">
+			<h5><span class="glyphicon glyphicon-envelope"></span> {{envelope.name}}</h5>
+			<div ng-repeat="et in transaction.envelope_transaction | filter:{envelope_id: envelope.id}" ng-class="{'text-danger': et.amount < 0}">
+				{{et.amount | currency}}
+			</div>
+		</div>
+	</div>
+</div>

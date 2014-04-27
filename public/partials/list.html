@@ -1,0 +1,10 @@
+<h2>Account Holders:</h2>
+<div class="row">
+	<div class="col-xs-4"><strong>Account Holder</strong></div>
+	<div class="col-xs-2"><strong>Total Balance</strong></div>
+	<div class="col-xs-4"><strong>Main Spending</strong></div>
+	<div class="col-xs-2"><strong>Edit?</strong></div>
+</div>
+<account-holders ng-repeat="account in accountHolders" account="account"></account-holders>
+<button type="button" class="btn btn-default pull-right clearfix" ng-click="addAccount()">Add Account Holder <span class="glyphicon glyphicon-plus"></span></button>
+
