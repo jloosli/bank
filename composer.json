@@ -6,8 +6,8 @@
 	"require": {
 		"laravel/framework": "4.1.*",
         "way/generators": "dev-master",
-        "laravelbook/ardent": "dev-master",
-        "tappleby/laravel-auth-token": "0.2.*"
+        "laravelbook/ardent": "dev-master"
+
 	},
 
     "require-dev": {

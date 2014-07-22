@@ -10,17 +10,7 @@ class BankController extends BaseController {
 	public function index()
 	{
 
-        return 3;
-	}
-
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-        return View::make('banks.create');
+        return Bank::all();
 	}
 
 	/**
@@ -41,18 +31,7 @@ class BankController extends BaseController {
 	 */
 	public function show($id)
 	{
-        return View::make('banks.show');
-	}
-
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-        return View::make('banks.edit');
+        return Bank::findOrFail($id);
 	}
 
 	/**

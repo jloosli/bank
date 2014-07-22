@@ -108,7 +108,6 @@ return array(
         'Illuminate\Workbench\WorkbenchServiceProvider',
 
         'Way\Generators\GeneratorsServiceProvider',
-        'Tappleby\AuthToken\AuthTokenServiceProvider'
     ),
 
     /*
@@ -175,8 +174,8 @@ return array(
         'Validator'   => 'Illuminate\Support\Facades\Validator',
         'View'        => 'Illuminate\Support\Facades\View',
 
-        'AuthToken' => 'Tappleby\Support\Facades\AuthToken',
-        'AuthTokenNotAuthorizedException' => 'Tappleby\AuthToken\Exceptions\NotAuthorizedException',
+//        'AuthToken' => 'Tappleby\Support\Facades\AuthToken',
+//        'AuthTokenNotAuthorizedException' => 'Tappleby\AuthToken\Exceptions\NotAuthorizedException',
     ),
 
 );

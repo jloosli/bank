@@ -10,9 +10,9 @@ class UserController extends \BaseController
      *
      * @return Response
      */
-    public function index() {
+    public function index($id) {
         $user = User::with('envelopes')
-            ->where('bank_id', '=', Auth::user()->bank_id)
+            ->where('bank_id', '=', $id)
             ->where('user_type','user')
             ->get();
         return Response::json($user);
@@ -62,8 +62,10 @@ class UserController extends \BaseController
      * @param  int $id
      * @return Response
      */
-    public function show($id) {
-        $user = User::find($id);
+    public function show($bank_id, $user_id) {
+        $user = User::where(['id', $user_id])
+        ->where(['bank_id', $bank_id])->get();
+        return $user;
         return Response::json(array('success' => true, 'data' => $user->toArray()));
 
     }

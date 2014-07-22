@@ -18,76 +18,36 @@ Route::group(array('prefix'=>'/api/v1', 'before' => 'auth.token', ), function() 
     Route::resource('transactions','TransactionController');
     Route::resource('envelopes','EnvelopeController');
     Route::get('transactions/user/{id}', 'TransactionController@user');
-    Route::delete('auth', 'Tappleby\AuthToken\AuthTokenController@destroy');
-    Route::get('auth', 'Tappleby\AuthToken\AuthTokenController@index');
 });
 
 Route::post('/api/v1/auth', 'Tappleby\AuthToken\AuthTokenController@store');
 
 Route::group(['prefix'=>'/api'], function () {
     Route::group(['prefix'=>'/banks'], function () {
-        Route::get('/', function () {
-            // Get all banks (super admin only)
-            return Bank::all();
-        });
-        Route::post('/',function() {
-            // Create new bank
-        });
-        Route::get('/{id}', function ($id) {
-            // Get information for one bank
-            return Bank::findOrFail($id);
-        });
-        Route::put('/{id}', function ($id) {
-            // Update bank information
-        });
-        Route::delete('/{id}', function ($id) {
-            // Delete (archive) bank
-        });
+        Route::get('/', 'BankController@index'); // Get all banks (super admin only)
+        Route::post('/','BankController@store');         // Create new bank
+        Route::get('/{id}', 'BankController@show');         // Get details on single bank
+        Route::put('/{id}', 'BankController@update'); // Update bank information
+        Route::delete('/{id}', 'BankController@delete');// Delete (archive) bank
 
         /* Users */
-        Route::get('/{id}/users', function($id) {
-            // Get all users for the bank
-        });
-        Route::get('/{id}/users/{user_id}', function($id, $user_id) {
-            // Get details about a user
-        });
-        Route::put('/{id}/users/{user_id}', function($id, $user_id) {
-            // Update user
-        });
-        Route::post('/{id}/users', function($id) {
-            // Add new user
-        });
-        Route::delete('/{id}/users/{user_id}', function ($id, $user_id) {
-            // Delete user
-        });
+        Route::get('/{id}/users', 'UserController@index');// Get all users for the bank
+        Route::get('/{id}/users/{user_id}', 'UserController@show');// Get details about a user
+        Route::put('/{id}/users/{user_id}', 'UserController@update');// Update user
+        Route::post('/{id}/users', 'UserController@store');// Add new user
+        Route::delete('/{id}/users/{user_id}', 'UserController@destroy');// Delete user
 
         /* Envelopes */
-        Route::get('/{id}/users/{user_id}/envelopes', function($id, $user_id) {
-            // Get user's envelopes
-        });
-        Route::get('/{id}/users/{user_id}/envelopes/{env_id}', function($id, $user_id, $env_id) {
-            // Get details about specific envelope
-        });
-        Route::put('/{id}/users/{user_id}/envelopes/{env_id}', function($id, $user_id, $env_id) {
-            // Update user envelope
-        });
-        Route::delete('/{id}/users/{user_id}/envelopes/{env_id}', function($id, $user_id, $env_id) {
-            // Delete user envelope
-        });
-        Route::post('/{id}/users/{user_id}/envelopes/', function($id, $user_id) {
-            // Add new envelope
-        });
+        Route::get('/{id}/users/{user_id}/envelopes', 'EnvelopeController@index');// Get user's envelopes
+        Route::get('/{id}/users/{user_id}/envelopes/{env_id}', 'EnvelopeController@show');// Get details about specific envelope
+        Route::put('/{id}/users/{user_id}/envelopes/{env_id}', 'EnvelopeController@update');// Update user envelope
+        Route::delete('/{id}/users/{user_id}/envelopes/{env_id}', 'EnvelopeController@destroy');// Delete user envelope
+        Route::post('/{id}/users/{user_id}/envelopes/', 'EnvelopeController@store');// Add new envelope
 
         /* Transactions */
-        Route::get('/{id}/users/{user_id}/transactions', function($id, $user_id) {
-            // Get all transactions (pagination get queries expected)
-        });
-        Route::post('/{id}/users/{user_id}/transactions', function($id,$user_id) {
-            // Create new transaction
-        });
-        Route::get('/{id}/users/{user_id}/transactions/{trans_id}', function($id,$user_id,$trans_id) {
-            // Get specific transaction
-        });
+        Route::get('/{id}/users/{user_id}/transactions', 'TransactionController@index');// Get all transactions (pagination get queries expected)
+        Route::post('/{id}/users/{user_id}/transactions', 'TransactionController@store');// Create new transaction
+        Route::get('/{id}/users/{user_id}/transactions/{trans_id}', 'TransactionController@show');// Get specific transaction
 
     });
 

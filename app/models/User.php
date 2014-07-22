@@ -4,7 +4,7 @@ use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;
 use LaravelBook\Ardent\Ardent;
 
-class User extends Ardent implements UserInterface, RemindableInterface {
+class User extends Eloquent { //Ardent implements UserInterface, RemindableInterface {
 
     protected $fillable=array('username','name','email','bank_id', 'password');
 
@@ -18,6 +18,16 @@ class User extends Ardent implements UserInterface, RemindableInterface {
 
     public function envelopes() {
         return $this->hasMany('Envelope');
+    }
+
+    public function getRememberToken() {
+
+    }
+    public function getRememberTokenName() {
+
+    }
+    public function setRememberToken($token) {
+
     }
 
     /**
