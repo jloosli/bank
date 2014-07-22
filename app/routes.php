@@ -22,7 +22,7 @@ Route::group(array('prefix'=>'/api/v1', 'before' => 'auth.token', ), function() 
 
 Route::post('/api/v1/auth', 'Tappleby\AuthToken\AuthTokenController@store');
 
-Route::group(['prefix'=>'/api'], function () {
+Route::api(['version' => 'v1'], function () {
     Route::group(['prefix'=>'/banks'], function () {
         Route::get('/', 'BankController@index'); // Get all banks (super admin only)
         Route::post('/','BankController@store');         // Create new bank

@@ -53,12 +53,12 @@ App::error(function(Exception $exception, $code)
 	Log::error($exception);
 });
 
-App::error(function(AuthTokenNotAuthorizedException $exception) {
-    if(Request::ajax()) {
-        return Response::json(array('error' => $exception->getMessage()), 401);
-    }
-
-});
+//App::error(function(AuthTokenNotAuthorizedException $exception) {
+//    if(Request::ajax()) {
+//        return Response::json(array('error' => $exception->getMessage()), 401);
+//    }
+//
+//});
 
 /*
 |--------------------------------------------------------------------------
