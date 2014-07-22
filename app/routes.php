@@ -28,14 +28,14 @@ Route::group(['prefix'=>'/api'], function () {
     Route::group(['prefix'=>'/banks'], function () {
         Route::get('/', function () {
             // Get all banks (super admin only)
-            return Banks::all();
+            return Bank::all();
         });
         Route::post('/',function() {
             // Create new bank
         });
         Route::get('/{id}', function ($id) {
             // Get information for one bank
-            return Banks::one($id);
+            return Bank::findOrFail($id);
         });
         Route::put('/{id}', function ($id) {
             // Update bank information
