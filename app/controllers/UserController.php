@@ -11,11 +11,15 @@ class UserController extends \BaseController
      * @return Response
      */
     public function index($id) {
-        $user = User::with('envelopes')
+        $users = User::with('envelopes')
             ->where('bank_id', '=', $id)
-            ->where('user_type','user')
-            ->get();
-        return Response::json($user);
+        ->get();
+//            ->where('user_type','user')
+//            ->paginate(3);
+        return $users;
+//        $response= $this->response->withPaginator()->withCollection($users, new \AvantiDevelopment\JrBank\UserTransformer());
+//        return Response::json($users);
+//        return Response::api()->addHeader('name','value')->withCollection($users, new AvantiDevelopment\JrBank\UserTransformer(),null, 'users');
     }
 
     /**
@@ -62,9 +66,12 @@ class UserController extends \BaseController
      * @param  int $id
      * @return Response
      */
-    public function show($bank_id, $user_id) {
-        $user = User::where(['id', $user_id])
-        ->where(['bank_id', $bank_id])->get();
+    public function show($bank_id, $user_ids) {
+        $ids = explode(',',$user_ids);
+        $user = User::with('envelopes')->whereIn('id', $ids)
+        ->where('bank_id', $bank_id)->get();
+
+        return Response::api()->withCollection($user, new AvantiDevelopment\JrBank\BasicTransformer(), null, 'users');
         return $user;
         return Response::json(array('success' => true, 'data' => $user->toArray()));
 
