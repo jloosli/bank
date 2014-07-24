@@ -56,7 +56,6 @@ class TransactionController extends BaseController {
                 $transaction->description = $mainTransaction['description'];
                 $user->transactions()->save( $transaction );
 
-                // Pull out the envelope_transactions and save the overall transaction
                 // Save the envelope Transactions
                 foreach ( $envelope_transactions as $et ) {
                     $theSubTransaction              = new EnvelopeTransaction();
@@ -64,7 +63,7 @@ class TransactionController extends BaseController {
                     $theSubTransaction->envelope_id = $et['envelope_id'];
                     $transaction->envelope_transaction()->save( $theSubTransaction );
 
-                    // Update the existing envelope balances.
+                    // Update the existing envelope balance.
                     $envelope = Envelope::findorFail( $et['envelope_id'] );
                     $envelope->balance += $et['amount'];
                     $envelope->save();

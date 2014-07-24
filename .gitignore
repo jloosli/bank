@@ -1,5 +1,7 @@
 .idea
 
+_ide_*
+
 vendor
 
 node_modules
