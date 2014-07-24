@@ -108,7 +108,8 @@ return array(
         'Illuminate\Workbench\WorkbenchServiceProvider',
 
         'Way\Generators\GeneratorsServiceProvider',
-        'Dingo\Api\ApiServiceProvider'
+        'Dingo\Api\ApiServiceProvider',
+        'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider'
     ),
 
     /*

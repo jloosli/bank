@@ -13,7 +13,8 @@
 
     "require-dev": {
         "mockery/mockery": "dev-master@dev",
-        "phpunit/phpunit": "4.2.x-dev"
+        "phpunit/phpunit": "4.2.x-dev",
+        "barryvdh/laravel-ide-helper": "1.*"
     },
 	"autoload": {
 		"classmap": [
@@ -31,6 +32,7 @@
 		],
 		"post-update-cmd": [
 			"php artisan clear-compiled",
+            "php artisan ide-helper:generate",
 			"php artisan optimize"
 		],
 		"post-create-project-cmd": [

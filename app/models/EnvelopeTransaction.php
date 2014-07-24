@@ -5,6 +5,8 @@ class EnvelopeTransaction extends Eloquent {
 
 	protected $guarded = array();
 
+    protected $fillable = ['amount','envelope_id'];
+
 	public static $rules = array();
 
     public function envelope() {
