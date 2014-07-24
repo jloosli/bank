@@ -10,7 +10,7 @@
 | the console gets access to each of the command object instances.
 |
 */
-$bank = new Bank;
+$bank = new User;
 Artisan::add(new InterestCommand($bank));
 
 

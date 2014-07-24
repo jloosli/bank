@@ -7,7 +7,7 @@ class UserController extends \BaseController {
      *
      * @route GET /banks/{id}/users/
      *
-     * @param $id Bank id
+     * @param $id User id
      *
      * @return Response
      */
@@ -67,11 +67,23 @@ class UserController extends \BaseController {
      */
     public function show( $bank_id, $user_ids ) {
         $ids  = explode( ',', $user_ids );
-        $user = User::with( 'envelopes' )->whereIn( 'id', $ids )
+        if ( Input::get( 'show_deleted' ) === 'true' ) {
+            $user = User::withTrashed();
+        } else {
+            $user = new User();
+        }
+        $user = $user->with( 'envelopes' )->whereIn( 'id', $ids )
                     ->where( 'bank_id', $bank_id )->get();
 
-//        return Response::api()->withCollection($user, new AvantiDevelopment\JrBank\BasicTransformer(), null, 'users');
-        return $user;
+        if(count($user)) {
+            return $user;
+        } else {
+            throw new Symfony\Component\HttpKernel\Exception\NotFoundHttpException(
+                "User" & count($ids) > 1 ? 's':'' & ' not found.'
+            );
+        }
+
+
 
     }
 
@@ -80,30 +92,34 @@ class UserController extends \BaseController {
      * @route PUT /user/{id}
      *
      *
-     * @param  int $id
+     * @param      $bank_id
+     * @param  int $user_id
      *
      * @return Response
      */
-    public function update( $id ) {
-        $user            = User::find( $id );
-        $user->email     = Input::get( 'email' );
-        $user->name      = Input::get( 'name' );
-        $user->user_type = Input::get( 'user_type' );
-        $user->username  = Input::get( 'username' );
-        $user->active    = Input::get( 'active' );
-        if ( Input::get( 'password' ) ) {
-            $user->password = Hash::make( Input::get( 'password' ) );
+    public function update( $bank_id, $user_id ) {
+        if ( Input::get( 'undelete' ) == 'true' ) {
+            User::withTrashed()->where( 'bank_id', $bank_id )->where( 'id', $user_id )->restore();
         }
-        if ( $user->save() ) {
-            $user->load( 'envelopes' );
+        $user = User::where( 'bank_id', $bank_id )->where( 'id', $user_id )->first();
+        if ( !$user ) {
+            throw new Symfony\Component\HttpKernel\Exception\NotFoundHttpException( "User not found." );
+        }
+        $inputs = Input::only( $user->getFillable() );
+        $inputs = array_filter( $inputs, function ( $val ) {
+            return !is_null( $val );
+        } );
+        $user->update( $inputs );
 
-            return Response::json( array(
+
+        if ( $user->updateUniques() ) {
+            return Response::api()->withArray( [
                 'success' => true,
-                'message' => "{$user->name} saved Successfully",
+                'message' => "{$user->name} updated Successfully",
                 'data'    => $user->toArray()
-            ) );
+            ] );
         } else {
-            return Response::json( array( 'success' => false, 'message' => $user->errors()->all() ) );
+            throw new Dingo\Api\Exception\StoreResourceFailedException( 'Could not update User.', $user->errors() );
         }
     }
 
@@ -118,15 +134,18 @@ class UserController extends \BaseController {
      * @return Response
      */
     public function destroy( $bank_id, $user_id ) {
-        $user = User::where( 'bank_id', $bank_id )->where( 'id', $user_id )->get();
-        $user->delete();
+        $user = User::where( 'bank_id', $bank_id )->where( 'id', $user_id )->first();
+        if ( $user->delete() ) {
+            return Response::api()->withArray( [ 'success' => true ] );
+        }
+        throw new Symfony\Component\HttpKernel\Exception\NotFoundHttpException( "User not found." );
     }
 
     public function login() {
         $credentials = array(
             'username' => Input::get( 'username' ),
             'password' => Input::get( 'password' ),
-            'active'   => 1
+            'deleted_at'   => null
         );
         if ( Auth::attempt( $credentials ) ) {
             $authToken   = AuthToken::create( Auth::user() );
