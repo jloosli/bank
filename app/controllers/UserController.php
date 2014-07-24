@@ -6,7 +6,9 @@ class UserController extends \BaseController
     /**
      * Display a listing of the resource.
      *
-     * @route GET /user/
+     * @route GET /banks/{id}/users/
+     *
+     * @param $id Bank id
      *
      * @return Response
      */
@@ -20,15 +22,6 @@ class UserController extends \BaseController
 //        $response= $this->response->withPaginator()->withCollection($users, new \AvantiDevelopment\JrBank\UserTransformer());
 //        return Response::json($users);
 //        return Response::api()->addHeader('name','value')->withCollection($users, new AvantiDevelopment\JrBank\UserTransformer(),null, 'users');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create() {
-        // Shouldn't be used in the api
     }
 
     /**
@@ -61,9 +54,11 @@ class UserController extends \BaseController
     /**
      * Display the specified resource.
      *
-     * @ route GET /user/{id}
+     * @ route GET bank/{bank_id}/users/{user_id}
      *
-     * @param  int $id
+     * @param $bank_id
+     * @param $user_ids
+     *
      * @return Response
      */
     public function show($bank_id, $user_ids) {
@@ -71,20 +66,9 @@ class UserController extends \BaseController
         $user = User::with('envelopes')->whereIn('id', $ids)
         ->where('bank_id', $bank_id)->get();
 
-        return Response::api()->withCollection($user, new AvantiDevelopment\JrBank\BasicTransformer(), null, 'users');
+//        return Response::api()->withCollection($user, new AvantiDevelopment\JrBank\BasicTransformer(), null, 'users');
         return $user;
-        return Response::json(array('success' => true, 'data' => $user->toArray()));
 
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return Response
-     */
-    public function edit($id) {
-        // not used
     }
 
     /**
@@ -116,13 +100,16 @@ class UserController extends \BaseController
     /**
      * Remove the specified resource from storage.
      *
-     * @route DELETE /user/{id}
+     * @route DELETE banks/{id}/user/{user_id}
      *
-     * @param  int $id
+     * @param $bank_id
+     * @param $user_id
+     *
      * @return Response
      */
-    public function destroy($id) {
-        //@todo delete associated records
+    public function destroy($bank_id, $user_id) {
+        $user = User::where('bank_id', $bank_id)->where('id', $user_id)->get();
+        $user->delete();
     }
 
     public function login() {

@@ -1,6 +1,7 @@
 <?php
 
 class Envelope extends Eloquent {
+
     protected $table = "envelopes";
     protected $softDelete = true;
 

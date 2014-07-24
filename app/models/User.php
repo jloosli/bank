@@ -6,6 +6,8 @@ use LaravelBook\Ardent\Ardent;
 
 class User extends Eloquent { //Ardent implements UserInterface, RemindableInterface {
 
+    protected $softDelete = true;
+
     protected $fillable=array('username','name','email','bank_id', 'password');
 
     public function transactions() {
@@ -51,6 +53,7 @@ class User extends Eloquent { //Ardent implements UserInterface, RemindableInter
             $baseEnvelope->name = "Spending";
             $baseEnvelope->default_spend = 1;
             $baseEnvelope->percent = 100;
+            $baseEnvelope->balance = 0;
             $baseEnvelope->save();
             return true;
         });

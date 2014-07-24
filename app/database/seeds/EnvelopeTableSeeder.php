@@ -4,7 +4,7 @@ class EnvelopeTableSeeder extends Seeder {
     public function run() {
         DB::table('envelopes')->delete();
 
-        DB::table('envelopes')->insert(array(
+        Envelope::create(array(
             'user_id'=>1,
             'name'=>'Spending',
             'goal'=>30,
@@ -13,7 +13,7 @@ class EnvelopeTableSeeder extends Seeder {
             'percent' => 35,
             'default_spend'=>1
         ));
-        DB::table('envelopes')->insert(array(
+        Envelope::create(array(
             'user_id'=>1,
             'name'=>'Savings',
             'goal'=>275,
@@ -21,7 +21,7 @@ class EnvelopeTableSeeder extends Seeder {
             'balance'=> 0,
             'percent' => 50
         ));
-        DB::table('envelopes')->insert(array(
+        Envelope::create(array(
             'user_id'=>1,
             'name'=>'Tithing',
             'goal'=>0,
@@ -29,16 +29,16 @@ class EnvelopeTableSeeder extends Seeder {
             'balance'=> 0,
             'percent' => 10
         ));
-        DB::table('envelopes')->insert(array(
+        Envelope::create(array(
             'user_id'=>2,
-            'name'=>'Spending',
+            'name'=>'Long Term',
             'goal'=>30,
             'goal_date'=>'2015-01-01',
             'balance'=> 0,
             'percent' => 35,
             'default_spend'=>1
         ));
-        DB::table('envelopes')->insert(array(
+        Envelope::create(array(
             'user_id'=>2,
             'name'=>'Savings',
             'goal'=>275,

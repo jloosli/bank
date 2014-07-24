@@ -2,27 +2,20 @@
 
 class EnvelopeController extends BaseController {
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
-	public function index()
+    /**
+     * Display a listing of a user's envelopes.
+     *
+     * @param $bank_id
+     * @param $user_id
+     *
+     * @return Response
+     */
+	public function index($bank_id, $user_id)
 	{
-        return View::make('envelopes.index');
+        return Envelope::where('user_id', $user_id)->get();
 	}
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-        return View::make('envelopes.create');
-	}
-
-	/**
+    /*
 	 * Store a newly created resource in storage.
 	 *
 	 * @return Response
@@ -47,27 +40,19 @@ class EnvelopeController extends BaseController {
 
     }
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
+    /**
+     * Display the specified resource.
+     *
+     * @param $bank_id
+     * @param $user_id
+     * @param $envelope_id
+     *
+     * @return Response
+     */
+	public function show($bank_id, $user_id, $envelope_id)
 	{
-        $envelopes = Envelope::where('user_id', '=', $id)->get();
-        return Response::json($envelopes);
-	}
-
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-        return View::make('envelopes.edit');
+        return Envelope::where('user_id', '=', $user_id)
+            ->where('id', $envelope_id)->get();
 	}
 
 	/**
@@ -81,15 +66,27 @@ class EnvelopeController extends BaseController {
 		//
 	}
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param $bank_id
+     * @param $user_id
+     * @param $envelope_id
+     *
+     * @return Response
+     */
+	public function destroy($bank_id, $user_id, $envelope_id)
 	{
-		//
+		// @todo Check to make sure the envelope balance is $0
+        $envelope = $this->show($bank_id,$user_id,$envelope_id);
+        if (!envelope) {
+            throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException('Envelope not found');
+        }
+        if((float) $envelope->balance === 0) {
+            $envelope->delete();
+            return true;
+        }
+        throw new \Symfony\Component\HttpKernel\Exception\PreconditionFailedHttpException('Envelope is not empty');
 	}
 
 }
