@@ -9,25 +9,19 @@ class UserController extends \BaseController {
      *
      * @param $id User id
      *
-     * @return Response
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
     public function index( $id ) {
         $users = User::with( 'envelopes' )
                      ->where( 'bank_id', '=', $id )
                      ->get();
-//            ->where('user_type','user')
-//            ->paginate(3);
         return $users;
-//        $response= $this->response->withPaginator()->withCollection($users, new \AvantiDevelopment\JrBank\UserTransformer());
-//        return Response::json($users);
-//        return Response::api()->addHeader('name','value')->withCollection($users, new AvantiDevelopment\JrBank\UserTransformer(),null, 'users');
     }
 
     /**
      * Store a newly created resource in storage.
      * @route POST /user/
      *
-     * @return Response
      */
     public function store( $bank_id ) {
         $user            = new User();
