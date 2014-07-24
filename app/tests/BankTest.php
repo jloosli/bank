@@ -14,9 +14,6 @@ class BankTest extends TestCase {
         $this->assertEquals( $code, $response->getStatusCode() );
     }
 
-    /**
-     * @return void
-     */
     public function testGetAll() {
         $this->seed();
 
