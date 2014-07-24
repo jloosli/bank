@@ -1,7 +1,6 @@
 <?php
 
-class UserController extends \BaseController
-{
+class UserController extends \BaseController {
 
     /**
      * Display a listing of the resource.
@@ -12,10 +11,10 @@ class UserController extends \BaseController
      *
      * @return Response
      */
-    public function index($id) {
-        $users = User::with('envelopes')
-            ->where('bank_id', '=', $id)
-        ->get();
+    public function index( $id ) {
+        $users = User::with( 'envelopes' )
+                     ->where( 'bank_id', '=', $id )
+                     ->get();
 //            ->where('user_type','user')
 //            ->paginate(3);
         return $users;
@@ -30,24 +29,29 @@ class UserController extends \BaseController
      *
      * @return Response
      */
-    public function store() {
-        $user              = new User();
-        $user->email       = Input::get('email');
-        $user->name        = Input::get('name');
-        $user->user_type   = Input::get('user_type', 'user');
-        $user->username    = Input::get('username');
-        $user->password    = Hash::make(Input::get('password'));
-        $user->active      = 1;
-        $user->balance     = 0;
-        $user->bank_id     = Auth::user()->bank_id;
+    public function store( $bank_id ) {
+        $user            = new User();
+        $user->email     = Input::get( 'email' );
+        $user->name      = Input::get( 'name' );
+        $user->email     = Input::get( 'email', '' );
+        $user->slug     = Input::get( 'slug', Str::slug($user->name) );
+        $user->user_type = Input::get( 'user_type', 'user' );
+        $user->username  = Input::get( 'username' );
+        $user->password  = Hash::make( Input::get( 'password' ) );
+        $user->balance   = 0;
+        $user->token     = '';
+        $user->bank_id   = $bank_id; //Auth::user()->bank_id;
 
-        $rules             = User::$rules;
-        $rules['password'] = "required|min:3";
-        if ($user->save($rules)) {
-            $user->load('envelopes');
-            return Response::json(array('success' => true, 'message' => "{$user->name} saved Successfully", 'data' => $user->toArray()));
+        if ( $user->save(  ) ) {
+            $user->load( 'envelopes' );
+
+            return Response::api()->withArray( array(
+                'success' => true,
+                'message' => "{$user->name} saved Successfully",
+                'data'    => $user->toArray()
+            ) );
         } else {
-            return Response::json(array('success' => false, 'message' => $user->errors()->all()));
+            throw new Dingo\Api\Exception\StoreResourceFailedException( 'Could not create User.', $user->errors() );
         }
     }
 
@@ -61,10 +65,10 @@ class UserController extends \BaseController
      *
      * @return Response
      */
-    public function show($bank_id, $user_ids) {
-        $ids = explode(',',$user_ids);
-        $user = User::with('envelopes')->whereIn('id', $ids)
-        ->where('bank_id', $bank_id)->get();
+    public function show( $bank_id, $user_ids ) {
+        $ids  = explode( ',', $user_ids );
+        $user = User::with( 'envelopes' )->whereIn( 'id', $ids )
+                    ->where( 'bank_id', $bank_id )->get();
 
 //        return Response::api()->withCollection($user, new AvantiDevelopment\JrBank\BasicTransformer(), null, 'users');
         return $user;
@@ -77,23 +81,29 @@ class UserController extends \BaseController
      *
      *
      * @param  int $id
+     *
      * @return Response
      */
-    public function update($id) {
-        $user            = User::find($id);
-        $user->email     = Input::get('email');
-        $user->name      = Input::get('name');
-        $user->user_type = Input::get('user_type');
-        $user->username  = Input::get('username');
-        $user->active    = Input::get('active');
-        if (Input::get('password')) {
-            $user->password = Hash::make(Input::get('password'));
+    public function update( $id ) {
+        $user            = User::find( $id );
+        $user->email     = Input::get( 'email' );
+        $user->name      = Input::get( 'name' );
+        $user->user_type = Input::get( 'user_type' );
+        $user->username  = Input::get( 'username' );
+        $user->active    = Input::get( 'active' );
+        if ( Input::get( 'password' ) ) {
+            $user->password = Hash::make( Input::get( 'password' ) );
         }
-        if ($user->save()) {
-            $user->load('envelopes');
-            return Response::json(array('success' => true, 'message' => "{$user->name} saved Successfully", 'data' => $user->toArray()));
+        if ( $user->save() ) {
+            $user->load( 'envelopes' );
+
+            return Response::json( array(
+                'success' => true,
+                'message' => "{$user->name} saved Successfully",
+                'data'    => $user->toArray()
+            ) );
         } else {
-            return Response::json(array('success' => false, 'message' => $user->errors()->all()));
+            return Response::json( array( 'success' => false, 'message' => $user->errors()->all() ) );
         }
     }
 
@@ -107,24 +117,36 @@ class UserController extends \BaseController
      *
      * @return Response
      */
-    public function destroy($bank_id, $user_id) {
-        $user = User::where('bank_id', $bank_id)->where('id', $user_id)->get();
+    public function destroy( $bank_id, $user_id ) {
+        $user = User::where( 'bank_id', $bank_id )->where( 'id', $user_id )->get();
         $user->delete();
     }
 
     public function login() {
-        $credentials = array('username' => Input::get('username'), 'password' => Input::get('password'), 'active' => 1);
-        if (Auth::attempt($credentials)) {
-            $authToken = AuthToken::create(Auth::user());
-            $publicToken = AuthToken::publicToken($authToken);
-            return Response::json(array('success' => true, 'message' => 'Logged In', 'data' => Auth::user()->toArray(), 'token' => $publicToken));
+        $credentials = array(
+            'username' => Input::get( 'username' ),
+            'password' => Input::get( 'password' ),
+            'active'   => 1
+        );
+        if ( Auth::attempt( $credentials ) ) {
+            $authToken   = AuthToken::create( Auth::user() );
+            $publicToken = AuthToken::publicToken( $authToken );
+
+            return Response::json( array(
+                'success' => true,
+                'message' => 'Logged In',
+                'data'    => Auth::user()->toArray(),
+                'token'   => $publicToken
+            ) );
         }
-        return Response::json(array('success' => false, 'message' => 'Incorrect Username or Password'));
+
+        return Response::json( array( 'success' => false, 'message' => 'Incorrect Username or Password' ) );
     }
 
     public function logout() {
         Auth::logout();
-        return Response::json(array('success' => true, 'message' => 'Logged Out'));
+
+        return Response::json( array( 'success' => true, 'message' => 'Logged Out' ) );
     }
 
 }
