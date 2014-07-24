@@ -26,16 +26,12 @@ class BankController extends BaseController {
         $bank->interest    = Input::get( 'interest', 0 );
         $bank->compounding = Input::get( 'compounding' );
 
-
-//        $rules             = Bank::$rules;
-//        $rules['password'] = "required|min:3";
         if ( $bank->updateUniques() ) {
             return Response::api()->withArray([
                 'success' => true,
                 'message' => "{$bank->name} saved Successfully",
                 'data'    => $bank->toArray()
             ]);
-
         } else {
             throw new Dingo\Api\Exception\StoreResourceFailedException('Could not create Bank.', $bank->errors());
         }
@@ -61,7 +57,19 @@ class BankController extends BaseController {
      * @return Response
      */
     public function update( $id ) {
-        //
+        $bank = Bank::find($id);
+        $bank->update(Input::all());
+
+
+        if ( $bank->updateUniques() ) {
+            return Response::api()->withArray([
+                'success' => true,
+                'message' => "{$bank->name} updated Successfully",
+                'data'    => $bank->toArray()
+            ]);
+        } else {
+            throw new Dingo\Api\Exception\StoreResourceFailedException('Could not create Bank.', $bank->errors());
+        }
     }
 
     /**

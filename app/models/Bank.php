@@ -3,12 +3,13 @@
 use LaravelBook\Ardent\Ardent;
 
 class Bank extends Ardent {
-    public static $name = 'bank';
 
-    public $hidden = ['password'];
+    protected $hidden = ['password'];
+    protected $guarded = ['id'];
+    protected $fillable = ['name','password','interest','compounding'];
 
     public static $rules = [
-        'name' => 'required|unique:banks,id',
+        'name' => 'required|unique:banks,name',
         'password' => 'required',
         'compounding' => 'required'
     ];
