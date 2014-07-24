@@ -1,6 +1,6 @@
 <?php
 
-class UserTest extends TestCase {
+class UserModelTest extends TestCase {
     public function testTrue() {
         $this->assertTrue(true);
     }

@@ -8,9 +8,10 @@ class BankController extends BaseController {
      * @return Response
      */
     public function index() {
-        if(Input::get('show_deleted') === 'true') {
+        if ( Input::get( 'show_deleted' ) === 'true' ) {
             return Bank::withTrashed()->get();
         }
+
         return Bank::all();
     }
 
@@ -75,7 +76,10 @@ class BankController extends BaseController {
         if ( Input::get( 'undelete' ) == 'true' ) {
             Bank::withTrashed()->where( 'id', $id )->restore();
         }
-        $bank   = Bank::find( $id );
+        $bank = Bank::find( $id );
+        if ( !$bank ) {
+            throw new Symfony\Component\HttpKernel\Exception\NotFoundHttpException( "Bank not found." );
+        }
         $inputs = Input::only( $bank->getFillable() );
         $inputs = array_filter( $inputs, function ( $val ) {
             return !is_null( $val );
@@ -102,9 +106,10 @@ class BankController extends BaseController {
      * @return Response
      */
     public function destroy( $id ) {
-        $responseArray = [ 'success' => (bool) Bank::destroy( $id ) ];
-
-        return Response::api()->withArray( $responseArray );
+        if ( Bank::destroy( $id ) ) {
+            return Response::api()->withArray( [ 'success' => true ] );
+        }
+        throw new Symfony\Component\HttpKernel\Exception\NotFoundHttpException( "Bank not found." );
     }
 
 }
