@@ -61,19 +61,7 @@ class BankTest extends TestCase {
         $this->checkJsonResponse( 200, $response );
     }
 
-    public function testDeleteBank() {
-        $this->testCreateNew(); // Create a new bank so we can retrieve it
-        $response = $this->call( "DELETE", '/api/banks/1' );
-        $this->checkJsonResponse( 200, $response );
-
-        $response = $this->call( "GET", '/api/banks/1' );
-        $this->checkJsonResponse( 404, $response );
-
-        $response = $this->call( "GET", '/api/banks/1?show_deleted=true' );
-        $this->checkJsonResponse( 200, $response );
-    }
-
-    public function testUndeleteBank() {
+    public function testDeleteUndeleteBank() {
         $this->testCreateNew(); // Create a new bank so we can retrieve it
         $response = $this->call( "DELETE", '/api/banks/1' );
         $this->checkJsonResponse( 200, $response );
@@ -86,5 +74,10 @@ class BankTest extends TestCase {
 
         $response = $this->call( "PUT", '/api/banks/1?undelete=true' );
         $this->checkJsonResponse( 200, $response );
+
+        $response = $this->call( "GET", '/api/banks/1' );
+        $this->checkJsonResponse( 200, $response );
+
     }
+
 }
