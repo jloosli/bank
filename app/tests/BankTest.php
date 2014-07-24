@@ -2,6 +2,10 @@
 
 class BankTest extends TestCase {
 
+    /**
+     * @param  int                      $code
+     * @param \Illuminate\Http\Response $response
+     */
     public function checkJsonResponse( $code, $response ) {
         if ( $code === 200 ) {
             $this->assertTrue( $response->isOk() );
@@ -16,8 +20,7 @@ class BankTest extends TestCase {
     public function testGetAll() {
         $this->seed();
 
-        $crawler  = $this->client->request( 'GET', '/api/banks' );
-        $response = $this->client->getResponse();
+        $response = $this->call( 'GET', '/api/banks' );
 
         $this->checkJsonResponse( 200, $response );
         $this->assertContains( 'banks', $response->getContent() );

@@ -8,6 +8,9 @@ class BankController extends BaseController {
      * @return Response
      */
     public function index() {
+        if(Input::get('show_deleted') === 'true') {
+            return Bank::withTrashed()->get();
+        }
         return Bank::all();
     }
 

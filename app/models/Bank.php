@@ -5,7 +5,7 @@ use LaravelBook\Ardent\Ardent;
 class Bank extends Ardent {
 
     protected $hidden = [ 'password' ];
-    protected $guarded = [ 'id' ];
+    protected $guarded = [ 'id', 'deleted_at' ];
     protected $fillable = [ 'name', 'password', 'interest', 'compounding' ];
     protected $softDelete = true;
 
