@@ -4,9 +4,6 @@ class BankTest extends TestCase {
 
     public function checkJsonResponse( $code, $response ) {
         if ( $code === 200 ) {
-            if ( !$response->isOk() ) {
-                echo $response->getContent();
-            }
             $this->assertTrue( $response->isOk() );
         }
         $this->assertJson( $response->getContent() );
