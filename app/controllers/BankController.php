@@ -27,13 +27,13 @@ class BankController extends BaseController {
         $bank->compounding = Input::get( 'compounding' );
 
         if ( $bank->updateUniques() ) {
-            return Response::api()->withArray([
+            return Response::api()->withArray( [
                 'success' => true,
                 'message' => "{$bank->name} saved Successfully",
                 'data'    => $bank->toArray()
-            ]);
+            ] );
         } else {
-            throw new Dingo\Api\Exception\StoreResourceFailedException('Could not create Bank.', $bank->errors());
+            throw new Dingo\Api\Exception\StoreResourceFailedException( 'Could not create Bank.', $bank->errors() );
         }
     }
 
@@ -46,7 +46,19 @@ class BankController extends BaseController {
      * @return Response
      */
     public function show( $id ) {
-        return Bank::findOrFail( $id );
+        if ( Input::get( 'show_deleted' ) === 'true' ) {
+
+            $trashed = Bank::withTrashed()->find( $id );
+
+            return $trashed;
+        }
+
+        try {
+            return Bank::findOrFail( $id );
+        } catch ( Illuminate\Database\Eloquent\ModelNotFoundException $e ) {
+            throw new Symfony\Component\HttpKernel\Exception\NotFoundHttpException( "Bank not found." );
+        }
+
     }
 
     /**
@@ -57,18 +69,25 @@ class BankController extends BaseController {
      * @return Response
      */
     public function update( $id ) {
-        $bank = Bank::find($id);
-        $bank->update(Input::all());
+        if ( Input::get( 'undelete' ) == 'true' ) {
+            Bank::withTrashed()->where( 'id', $id )->restore();
+        }
+        $bank   = Bank::find( $id );
+        $inputs = Input::only( $bank->getFillable() );
+        $inputs = array_filter( $inputs, function ( $val ) {
+            return !is_null( $val );
+        } );
+        $bank->update( $inputs );
 
 
         if ( $bank->updateUniques() ) {
-            return Response::api()->withArray([
+            return Response::api()->withArray( [
                 'success' => true,
                 'message' => "{$bank->name} updated Successfully",
                 'data'    => $bank->toArray()
-            ]);
+            ] );
         } else {
-            throw new Dingo\Api\Exception\StoreResourceFailedException('Could not create Bank.', $bank->errors());
+            throw new Dingo\Api\Exception\StoreResourceFailedException( 'Could not update Bank.', $bank->errors() );
         }
     }
 
@@ -80,9 +99,9 @@ class BankController extends BaseController {
      * @return Response
      */
     public function destroy( $id ) {
-        Bank::destroy( $id );
+        $responseArray = [ 'success' => (bool) Bank::destroy( $id ) ];
 
-        return true;
+        return Response::api()->withArray( $responseArray );
     }
 
 }

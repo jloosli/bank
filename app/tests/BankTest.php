@@ -2,61 +2,89 @@
 
 class BankTest extends TestCase {
 
-    public function checkJsonResponse($code, $response) {
-        if ($code === 200) {
-            $this->assertTrue($response->isOk());
+    public function checkJsonResponse( $code, $response ) {
+        if ( $code === 200 ) {
+            if ( !$response->isOk() ) {
+                echo $response->getContent();
+            }
+            $this->assertTrue( $response->isOk() );
         }
-        $this->assertJson($response->getContent());
-        $this->assertEquals($code,$response->getStatusCode());
+        $this->assertJson( $response->getContent() );
+        $this->assertEquals( $code, $response->getStatusCode() );
     }
 
-	/**
-	 * @return void
-	 */
-	public function testGetAll()
-	{
+    /**
+     * @return void
+     */
+    public function testGetAll() {
         $this->seed();
 
-		$crawler = $this->client->request('GET', '/api/banks');
+        $crawler  = $this->client->request( 'GET', '/api/banks' );
         $response = $this->client->getResponse();
 
-        $this->checkJsonResponse(200,$response);
-        $this->assertContains('banks',$response->getContent());
-        $this->assertContains('First Bank',$response->getContent());
-	}
+        $this->checkJsonResponse( 200, $response );
+        $this->assertContains( 'banks', $response->getContent() );
+        $this->assertContains( 'First Bank', $response->getContent() );
+    }
 
     public function testCreateMissing() {
-        $params = [
-            'name' => "My New Bank",
+        $params   = [
+            'name'     => "My New Bank",
             'password' => "Pass",
         ];
-        $response = $this->call("POST", '/api/banks', $params);
-        $this->checkJsonResponse(422,$response);
-        $this->assertContains('compounding', $response->getContent());
+        $response = $this->call( "POST", '/api/banks', $params );
+        $this->checkJsonResponse( 422, $response );
+        $this->assertContains( 'compounding', $response->getContent() );
     }
 
     public function testCreateNew() {
-        $params = [
-            'name' => "My New Bank",
-            'password' => "Pass",
+        $params   = [
+            'name'        => "My New Bank",
+            'password'    => "Pass",
             'compounding' => 'monthly'
         ];
-        $response = $this->call("POST", '/api/banks', $params);
-        $this->checkJsonResponse(200,$response);
-        $this->assertContains('"success":true', $response->getContent());
+        $response = $this->call( "POST", '/api/banks', $params );
+        $this->checkJsonResponse( 200, $response );
+        $this->assertContains( '"success":true', $response->getContent() );
     }
 
     public function testGetBank() {
         $this->testCreateNew(); // Create a new bank so we can retrieve it
-        $response = $this->call("GET", '/api/banks/1');
-        $this->checkJsonResponse(200,$response);
+        $response = $this->call( "GET", '/api/banks/1' );
+        $this->checkJsonResponse( 200, $response );
     }
 
     public function testUpdateBank() {
         $this->testCreateNew(); // Create a new bank so we can retrieve it
-        $updates = ['name' => "New Name"];
-        $response = $this->call("PUT", '/api/banks/1', $updates);
-        $this->checkJsonResponse(200,$response);
+        $updates  = [ 'name' => "New Name" ];
+        $response = $this->call( "PUT", '/api/banks/1', $updates );
+        $this->checkJsonResponse( 200, $response );
     }
 
+    public function testDeleteBank() {
+        $this->testCreateNew(); // Create a new bank so we can retrieve it
+        $response = $this->call( "DELETE", '/api/banks/1' );
+        $this->checkJsonResponse( 200, $response );
+
+        $response = $this->call( "GET", '/api/banks/1' );
+        $this->checkJsonResponse( 404, $response );
+
+        $response = $this->call( "GET", '/api/banks/1?show_deleted=true' );
+        $this->checkJsonResponse( 200, $response );
+    }
+
+    public function testUndeleteBank() {
+        $this->testCreateNew(); // Create a new bank so we can retrieve it
+        $response = $this->call( "DELETE", '/api/banks/1' );
+        $this->checkJsonResponse( 200, $response );
+
+        $response = $this->call( "GET", '/api/banks/1' );
+        $this->checkJsonResponse( 404, $response );
+
+        $response = $this->call( "GET", '/api/banks/1?show_deleted=true' );
+        $this->checkJsonResponse( 200, $response );
+
+        $response = $this->call( "PUT", '/api/banks/1?undelete=true' );
+        $this->checkJsonResponse( 200, $response );
+    }
 }

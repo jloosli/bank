@@ -28,7 +28,7 @@ Route::api(['version' => 'v1'], function () {
         Route::post('/','BankController@store');         // Create new bank
         Route::get('/{id}', 'BankController@show');         // Get details on single bank
         Route::put('/{id}', 'BankController@update'); // Update bank information
-        Route::delete('/{id}', 'BankController@delete');// Delete (archive) bank
+        Route::delete('/{id}', 'BankController@destroy');// Delete (archive) bank
 
         /* Users */
         Route::get('/{id}/users', 'UserController@index');// Get all users for the bank
