@@ -8,7 +8,8 @@
         "way/generators": "dev-master",
         "laravelbook/ardent": "dev-master",
         "dingo/api": "0.*",
-        "doctrine/dbal": "~2.3"
+        "doctrine/dbal": "~2.3",
+        "lucadegasperi/oauth2-server-laravel": "1.*"
 	},
 
     "require-dev": {
