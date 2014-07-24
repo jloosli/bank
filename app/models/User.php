@@ -9,6 +9,7 @@ class User extends Eloquent { //Ardent implements UserInterface, RemindableInter
     protected $softDelete = true;
 
     protected $fillable=array('username','name','email','bank_id', 'password');
+    protected $guarded = [ 'id', 'deleted_at' ];
 
     public function transactions() {
         return $this->hasMany('Transaction');
@@ -71,7 +72,7 @@ class User extends Eloquent { //Ardent implements UserInterface, RemindableInter
 	 *
 	 * @var array
 	 */
-	protected $hidden = array('password');
+	protected $hidden = array('password','deleted_at','token');
 
 	/**
 	 * Get the unique identifier for the user.
@@ -102,4 +103,14 @@ class User extends Eloquent { //Ardent implements UserInterface, RemindableInter
 	{
 		return $this->email;
 	}
+
+    /* Set accessors so I'm always getting actual values */
+    public function getInterestAttribute( $value ) {
+        return (float) $value;
+    }
+
+    public function getIdAttribute( $value ) {
+        return (int) $value;
+    }
+
 }

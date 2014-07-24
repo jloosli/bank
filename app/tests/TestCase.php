@@ -1,6 +1,20 @@
 <?php
 
 class TestCase extends Illuminate\Foundation\Testing\TestCase {
+    /**
+     * @param  int                      $code
+     * @param \Illuminate\Http\Response $response
+     */
+    public function checkJsonResponse( $code, $response ) {
+        $this->assertJson( $response->getContent() );
+        $this->assertEquals( $code, $response->getStatusCode() );
+        if ( $code === 200 ) {
+            $this->assertTrue( $response->isOk() );
+        }
+    }
+
+
+
 
     /**
      * Default preparation for each test

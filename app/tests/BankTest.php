@@ -2,19 +2,7 @@
 
 class BankTest extends TestCase {
 
-    /**
-     * @param  int                      $code
-     * @param \Illuminate\Http\Response $response
-     */
-    public function checkJsonResponse( $code, $response ) {
-        $this->assertJson( $response->getContent() );
-        $this->assertEquals( $code, $response->getStatusCode() );
-        if ( $code === 200 ) {
-            $this->assertTrue( $response->isOk() );
-        }
-    }
-
-    public function testGetAll() {
+     public function testGetAll() {
         $this->seed();
 
         $response = $this->call( 'GET', '/api/banks' );
