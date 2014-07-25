@@ -110,7 +110,6 @@ return array(
         'Way\Generators\GeneratorsServiceProvider',
         'Dingo\Api\ApiServiceProvider',
         'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
-        'LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider',
     ),
 
     /*
@@ -178,10 +177,7 @@ return array(
         'View'        => 'Illuminate\Support\Facades\View',
 
         'API' => 'Dingo\Api\Facades\API',
-        'Controller' => 'Dingo\Api\Routing\Controller'
-
-//        'AuthToken' => 'Tappleby\Support\Facades\AuthToken',
-//        'AuthTokenNotAuthorizedException' => 'Tappleby\AuthToken\Exceptions\NotAuthorizedException',
+        'Controller' => 'Dingo\Api\Routing\Controller',
     ),
 
 );

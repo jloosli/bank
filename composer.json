@@ -8,10 +8,8 @@
         "way/generators": "dev-master",
         "laravelbook/ardent": "dev-master",
         "dingo/api": "0.*",
-        "doctrine/dbal": "~2.3",
-        "lucadegasperi/oauth2-server-laravel": "1.*"
-	},
-
+        "doctrine/dbal": "~2.3"
+    },
     "require-dev": {
         "mockery/mockery": "dev-master@dev",
         "phpunit/phpunit": "4.2.x-dev",

@@ -11,17 +11,6 @@
 |
 */
 
-Route::group(array('prefix'=>'/api/v1', 'before' => 'auth.token', ), function() {
-    Route::post('users/{id}','UserController@update');
-    Route::resource('users','UserController');
-    Route::resource('banks','BankController');
-    Route::resource('transactions','TransactionController');
-    Route::resource('envelopes','EnvelopeController');
-    Route::get('transactions/user/{id}', 'TransactionController@user');
-});
-
-Route::post('/api/v1/auth', 'Tappleby\AuthToken\AuthTokenController@store');
-
 Route::api(['version' => 'v1'], function () {
     Route::group(['prefix'=>'/banks'], function () {
         Route::get('/', 'BankController@index'); // Get all banks (super admin only)
@@ -52,5 +41,3 @@ Route::api(['version' => 'v1'], function () {
     });
 
 });
-
-
