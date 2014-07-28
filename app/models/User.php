@@ -14,19 +14,19 @@ class User extends Ardent implements UserInterface, RemindableInterface {
     protected $guarded = [ 'id', 'deleted_at' ];
 
     public function transactions() {
-        return $this->hasMany( 'Transaction' );
+        return $this->hasMany( 'AvantiDevelopment\JrBank\Transaction' );
     }
 
     public function bank() {
-        return $this->belongsTo( 'Bank' );
+        return $this->belongsTo( 'AvantiDevelopment\JrBank\Bank' );
     }
 
     public function oauth() {
-        return $this->hasMany('Oauth');
+        return $this->hasMany('AvantiDevelopment\JrBank\Oauth');
     }
 
     public function envelopes() {
-        return $this->hasMany( 'Envelope' );
+        return $this->hasMany( 'AvantiDevelopment\JrBank\Envelope' );
     }
 
     public function getRememberToken() {

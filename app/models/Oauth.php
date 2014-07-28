@@ -1,12 +1,13 @@
 <?php
 
 namespace AvantiDevelopment\JrBank;
+use LaravelBook\Ardent\Ardent;
 
-class Oauth extends \Eloquent {
+class Oauth extends Ardent {
 	protected $fillable = [];
 
     public function user() {
-        $this->belongsTo('User');
+        return $this->belongsTo('AvantiDevelopment\JrBank\User');
     }
 
     /**

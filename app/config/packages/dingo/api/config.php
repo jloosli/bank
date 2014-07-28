@@ -13,8 +13,7 @@ return [
     |
     */
 
-    'vendor' => 'jrbank',
-
+    'vendor'              => 'jrbank',
     /*
     |--------------------------------------------------------------------------
     | Default API Version
@@ -25,8 +24,7 @@ return [
     |
     */
 
-    'version' => 'v1',
-
+    'version'             => 'v1',
     /*
     |--------------------------------------------------------------------------
     | Default API Prefix
@@ -37,8 +35,7 @@ return [
     |
     */
 
-    'prefix' => '/api',
-
+    'prefix'              => '/api',
     /*
     |--------------------------------------------------------------------------
     | Default API Domain
@@ -49,8 +46,7 @@ return [
     |
     */
 
-    'domain' => null,
-
+    'domain'              => null,
     /*
     |--------------------------------------------------------------------------
     | Conditional Requests
@@ -64,7 +60,6 @@ return [
     */
 
     'conditional_request' => true,
-
     /*
     |--------------------------------------------------------------------------
     | Authentication Providers
@@ -75,12 +70,14 @@ return [
     |
     */
 
-    'auth' => [
-        'basic' => function ($app) {
-            return new Dingo\Api\Auth\BasicProvider($app['auth']);
+    'auth'                => [
+//        'basic'  => function ( $app ) {
+//            return new Dingo\Api\Auth\BasicProvider( $app['auth'] );
+//        },
+        'custom' => function ( $app ) {
+            return new AvantiDevelopment\JrBank\Auth\BasicProvider( $app['auth'], 'username' );
         }
     ],
-
     /*
     |--------------------------------------------------------------------------
     | Rate Limiting
@@ -97,22 +94,19 @@ return [
     |
     */
 
-    'rate_limiting' => [
+    'rate_limiting'       => [
 
-        'authenticated' => [
+        'authenticated'   => [
             'limit' => 0,
             'reset' => 60
         ],
-
         'unauthenticated' => [
             'limit' => 0,
             'reset' => 60
         ],
-
-        'exceeded' => 'API rate limit has been exceeded.'
+        'exceeded'        => 'API rate limit has been exceeded.'
 
     ],
-
     /*
     |--------------------------------------------------------------------------
     | Response Transformer
@@ -125,12 +119,11 @@ return [
     |
     */
 
-    'transformer' => function ($app) {
+    'transformer'         => function ( $app ) {
         $fractal = new League\Fractal\Manager;
 
-        return new Dingo\Api\Transformer\FractalTransformer($fractal);
+        return new Dingo\Api\Transformer\FractalTransformer( $fractal );
     },
-
     /*
     |--------------------------------------------------------------------------
     | Response Formats
@@ -142,9 +135,8 @@ return [
     |
     */
 
-    'default_format' => 'json',
-
-    'formats' => [
+    'default_format'      => 'json',
+    'formats'             => [
 
         'json' => new Dingo\Api\Http\ResponseFormat\JsonResponseFormat
 

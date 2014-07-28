@@ -12,7 +12,7 @@
 */
 
 Route::api( [ 'version' => 'v1' ], function () {
-    Route::group( [ 'prefix' => '/banks',  'before' => 'basic.once' ], function () {
+    Route::group( [ 'prefix' => '/banks',  'protected' => true ], function () {
         Route::get( '/', 'BankController@index' ); // Get all banks (super admin only)
         Route::post( '/', 'BankController@store' ); // Create new bank
         Route::get( '/{id}', 'BankController@show' ); // Get details on single bank

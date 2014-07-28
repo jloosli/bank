@@ -4,7 +4,7 @@ class UserTableSeeder extends Seeder {
     public function run() {
         DB::table('users')->delete();
 
-        User::create(array(
+        \AvantiDevelopment\JrBank\User::create(array(
             'username'=>'first_user',
             'name'=>'First User',
             'email'=>'first@example.com',
@@ -15,7 +15,7 @@ class UserTableSeeder extends Seeder {
             'user_type'=>'user',
             'balance'=>0
         ));
-        User::create(array(
+        \AvantiDevelopment\JrBank\User::create(array(
             'username'=>'second_user',
             'name'=>'Second User',
             'email'=>'second@example.com',

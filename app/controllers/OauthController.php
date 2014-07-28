@@ -2,13 +2,14 @@
 
 class OauthController extends \BaseController {
 
-    protected function storeCredentials($user_id, $oauth_provider, $oauth_uid) {
-        $credentials = new \AvantiDevelopment\Oauth();
-        $credentials->user_id = $user_id;
-        $credentials->oauth_provider = $oauth_provider;
-        $credentials->oauth_uid = $oauth_uid;
-        $credentials->save();
-        return $credentials->token;
+    protected function storeCredentials($oauth_provider, $credentials) {
+        $user = \AvantiDevelopment\JrBank\User::where('email',$credentials['email'])->first();
+
+        $userAuth = new \AvantiDevelopment\JrBank\Oauth();
+        $userAuth->oauth_provider = $oauth_provider;
+        $userAuth->oauth_uid = $credentials['id'];
+        $user->oauth()->save($userAuth);
+        return $userAuth->token;
     }
 
     public function loginWithGoogle() {
@@ -31,7 +32,7 @@ class OauthController extends \BaseController {
 
             $message = 'Your unique Google user id is: ' . $result['id'] . ' and your name is ' . $result['name'];
             echo $message. "<br/>";
-            printf("Your unique token is: %s<br/>", $this->storeCredentials($result['id'],'google',$result['id']));
+            printf("Your unique token is: %s<br/>", $this->storeCredentials('google',$result));
 
             //Var_dump
             //display whole array().

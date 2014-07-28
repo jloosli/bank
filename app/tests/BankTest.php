@@ -55,7 +55,7 @@ class BankTest extends TestCase {
     public function testUpdateMissingBank() {
         $this->seed();
         $updates  = [ 'name' => "New Name" ];
-        $response = $this->call( "PUT", '/api/banks/2', $updates );
+        $response = $this->call( "PUT", '/api/banks/20', $updates );
         $this->checkJsonResponse( 404, $response );
     }
 

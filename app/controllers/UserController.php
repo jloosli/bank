@@ -1,5 +1,7 @@
 <?php
 
+use AvantiDevelopment\JrBank\User;
+
 class UserController extends \BaseController {
 
     /**

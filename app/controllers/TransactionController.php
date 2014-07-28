@@ -1,5 +1,9 @@
 <?php
 
+use AvantiDevelopment\JrBank\Transaction;
+use AvantiDevelopment\JrBank\User;
+use AvantiDevelopment\JrBank\EnvelopeTransaction;
+use AvantiDevelopment\JrBank\Envelope;
 class TransactionController extends BaseController {
 
     /**

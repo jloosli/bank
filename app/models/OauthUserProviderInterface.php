@@ -51,7 +51,12 @@ class OauthUserProviderInterface implements \Illuminate\Auth\UserProviderInterfa
      * @return \Illuminate\Auth\UserInterface|null
      */
     public function retrieveByCredentials( array $credentials ) {
-        return User::find($credentials['email']);
+        $auth =  \AvantiDevelopment\JrBank\Oauth::where('token', $credentials['email'])->first();
+        if (!$auth) {
+            return;
+        }
+        $user = $auth->user();
+        return $user;
     }
 
     /**

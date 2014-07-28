@@ -4,7 +4,7 @@ class EnvelopeTableSeeder extends Seeder {
     public function run() {
         DB::table('envelopes')->delete();
 
-        Envelope::create(array(
+        \AvantiDevelopment\JrBank\Envelope::create(array(
             'user_id'=>1,
             'name'=>'Spending',
             'goal'=>30,
@@ -13,7 +13,7 @@ class EnvelopeTableSeeder extends Seeder {
             'percent' => 35,
             'default_spend'=>1
         ));
-        Envelope::create(array(
+        \AvantiDevelopment\JrBank\Envelope::create(array(
             'user_id'=>1,
             'name'=>'Savings',
             'goal'=>275,
@@ -21,7 +21,7 @@ class EnvelopeTableSeeder extends Seeder {
             'balance'=> 0,
             'percent' => 50
         ));
-        Envelope::create(array(
+        \AvantiDevelopment\JrBank\Envelope::create(array(
             'user_id'=>1,
             'name'=>'Tithing',
             'goal'=>0,
@@ -29,7 +29,7 @@ class EnvelopeTableSeeder extends Seeder {
             'balance'=> 0,
             'percent' => 10
         ));
-        Envelope::create(array(
+        \AvantiDevelopment\JrBank\Envelope::create(array(
             'user_id'=>2,
             'name'=>'Long Term',
             'goal'=>30,
@@ -38,7 +38,7 @@ class EnvelopeTableSeeder extends Seeder {
             'percent' => 35,
             'default_spend'=>1
         ));
-        Envelope::create(array(
+        \AvantiDevelopment\JrBank\Envelope::create(array(
             'user_id'=>2,
             'name'=>'Savings',
             'goal'=>275,
@@ -49,14 +49,3 @@ class EnvelopeTableSeeder extends Seeder {
     }
 }
 
-//$table->increments('id');
-//$table->integer('user_id')->unsigned();
-//$table->foreign('user_id')->references('id')->on('users');
-//$table->string('name');
-//$table->float('goal');
-//$table->date('goal_date');
-//$table->decimal('balance',7,2);
-//$table->float('percent');
-//$table->integer('default_spend')->unsigned();
-//$table->timestamps();
-//$table->softDeletes();

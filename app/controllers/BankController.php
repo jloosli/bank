@@ -1,5 +1,7 @@
 <?php
 
+use AvantiDevelopment\JrBank\Bank;
+
 class BankController extends BaseController {
 
     /**

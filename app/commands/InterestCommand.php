@@ -20,11 +20,13 @@ class InterestCommand extends Command {
 	 */
 	protected $description = 'Calculate interest.';
 
-	/**
-	 * Create a new command instance.
-	 *
-	 * @return void
-	 */
+    /**
+     * Create a new command instance.
+     *
+     * @param $bank
+     *
+     * @return \InterestCommand
+     */
 	public function __construct($bank)
 	{
         $this->bank = $bank;
