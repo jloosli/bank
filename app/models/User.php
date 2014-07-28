@@ -1,5 +1,7 @@
 <?php
 
+namespace AvantiDevelopment\JrBank;
+
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;
 use LaravelBook\Ardent\Ardent;

@@ -1,5 +1,8 @@
 <?php
 
+namespace AvantiDevelopment\JrBank;
+
+
 class EnvelopeTransaction extends Eloquent {
     protected $table = 'envelope_transactions';
 

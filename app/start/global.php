@@ -89,3 +89,8 @@ App::down(function()
 
 require_once app_path().'/filters.php';
 require_once app_path().'/events.php';
+
+
+Auth::extend('avantiAuth', function ($app) {
+    return new \AvantiDevelopment\JrBank\OauthUserProviderInterface();
+});

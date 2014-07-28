@@ -1,5 +1,7 @@
 <?php
 
+
+namespace AvantiDevelopment\JrBank;
 use LaravelBook\Ardent\Ardent;
 
 class Bank extends Ardent {

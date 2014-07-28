@@ -1,5 +1,7 @@
 <?php
 
+namespace AvantiDevelopment\JrBank;
+
 class Transaction extends Eloquent {
     protected $table = "transactions";
 

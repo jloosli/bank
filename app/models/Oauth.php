@@ -1,6 +1,6 @@
 <?php
 
-namespace AvantiDevelopment;
+namespace AvantiDevelopment\JrBank;
 
 class Oauth extends \Eloquent {
 	protected $fillable = [];
