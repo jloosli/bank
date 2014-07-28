@@ -11,3 +11,5 @@ error_log
 app/config/production/database.php
 *.lock
 
+.env.*
+
