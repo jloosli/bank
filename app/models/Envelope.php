@@ -7,6 +7,10 @@ class Envelope extends Ardent {
 
     protected $fillable = array( 'user_id', 'name', 'goal', 'goal_date', 'percent', 'default_spend' );
 
+    public static $rules = [
+        'name'        => 'required'
+    ];
+
     public function user() {
         return $this->belongsTo( 'User' );
     }
