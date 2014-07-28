@@ -19,6 +19,10 @@ class User extends Ardent implements UserInterface, RemindableInterface {
         return $this->belongsTo( 'Bank' );
     }
 
+    public function oauth() {
+        return $this->hasMany('Oauth');
+    }
+
     public function envelopes() {
         return $this->hasMany( 'Envelope' );
     }

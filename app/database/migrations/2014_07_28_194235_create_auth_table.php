@@ -12,13 +12,15 @@ class CreateAuthTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('auth', function(Blueprint $table)
+		Schema::create('oauths', function(Blueprint $table)
 		{
             $table->increments('id');
 			$table->integer('user_id');
 			$table->enum('oauth_provider',['none','twitter','facebook','google']);
             $table->string('oauth_uid');
+            $table->string('token')->unique();
             $table->timestamps();
+
 		});
 	}
 
@@ -30,7 +32,7 @@ class CreateAuthTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('auth');
+		Schema::drop('oauths');
 	}
 
 }
