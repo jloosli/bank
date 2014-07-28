@@ -41,3 +41,5 @@ Route::api( [ 'version' => 'v1' ], function () {
     } );
 
 } );
+
+Route::any('oauth/google','OauthController@loginWithGoogle');
