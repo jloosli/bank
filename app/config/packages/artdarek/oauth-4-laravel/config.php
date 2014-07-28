@@ -22,13 +22,13 @@ return array(
 		 * Facebook
 		 */
         'Facebook' => array(
-            'client_id'     => '',
-            'client_secret' => '',
-            'scope'         => array(),
+            'client_id'     => $_ENV['OAUTH']['Facebook']['client_id'],
+            'client_secret' => $_ENV['OAUTH']['Facebook']['client_secret'],
+            'scope'         => array('userinfo_email','userinfo_profile'),
         ),
         'Google' => array(
-            'client_id'     => '',
-            'client_secret' => '',
+            'client_id'     => $_ENV['OAUTH']['Google']['client_id'],
+            'client_secret' => $_ENV['OAUTH']['Google']['client_secret'],
             'scope'         => array('userinfo_email','userinfo_profile'),
         ),
 
