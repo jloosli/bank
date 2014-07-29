@@ -1,6 +1,14 @@
-angular.module('jrbank', ['ui.bootstrap', 'ui.utils', 'ui.router', 'ngAnimate', 'accounts']);
+/*global ACCESS_LEVELS:true */
+angular.module('jrbank', ['ui.bootstrap', 'ui.utils', 'ui.router', 'ngAnimate']);
 
-angular.module('jrbank').config(function ($stateProvider, $urlRouterProvider) {
+angular.module('jrbank')
+    .constant('ACCESS_LEVELS', {
+        pub: 0,
+        user: 1,
+        parent: 2,
+        super: 3
+    })
+    .config(function ($stateProvider, $urlRouterProvider) {
     'use strict';
     /* Add New States Above */
     $urlRouterProvider.otherwise('/home');

@@ -199,10 +199,10 @@ module.exports = function (grunt) {
                 logLevel:   'ERROR',
                 reporters:  ['mocha'],
                 autoWatch:  false, //watching is handled by grunt-contrib-watch
-                singleRun:  true
+                singleRun:  true // change this to false to debug tests
             },
             all_tests:    {
-                browsers: ['PhantomJS', 'Chrome', 'Firefox']
+                browsers: ['Chrome', 'Firefox']
             },
             during_watch: {
                 browsers: ['PhantomJS']
