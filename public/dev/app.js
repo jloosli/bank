@@ -8,6 +8,7 @@ angular.module('jrbank')
         parent: 2,
         super: 3
     })
+    .constant('API_URL', "/api/")
     .config(function ($stateProvider, $urlRouterProvider) {
     'use strict';
     /* Add New States Above */
