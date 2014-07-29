@@ -9,6 +9,7 @@
 namespace AvantiDevelopment\JrBank\Auth;
 
 
+use AvantiDevelopment\JrBank\Oauth;
 use Dingo\Api\Auth\Provider;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
@@ -37,9 +38,17 @@ class BasicProvider extends Provider {
         $token         = $decoded_parts[0];
 
         if ( $token ) {
-            $auth = \AvantiDevelopment\JrBank\Oauth::where( 'token', $token )->first();
+            $auth = Oauth::where( 'token', $token )->first();
             if ( $auth ) {
-                return  $auth->user;;
+                $user = $auth->user;
+
+                // Check to make sure user has access to the bank
+                if($route->parameter('bank_id')) {
+                    if ($user->user_type !== 'super-admin' && $user->bank_id !== (int) $route->parameter('bank_id')) {
+                        throw new UnauthorizedHttpException(null, 'Unable to access this bank.');
+                    }
+                }
+                return  $auth->user;
             }
         }
 
