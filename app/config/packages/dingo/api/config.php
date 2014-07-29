@@ -75,8 +75,11 @@ return [
 //            return new Dingo\Api\Auth\BasicProvider( $app['auth'] );
 //        },
         'custom' => function ( $app ) {
-            return new AvantiDevelopment\JrBank\Auth\BasicProvider( $app['auth'], 'username' );
-        }
+            return new AvantiDevelopment\JrBank\Auth\BasicProvider(  );
+        },
+//        'basic' => function ($app) {
+//            return new AvantiDevelopment\JrBank\Auth\BasicProvider($app, 'username');
+//        }
     ],
     /*
     |--------------------------------------------------------------------------

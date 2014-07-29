@@ -12,6 +12,7 @@ namespace AvantiDevelopment\JrBank\Auth;
 use Dingo\Api\Auth\Provider;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class BasicProvider extends Provider {
 
@@ -21,12 +22,13 @@ class BasicProvider extends Provider {
      * @param  \Illuminate\Http\Request  $request
      * @param  \Illuminate\Routing\Route $route
      *
+     * @throws UnauthorizedHttpException
      * @return mixed
      */
     public function authenticate( Request $request, Route $route ) {
         $authorization = $request->header( 'Authorization' );
         if ( !$authorization ) {
-            return false;
+            throw new UnauthorizedHttpException(null, 'Could not authenticate.');
         }
         $authparts     = explode( ' ', $authorization );
         $auth64        = $authparts[1];
@@ -36,15 +38,12 @@ class BasicProvider extends Provider {
 
         if ( $token ) {
             $auth = \AvantiDevelopment\JrBank\Oauth::where( 'token', $token )->first();
-            if ( !$auth ) {
-                return false;
+            if ( $auth ) {
+                return  $auth->user;;
             }
-            $user = $auth->user();
-
-            return $user;
         }
 
-        return false;
+        throw new UnauthorizedHttpException(null, 'Could not authenticate.');
 
     }
 }
