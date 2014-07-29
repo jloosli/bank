@@ -29,7 +29,7 @@ class BasicProvider extends Provider {
     public function authenticate( Request $request, Route $route ) {
         $authorization = $request->header( 'Authorization' );
         if ( !$authorization ) {
-            throw new UnauthorizedHttpException(null, 'Could not authenticate.');
+            throw new UnauthorizedHttpException( null, 'Could not authenticate.' );
         }
         $authparts     = explode( ' ', $authorization );
         $auth64        = $authparts[1];
@@ -43,16 +43,17 @@ class BasicProvider extends Provider {
                 $user = $auth->user;
 
                 // Check to make sure user has access to the bank
-                if($route->parameter('bank_id')) {
-                    if ($user->user_type !== 'super-admin' && $user->bank_id !== (int) $route->parameter('bank_id')) {
-                        throw new UnauthorizedHttpException(null, 'Unable to access this bank.');
+                if ( $route->parameter( 'bank_id' ) ) {
+                    if ( $user->user_type !== 'super-admin' && $user->bank_id !== (int) $route->parameter( 'bank_id' ) ) {
+                        throw new UnauthorizedHttpException( null, 'Unable to access this bank.' );
                     }
                 }
-                return  $auth->user;
+
+                return $user;
             }
         }
 
-        throw new UnauthorizedHttpException(null, 'Could not authenticate.');
+        throw new UnauthorizedHttpException( null, 'Could not authenticate.' );
 
     }
 }
