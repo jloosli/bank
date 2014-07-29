@@ -13,3 +13,7 @@ app/config/production/database.php
 
 .env.*
 
+
+public/app/
+public/dev/bower_components/
+public/dev/node_modules/
