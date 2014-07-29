@@ -18,4 +18,12 @@ describe('authService', function () {
         expect(token).toBeNull();
     }));
 
+    it('should format the basic auth string correctly', inject(function (authService) {
+        "use strict";
+
+        authService.setToken('bob');
+        var authString = authService.getAuthString().split(' ');
+        expect(authString[0] + ' ' + atob(authString[1])).toEqual("Basic bob:");
+    }));
+
 });

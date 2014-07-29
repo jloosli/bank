@@ -20,6 +20,10 @@ class UserController extends \BaseController {
         return $users;
     }
 
+    public function currentUser() {
+        return API::user();
+    }
+
     /**
      * Store a newly created resource in storage.
      * @route POST /user/

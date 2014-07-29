@@ -12,7 +12,8 @@
 */
 
 Route::api( [ 'version' => 'v1' ], function () {
-    Route::group( [ 'prefix' => '/banks',  'protected' => true ], function () {
+    Route::get( '/users/me', 'UserController@currentUser' ); // Get the current user
+    Route::group( [ 'prefix' => '/banks', 'protected' => true ], function () {
         Route::get( '/', 'BankController@index' ); // Get all banks (super admin only)
         Route::post( '/', 'BankController@store' ); // Create new bank
         Route::get( '/{bank_id}', 'BankController@show' ); // Get details on single bank
@@ -20,6 +21,7 @@ Route::api( [ 'version' => 'v1' ], function () {
         Route::delete( '/{bank_id}', 'BankController@destroy' ); // Delete (archive) bank
 
         /* Users */
+
         Route::get( '/{bank_id}/users', 'UserController@index' ); // Get all users for the bank
         Route::get( '/{bank_id}/users/{user_id}', 'UserController@show' ); // Get details about a user
         Route::put( '/{bank_id}/users/{user_id}', 'UserController@update' ); // Update user
@@ -42,4 +44,4 @@ Route::api( [ 'version' => 'v1' ], function () {
 
 } );
 
-Route::any('oauth/google','AvantiDevelopment\JrBank\OauthController@loginWithGoogle');
+Route::any( 'oauth/google', 'AvantiDevelopment\JrBank\OauthController@loginWithGoogle' );
