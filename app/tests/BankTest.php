@@ -2,14 +2,31 @@
 
 class BankTest extends TestCase {
 
-     public function testGetAll() {
+     public function testGetAllRegularUser() {
         $this->seed();
+
+         $user = \AvantiDevelopment\JrBank\User::find(1);
+         API::be($user);
 
         $response = $this->call( 'GET', '/api/banks' );
 
         $this->checkJsonResponse( 200, $response );
         $this->assertContains( 'banks', $response->getContent() );
         $this->assertContains( 'First Bank', $response->getContent() );
+         $this->assertNotContains('Second Bank', $response->getContent());
+    }
+     public function testGetAllSuperUser() {
+        $this->seed();
+
+         $user = \AvantiDevelopment\JrBank\User::find(2);
+         API::be($user);
+
+        $response = $this->call( 'GET', '/api/banks' );
+
+        $this->checkJsonResponse( 200, $response );
+        $this->assertContains( 'banks', $response->getContent() );
+        $this->assertContains( 'First Bank', $response->getContent() );
+         $this->assertContains('Second Bank', $response->getContent());
     }
 
     public function testCreateMissingParameter() {

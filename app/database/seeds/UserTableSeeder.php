@@ -23,7 +23,7 @@ class UserTableSeeder extends Seeder {
             'bank_id'=>1,
             'token'=>'',
             'slug'=>'second_user',
-            'user_type'=>'super_admin',
+            'user_type'=>'super-admin',
             'balance'=>0
         ));
     }
