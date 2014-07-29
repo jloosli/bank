@@ -1,5 +1,5 @@
 /*global ACCESS_LEVELS:true */
-angular.module('jrbank', ['ui.bootstrap', 'ui.utils', 'ui.router', 'ngAnimate']);
+angular.module('jrbank', ['ui.bootstrap', 'ui.utils', 'ui.router', 'ngAnimate','ngResource']);
 
 angular.module('jrbank')
     .constant('ACCESS_LEVELS', {
@@ -32,5 +32,5 @@ angular.module('jrbank').run(function ($rootScope) {
 });
 
 /*
-Trying to follow http://toddmotto.com/opinionated-angular-js-styleguide-for-teams/
+Trying to follow @link http://toddmotto.com/opinionated-angular-js-styleguide-for-teams/
  */
