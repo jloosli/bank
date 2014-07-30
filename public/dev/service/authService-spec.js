@@ -79,9 +79,10 @@ describe('authService', function () {
         var currentUser = authService.getCurrentUser();
         currentUser.then(function(user) {
             expect(user).toBeNull();
+            expect(localStorage.getItem('current_user')).toBeNull();
+            expect(localStorage.getItem('auth_token')).toBeNull();
         });
         $httpBackend.flush();
-
     }));
 
 });
