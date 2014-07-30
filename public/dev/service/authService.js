@@ -57,8 +57,10 @@
                      */
                     localStorage.setItem('current_user', JSON.stringify(user.data.user));
                     return me.getCurrentUser();
-                },function() {
-                    me.clearToken();
+                },function(data,status) {
+                    if(status == 403) {
+                        me.clearToken();
+                    }
                     return $q.when(null);
                 });
             }
