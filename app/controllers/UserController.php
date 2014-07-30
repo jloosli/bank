@@ -21,7 +21,11 @@ class UserController extends \BaseController {
     }
 
     public function currentUser() {
-        return API::user();
+        $user = API::user();
+        if ($user) {
+            return API::user();
+        }
+        throw new Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
     }
 
     /**

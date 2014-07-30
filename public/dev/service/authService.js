@@ -2,7 +2,7 @@
     /*
      @ngInject
      */
-    function authService($http) {
+    function authService($http, $q, API_URL) {
 
         var authSvc = {};
 
@@ -42,7 +42,22 @@
 
         authSvc.getCurrentUser = function() {
             "use strict";
-            return localStorage.getItem('current_user');
+            var user = localStorage.getItem('current_user');
+            if(!!user) {
+                return $q.when(user);
+            } else {
+                return $http({
+                    method: 'GET',
+                    url: API_URL+ 'users/me'
+                }).then(function (user) {
+                    /*
+                    Response format:
+                     {"user":{"id":1,"username":"first_user","name":"First User","email":"first@example.com","slug":"first_user","bank_id":1,"user_type":"user","balance":0,"created_at":"2014-07-30 21:23:32","updated_at":"2014-07-30 21:23:32"}}
+                     */
+                    localStorage.setItem('current_user', user.user);
+                    return this.getCurrentUser;
+                });
+            }
         };
         return authSvc;
     }

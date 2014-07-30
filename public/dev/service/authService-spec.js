@@ -38,4 +38,13 @@ describe('authService', function () {
         expect($http.defaults.headers.common.Authorization).toBeUndefined();
     }));
 
+    it('should return stored user', inject(function (authService) {
+        var theUser = {id: 1, name: 'bob'};
+        localStorage.setItem('current_user', theUser);
+        var currentUser = authService.getCurrentUser();
+        currentUser.then(function(user) {
+            expect(theUser).toEqual(user);
+        });
+    }));
+
 });
