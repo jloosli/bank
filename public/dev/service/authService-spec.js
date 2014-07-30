@@ -40,11 +40,37 @@ describe('authService', function () {
 
     it('should return stored user', inject(function (authService) {
         var theUser = {id: 1, name: 'bob'};
-        localStorage.setItem('current_user', theUser);
+        localStorage.setItem('current_user', JSON.stringify(theUser));
         var currentUser = authService.getCurrentUser();
         currentUser.then(function(user) {
             expect(theUser).toEqual(user);
         });
+    }));
+
+    it('should try to look up user', inject(function ($httpBackend, authService, API_URL) {
+        localStorage.removeItem('current_user');
+        var apiCall = {
+            "user": {
+                "id":         1,
+                "username":   "first_user",
+                "name":       "First User",
+                "email":      "first@example.com",
+                "slug":       "first_user",
+                "bank_id":    1,
+                "user_type":  "user",
+                "balance":    0,
+                "created_at": "2014-07-30 21:23:32",
+                "updated_at": "2014-07-30 21:23:32"
+            }
+        };
+        $httpBackend.expectGET(API_URL + 'users/me').respond(200, JSON.stringify(apiCall));
+        var currentUser = authService.getCurrentUser();
+        currentUser.then(function(user) {
+            console.log(user);
+            expect(user).toEqual(apiCall.user);
+        });
+        $httpBackend.flush();
+
     }));
 
 });

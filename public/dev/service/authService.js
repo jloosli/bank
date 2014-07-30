@@ -42,20 +42,24 @@
 
         authSvc.getCurrentUser = function() {
             "use strict";
+            var me = this;
             var user = localStorage.getItem('current_user');
             if(!!user) {
-                return $q.when(user);
+                console.log('Inside user');
+                return $q.when(JSON.parse(user));
             } else {
                 return $http({
                     method: 'GET',
                     url: API_URL+ 'users/me'
                 }).then(function (user) {
+                    console.log('Inside $http thing');
+                    console.log(user);
                     /*
                     Response format:
                      {"user":{"id":1,"username":"first_user","name":"First User","email":"first@example.com","slug":"first_user","bank_id":1,"user_type":"user","balance":0,"created_at":"2014-07-30 21:23:32","updated_at":"2014-07-30 21:23:32"}}
                      */
-                    localStorage.setItem('current_user', user.user);
-                    return this.getCurrentUser;
+                    localStorage.setItem('current_user', JSON.stringify(user.data.user));
+                    return me.getCurrentUser();
                 });
             }
         };
