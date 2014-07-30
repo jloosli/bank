@@ -57,6 +57,8 @@
                      */
                     localStorage.setItem('current_user', JSON.stringify(user.data.user));
                     return me.getCurrentUser();
+                },function() {
+                    console.log('Failure!');
                 });
             }
         };

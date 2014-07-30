@@ -72,4 +72,16 @@ describe('authService', function () {
 
     }));
 
+    it('should handle an unauthorized user request', inject(function ($httpBackend, authService, API_URL) {
+        localStorage.removeItem('current_user');
+        var forbiddenResponse = {"message":"403 Forbidden"};
+        $httpBackend.expectGET(API_URL + 'users/me').respond(403, JSON.stringify(forbiddenResponse));
+        var currentUser = authService.getCurrentUser();
+        currentUser.then(function(user) {
+            expect(user).toBeNull();
+        });
+        $httpBackend.flush();
+
+    }));
+
 });
