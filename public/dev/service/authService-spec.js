@@ -2,8 +2,10 @@ describe('authService', function () {
 
     beforeEach(module('jrbank'));
 
-    it('should set and get the token', inject(function (authService) {
+    it('should set and get the token', inject(function ($http, authService) {
 
+
+        console.log($http.defaults.headers.common.Authorization);
         authService.setToken('bob');
         var token = authService.getToken();
         expect(token).toEqual('bob');
