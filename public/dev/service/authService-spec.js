@@ -3,9 +3,6 @@ describe('authService', function () {
     beforeEach(module('jrbank'));
 
     it('should set and get the token', inject(function ($http, authService) {
-
-
-        console.log($http.defaults.headers.common.Authorization);
         authService.setToken('bob');
         var token = authService.getToken();
         expect(token).toEqual('bob');
@@ -20,9 +17,8 @@ describe('authService', function () {
         expect(token).toBeNull();
     }));
 
-    it('should format the basic auth string correctly', inject(function (authService) {
+    it('should format the basic auth string correctly', inject(function ($http, authService) {
         "use strict";
-
         authService.setToken('bob');
         var authString = authService.getAuthString().split(' ');
         expect(authString[0] + ' ' + atob(authString[1])).toEqual("Basic bob:");
@@ -30,7 +26,6 @@ describe('authService', function () {
 
     it('should set the authentication string correctly', inject(function ($http, authService) {
         "use strict";
-
         authService.setToken('bob');
         authService.init();
         expect($http.defaults.headers.common.Authorization).toEqual("Basic Ym9iOg==");
@@ -38,10 +33,9 @@ describe('authService', function () {
 
     it('shouldn\'t have an authentication string if no token is set.', inject(function ($http, authService) {
         "use strict";
-
         authService.clearToken();
         authService.init();
-        expect($http.defaults.headers.common.Authorization).toEqual("");
+        expect($http.defaults.headers.common.Authorization).toBeUndefined();
     }));
 
 });

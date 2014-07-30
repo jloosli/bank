@@ -9,6 +9,8 @@
         authSvc.init = function () {
             if(!!this.getToken()) {
                 $http.defaults.headers.common.Authorization = this.getAuthString();
+            } else {
+                delete $http.defaults.headers.common.Authorization;
             }
         };
 
@@ -20,12 +22,13 @@
         authSvc.setToken = function (newToken) {
             "use strict";
             localStorage.setItem('auth_token', newToken);
+            this.init();
         };
 
         authSvc.clearToken = function () {
             "use strict";
             localStorage.removeItem('auth_token');
-
+            this.init();
         };
 
         authSvc.getAuthString = function () {

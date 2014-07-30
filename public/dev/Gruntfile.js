@@ -202,7 +202,7 @@ module.exports = function (grunt) {
                 singleRun:  true // change this to false to debug tests
             },
             all_tests:    {
-                browsers: ['Chrome', 'Firefox']
+                browsers: ['Chrome'] // Removed Firefox and PhantomJS
             },
             during_watch: {
                 browsers: ['PhantomJS']
