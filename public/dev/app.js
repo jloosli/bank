@@ -16,8 +16,11 @@ angular.module('jrbank')
 
 });
 
-angular.module('jrbank').run(function ($rootScope) {
+angular.module('jrbank').run(function ($rootScope, $http, authService) {
     'use strict';
+
+    authService.init();
+
 
     $rootScope.safeApply = function (fn) {
         var phase = $rootScope.$$phase;

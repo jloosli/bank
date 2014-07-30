@@ -4,27 +4,20 @@
      */
     function authService($http) {
 
-        var authSvc = {},
-            token,
-            currentUser;
+        var authSvc = {};
 
         authSvc.getToken = function () {
             "use strict";
-            if (!!token) {
-                token = localStorage.getItem('auth_token');
-            }
-            return token;
+            return localStorage.getItem('auth_token');
         };
 
         authSvc.setToken = function (newToken) {
             "use strict";
             localStorage.setItem('auth_token', newToken);
-            token = newToken;
         };
 
         authSvc.clearToken = function () {
             "use strict";
-            token = null;
             localStorage.removeItem('auth_token');
 
         };
@@ -35,14 +28,12 @@
             if (!!theToken) {
                 return 'Basic ' + btoa(theToken + ":");
             }
+            return null;
         };
 
         authSvc.getCurrentUser = function() {
             "use strict";
-            if(!!currentUser ) {
-
-            }
-            return currentUser;
+            return localStorage.getItem('current_user');
         };
         return authSvc;
     }

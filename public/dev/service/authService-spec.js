@@ -10,7 +10,7 @@ describe('authService', function () {
 
     }));
 
-    it('should reset the token', inject(function (authService) {
+    it('should reset the token', inject(function ($http, authService) {
         "use strict";
         authService.setToken('bob');
         authService.clearToken();
@@ -24,6 +24,22 @@ describe('authService', function () {
         authService.setToken('bob');
         var authString = authService.getAuthString().split(' ');
         expect(authString[0] + ' ' + atob(authString[1])).toEqual("Basic bob:");
+    }));
+
+    it('should set the authentication string correctly', inject(function ($http, authService) {
+        "use strict";
+
+        authService.setToken('bob');
+        authService.init();
+        expect($http.defaults.headers.common.Authorization).toEqual("Basic Ym9iOg==");
+    }));
+
+    it('shouldn\'t have an authentication string if no token is set.', inject(function ($http, authService) {
+        "use strict";
+
+        authService.clearToken();
+        authService.init();
+        expect($http.defaults.headers.common.Authorization).toEqual("");
     }));
 
 });
