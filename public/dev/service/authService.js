@@ -28,6 +28,7 @@
         authSvc.clearToken = function () {
             "use strict";
             localStorage.removeItem('auth_token');
+            console.log("Cleared token");
             this.init();
         };
 
@@ -57,8 +58,8 @@
                      */
                     localStorage.setItem('current_user', JSON.stringify(user.data.user));
                     return me.getCurrentUser();
-                },function(data,status) {
-                    if(status == 403) {
+                },function(data) {
+                    if(data.status == 403) {
                         me.clearToken();
                     }
                     return $q.when(null);

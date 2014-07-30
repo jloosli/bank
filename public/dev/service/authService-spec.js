@@ -73,6 +73,7 @@ describe('authService', function () {
     }));
 
     it('should handle an unauthorized user request', inject(function ($httpBackend, authService, API_URL) {
+        authService.setToken('The Token');
         localStorage.removeItem('current_user');
         var forbiddenResponse = {"message":"403 Forbidden"};
         $httpBackend.expectGET(API_URL + 'users/me').respond(403, JSON.stringify(forbiddenResponse));
@@ -81,6 +82,20 @@ describe('authService', function () {
             expect(user).toBeNull();
             expect(localStorage.getItem('current_user')).toBeNull();
             expect(localStorage.getItem('auth_token')).toBeNull();
+        });
+        $httpBackend.flush();
+    }));
+
+    it('shouldn\'t clear the token if a non 403 error received', inject(function ($httpBackend, authService, API_URL) {
+        authService.setToken('The Token');
+        localStorage.removeItem('current_user');
+        var forbiddenResponse = {"message":"404 Forbidden"};
+        $httpBackend.expectGET(API_URL + 'users/me').respond(404, JSON.stringify(forbiddenResponse));
+        var currentUser = authService.getCurrentUser();
+        currentUser.then(function(user) {
+            expect(user).toBeNull();
+            expect(localStorage.getItem('current_user')).toBeNull();
+            expect(localStorage.getItem('auth_token')).toEqual("The Token");
         });
         $httpBackend.flush();
     }));
