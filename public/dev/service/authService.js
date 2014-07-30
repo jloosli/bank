@@ -6,6 +6,12 @@
 
         var authSvc = {};
 
+        authSvc.init = function () {
+            if(!!this.getToken()) {
+                $http.defaults.headers.common.Authorization = this.getAuthString();
+            }
+        };
+
         authSvc.getToken = function () {
             "use strict";
             return localStorage.getItem('auth_token');
