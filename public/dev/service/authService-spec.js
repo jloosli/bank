@@ -66,7 +66,6 @@ describe('authService', function () {
         $httpBackend.expectGET(API_URL + 'users/me').respond(200, JSON.stringify(apiCall));
         var currentUser = authService.getCurrentUser();
         currentUser.then(function(user) {
-            console.log(user);
             expect(user).toEqual(apiCall.user);
         });
         $httpBackend.flush();
