@@ -2,9 +2,9 @@ describe('messageService', function() {
 
   beforeEach(module('jrbank'));
 
-  it('should ...', inject(function(messageService) {
+  it('should have no messages to start', inject(function(messageService) {
 
-	//expect(messageService.doSomething()).toEqual('something');
+	expect(messageService.messages()).toEqual([]);
 
   }));
 
