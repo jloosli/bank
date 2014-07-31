@@ -16,7 +16,7 @@
         }
 
         service.remove = function (id) {
-             _.remove(messages, function (msg) {
+            _.remove(messages, function (msg) {
                 return msg.id === id;
             });
         };

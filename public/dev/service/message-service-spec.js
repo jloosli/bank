@@ -36,7 +36,7 @@ describe('messageService', function () {
         expect(messageService.messages().length).toBe(1);
     }));
 
-    it('should remove a message', inject(function(messageService) {
+    it('should remove a message', inject(function (messageService) {
         var message = {
             message: "Watch out for the chicken!",
             type:    'alert',
@@ -51,15 +51,15 @@ describe('messageService', function () {
 
     it('should remove a message after the timer has run out', inject(function ($timeout, messageService) {
         var message = {
-            message:  "Watch out for the chicken!",
-            type:     'alert',
-            persist:  false,
-            duration: 2000
-        },
-            messageNoDuration = {
                 message:  "Watch out for the chicken!",
                 type:     'alert',
-                persist:  false
+                persist:  false,
+                duration: 2000
+            },
+            messageNoDuration = {
+                message: "Watch out for the chicken!",
+                type:    'alert',
+                persist: false
             };
 
         expect(messageService.messages().length).toBe(0);
@@ -70,6 +70,5 @@ describe('messageService', function () {
         expect(messageService.messages().length).toBe(1);
 
     }));
-
 
 });
