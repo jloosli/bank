@@ -5,13 +5,13 @@
      */
     function banksService ($resource) {
         "use strict";
-        var banksService = {};
+        var svc = {};
 
-        banksService.resource = function () {
+        svc.resource = function () {
             return $resource();
         };
 
-        return banksService;
+        return svc;
     }
     angular.module('jrbank').factory('banksService',banksService);
 })();
