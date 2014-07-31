@@ -28,7 +28,7 @@
                 persist: !!theMessage.persist || false
             };
             messages.push(message);
-            if(theMessage.duration) {
+            if(theMessage.duration && theMessage.duration > 0) {
                 $timeout(function() {
                     me.removeMessage(id);
                 }, theMessage.duration);
