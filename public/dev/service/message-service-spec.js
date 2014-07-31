@@ -9,7 +9,7 @@ describe('messageService', function () {
     it('should add a message and return an id', inject(function (messageService) {
         var message = {
             message: "You are about to run off the road!",
-            type: 'alert',
+            type:    'alert',
             persist: true
         };
         expect(messageService.messages().length).toBe(0);
@@ -18,23 +18,37 @@ describe('messageService', function () {
         expect(messageService.messages().length).toBe(1);
     }));
 
-    it('should delete a non-persisting message when calling .init', inject(function(messageService) {
+    it('should delete a non-persisting message when calling .init', inject(function (messageService) {
         var message = {
-            message: "Watch out for the chicken!",
-            type: 'alert',
-            persist: true
-        },
+                message: "Watch out for the chicken!",
+                type:    'alert',
+                persist: true
+            },
             messageNoPersist = {
                 message: "Watch out for the chicken!",
-                type: 'alert',
-                persist: false
-            };
+                type:    'alert',
+flush            };
         expect(messageService.messages().length).toBe(0);
         messageService.addMessage(message);
         messageService.addMessage(messageNoPersist);
         expect(messageService.messages().length).toBe(2);
         messageService.init();
         expect(messageService.messages().length).toBe(1);
+    }));
+
+    it('should remove a message after the timer has run out', inject(function (messageService) {
+        var message = {
+            message: "Watch out for the chicken!",
+            type:    'alert',
+            persist: false,
+            duration: 2000
+        };
+        expect(messageService.messages().length).toBe(0);
+        messageService.addMessage(message);
+        expect(messageService.messages().length).toBe(1);
+        angular.mock.$timeout.flush();
+        expect(messageService.messages().length).toBe(0);
+
     }));
 
 
