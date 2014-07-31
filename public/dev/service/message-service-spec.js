@@ -26,8 +26,8 @@ describe('messageService', function () {
             },
             messageNoPersist = {
                 message: "Watch out for the chicken!",
-                type:    'alert',
-flush            };
+                type:    'alert'
+            };
         expect(messageService.messages().length).toBe(0);
         messageService.addMessage(message);
         messageService.addMessage(messageNoPersist);
@@ -38,9 +38,9 @@ flush            };
 
     it('should remove a message after the timer has run out', inject(function (messageService) {
         var message = {
-            message: "Watch out for the chicken!",
-            type:    'alert',
-            persist: false,
+            message:  "Watch out for the chicken!",
+            type:     'alert',
+            persist:  false,
             duration: 2000
         };
         expect(messageService.messages().length).toBe(0);
