@@ -1,5 +1,5 @@
 /*global ACCESS_LEVELS:true */
-angular.module('jrbank', ['ui.bootstrap', 'ui.utils', 'ui.router', 'ngAnimate','ngResource', 'ngMock']);
+angular.module('jrbank', ['ui.bootstrap', 'ui.utils', 'ui.router', 'ngAnimate','ngResource']);
 
 angular.module('jrbank')
     .constant('ACCESS_LEVELS', {
@@ -11,6 +11,11 @@ angular.module('jrbank')
     .constant('API_URL', "/api/")
     .config(function ($stateProvider, $urlRouterProvider) {
     'use strict';
+        $stateProvider.state('accounts', {
+            url: '/accounts',
+            templateUrl: 'accounts/accounts-list/accounts-list.html',
+            controller: 'AccountsListCtrl as accounts'
+        });
     /* Add New States Above */
     $urlRouterProvider.otherwise('/home');
 
