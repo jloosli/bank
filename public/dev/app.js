@@ -1,5 +1,5 @@
 /*global ACCESS_LEVELS:true */
-angular.module('jrbank', ['ui.bootstrap', 'ui.utils', 'ui.router', 'ngAnimate','ngResource']);
+angular.module('jrbank', ['ui.bootstrap', 'ui.utils', 'ui.router', 'ngAnimate','ngResource', 'directive.g+signin']);
 
 angular.module('jrbank')
     .constant('ACCESS_LEVELS', {
@@ -16,6 +16,10 @@ angular.module('jrbank')
             templateUrl: 'accounts/accounts-list/accounts-list.html',
             controller: 'AccountsListCtrl as accounts'
         });
+    $stateProvider.state('login', {
+        url: '/user/login',
+        templateUrl: 'partial/login/login.html'
+    });
     /* Add New States Above */
     $urlRouterProvider.otherwise('/home');
 
