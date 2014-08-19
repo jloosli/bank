@@ -1,5 +1,5 @@
 /*global ACCESS_LEVELS:true */
-angular.module('jrbank', ['ui.bootstrap', 'ui.utils', 'ui.router', 'ngAnimate','ngResource', 'directive.g+signin']);
+angular.module('jrbank', ['ui.bootstrap', 'ui.utils', 'ui.router', 'ngAnimate','ngResource', 'Satellizer']);
 
 angular.module('jrbank')
     .constant('ACCESS_LEVELS', {
@@ -9,6 +9,12 @@ angular.module('jrbank')
         super: 3
     })
     .constant('API_URL', "/api/")
+    .config(function($authProvider) {
+        $authProvider.google({
+            clientId: '554520232798-g78ah8n025muphdv0tddf6de3baje83k.apps.googleusercontent.com',
+            redirectUri: window.location.origin + '/oauth/google'
+        });
+    })
     .config(function ($stateProvider, $urlRouterProvider) {
     'use strict';
         $stateProvider.state('accounts', {

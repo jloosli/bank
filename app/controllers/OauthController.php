@@ -42,6 +42,7 @@ class OauthController extends \BaseController {
             $url = $googleService->getAuthorizationUri();
             echo $url;
 
+
             // return to google login url
 //            return Redirect::to( (string) $url );
         }
