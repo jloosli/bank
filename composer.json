@@ -9,7 +9,8 @@
         "laravelbook/ardent": "dev-master",
         "dingo/api": "0.*",
         "doctrine/dbal": "~2.3",
-        "artdarek/oauth-4-laravel": "dev-master"
+        "artdarek/oauth-4-laravel": "dev-master",
+        "google/apiclient": "1.0.*@beta"
     },
     "require-dev": {
         "mockery/mockery": "dev-master@dev",

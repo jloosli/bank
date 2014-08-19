@@ -1,35 +1,35 @@
-<div class="col-sm-8 col-sm-offset-4" ng-controller="LoginCtrl">
-            <div class="well well-lg">
-                <h2>Sign in with your current service</h2>
-                <google-plus-signin
-                        clientid="554520232798-g78ah8n025muphdv0tddf6de3baje83k.apps.googleusercontent.com"></google-plus-signin>
+<div class="col-sm-6 col-sm-offset-3" ng-controller="LoginCtrl">
+    <div class="well well-lg">
+        <h2>Sign in with your current service</h2>
+        <google-plus-signin
+                clientid="554520232798-g78ah8n025muphdv0tddf6de3baje83k.apps.googleusercontent.com"
+                scope="https://www.googleapis.com/auth/plus.login"></google-plus-signin>
 
+    </div>
+    <div class="well well-sm">
+        <h2>Or Enter your Username and Password</h2>
+
+        <form name="loginForm" role="form" ng-submit="doLogin(login)">
+            <div class="alert alert-danger" ng-show="error">{{error}}</div>
+            <div class="form-group"
+                 ng-class="{'has-error': problem.user}">
+                <label for="user">Login</label>
+                <input autofill-hack type="text" class="form-control" name="user" id="user" autocomplete="off"
+                       placeholder="Enter email or username" ng-model="login.nameOrEmail">
             </div>
-            <div class="well well-sm">
-                <h2>Or Enter your Username and Password</h2>
-
-                <form name="loginForm" role="form" ng-submit="doLogin(login)">
-                    <div class="alert alert-danger" ng-show="error">{{error}}</div>
-                    <div class="form-group"
-                         ng-class="{'has-error': problem.user}">
-                        <label for="user">Login</label>
-                        <input autofill-hack type="text" class="form-control" name="user" id="user" autocomplete="off"
-                               placeholder="Enter email or username" ng-model="login.nameOrEmail">
-                    </div>
-                    <div class="form-group"
-                         ng-class="{'has-error': problem.pass}">
-                        <label for="pass">Password</label>
-                        <input autofill-hack type="password" class="form-control" name="pass" id="pass"
-                               autocomplete="off"
-                               placeholder="Password" ng-model="login.password">
-                    </div>
-                    <!--<div class="checkbox">-->
-                        <!--<label>-->
-                            <!--<input type="checkbox" ng-model="login.remember"> Remember Me-->
-                        <!--</label>-->
-                    <!--</div>-->
-                    <button type="submit" class="btn btn-primary">Login</button>
-                </form>
+            <div class="form-group"
+                 ng-class="{'has-error': problem.pass}">
+                <label for="pass">Password</label>
+                <input autofill-hack type="password" class="form-control" name="pass" id="pass"
+                       autocomplete="off"
+                       placeholder="Password" ng-model="login.password">
+            </div>
+            <!--<div class="checkbox">-->
+            <!--<label>-->
+            <!--<input type="checkbox" ng-model="login.remember"> Remember Me-->
+            <!--</label>-->
+            <!--</div>-->
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+    </div>
 </div>
-
-

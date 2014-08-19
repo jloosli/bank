@@ -31,6 +31,7 @@ angular.module('jrbank').run(function ($rootScope, $http, authService) {
     authService.init();
 
 
+
     $rootScope.safeApply = function (fn) {
         var phase = $rootScope.$$phase;
         if (phase === '$apply' || phase === '$digest') {

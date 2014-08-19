@@ -5,6 +5,10 @@ use Illuminate\Support\Facades\Redirect;
 
 class OauthController extends \BaseController {
 
+    /**
+     * @return mixed
+     * @throws \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
+     */
     public function loginWithGoogle() {
         // get data from input
         $code = Input::get( 'code' );
@@ -22,10 +26,11 @@ class OauthController extends \BaseController {
 
             // Send a request with it
             $result = json_decode( $googleService->request( 'https://www.googleapis.com/oauth2/v1/userinfo' ), true );
+//            $result = json_decode( $googleService->request( 'https://www.googleapis.com/auth/plus.login' ), true );
 
             $message = 'Your unique Google user id is: ' . $result['id'] . ' and your name is ' . $result['name'];
             echo $message . "<br/>";
-            printf( "Your unique token is: %s<br/>", Oauth::storeCredentials( 'google', $result ) );
+//            printf( "Your unique token is: %s<br/>", Oauth::storeCredentials( 'google', $result ) );
 
             //Var_dump
             //display whole array().
@@ -35,9 +40,10 @@ class OauthController extends \BaseController {
         else {
             // get googleService authorization
             $url = $googleService->getAuthorizationUri();
+            echo $url;
 
             // return to google login url
-            return Redirect::to( (string) $url );
+//            return Redirect::to( (string) $url );
         }
     }
 
