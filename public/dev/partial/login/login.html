@@ -1,4 +1,4 @@
-<div class="col-sm-6 col-sm-offset-3" ng-controller="LoginCtrl">
+<div class="col-sm-6 col-sm-offset-3" ng-controller="LoginCtrl as login" id="loginForm">
     <div class="panel-body">
         <h2 class="text-center">Login</h2>
         <form method="post" ng-submit="login()" name="loginForm" class="ng-pristine ng-invalid ng-invalid-required">
@@ -25,7 +25,7 @@
         <!--<button class="btn btn-block btn-social btn-linkedin" ng-click="authenticate('linkedin')">-->
             <!--<i class="fa fa-linkedin"></i> Sign in with LinkedIn-->
         <!--</button>-->
-        <button class="btn btn-block btn-social btn-google-plus" ng-click="authenticate('google')">
+        <button class="btn btn-block btn-social btn-google-plus" ng-click="login.authenticate('google')">
             <i class="fa fa-google-plus"></i> Sign in with Google
         </button>
         <!--<button class="btn btn-block btn-social btn-twitter" ng-click="authenticate('twitter')">-->

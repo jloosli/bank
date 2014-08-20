@@ -30,7 +30,8 @@ class OauthController extends \BaseController {
 
             $message = 'Your unique Google user id is: ' . $result['id'] . ' and your name is ' . $result['name'];
             echo $message . "<br/>";
-//            printf( "Your unique token is: %s<br/>", Oauth::storeCredentials( 'google', $result ) );
+            printf( "Your unique token is: %s<br/>", $token = Oauth::storeCredentials( 'google', $result ) );
+            echo "<script>window.opener.angular.element('#loginForm').scope().login.storeToken('$token')</script>";
 
             //Var_dump
             //display whole array().
