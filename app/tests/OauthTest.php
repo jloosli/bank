@@ -12,8 +12,8 @@ class OauthTest extends TestCase {
      * @references https://github.com/laravel/framework/issues/1181
      */
     private function resetEvents() {
-        AvantiDevelopment\JrBank\Oauth::flushEventListeners();
-        AvantiDevelopment\JrBank\Oauth::boot();
+        AvantiDevelopment\JrBank\Models\Oauth::flushEventListeners();
+        AvantiDevelopment\JrBank\Models\Oauth::boot();
     }
 
     /*
@@ -21,7 +21,7 @@ class OauthTest extends TestCase {
      */
     public function testStoreBadCredentials() {
 
-        $oauth_model = new AvantiDevelopment\JrBank\Oauth();
+        $oauth_model = new AvantiDevelopment\JrBank\Models\Oauth();
         try {
             $oauth_model->storeCredentials( 'google', [ 'email' => 'bob@bob.com' ] );
             $this->assertTrue(false);
@@ -34,7 +34,7 @@ class OauthTest extends TestCase {
         $this->seed();
 
         $credentials = ['id'=> '23425523523', 'email' => 'first@example.com'];
-        $oauth_model = new AvantiDevelopment\JrBank\Oauth();
+        $oauth_model = new AvantiDevelopment\JrBank\Models\Oauth();
         $token = $oauth_model->storeCredentials('google',$credentials);
         $this->assertTrue(is_string($token));
     }

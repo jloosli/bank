@@ -1,7 +1,7 @@
 <?php
 
-use AvantiDevelopment\JrBank\Envelope;
-use AvantiDevelopment\JrBank\User;
+use AvantiDevelopment\JrBank\Models\Envelope;
+use AvantiDevelopment\JrBank\Models\User;
 
 class EnvelopeController extends BaseController {
 

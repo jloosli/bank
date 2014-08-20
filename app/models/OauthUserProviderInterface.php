@@ -1,14 +1,17 @@
 <?php
 
 namespace AvantiDevelopment\JrBank;
-class OauthUserProviderInterface implements \Illuminate\Auth\UserProviderInterface {
+use Illuminate\Auth\UserInterface;
+use Illuminate\Auth\UserProviderInterface;
+
+class OauthUserProviderInterface implements UserProviderInterface {
 
     /**
      * Retrieve a user by their unique identifier.
      *
      * @param  mixed $identifier
      *
-     * @return \Illuminate\Auth\UserInterface|null
+     * @return UserInterface|null
      */
     public function retrieveById( $identifier ) {
         return User::find($identifier);
@@ -20,10 +23,10 @@ class OauthUserProviderInterface implements \Illuminate\Auth\UserProviderInterfa
      * @param  mixed  $identifier
      * @param  string $token
      *
-     * @return \Illuminate\Auth\UserInterface|null
+     * @return UserInterface|null
      */
     public function retrieveByToken( $identifier, $token ) {
-        $auth = \AvantiDevelopment\JrBank\Oauth::where('token',$token);
+        $auth = Oauth::where('token',$token);
         if(!$auth) {
             return;
         }
@@ -34,12 +37,12 @@ class OauthUserProviderInterface implements \Illuminate\Auth\UserProviderInterfa
     /**
      * Update the "remember me" token for the given user in storage.
      *
-     * @param  \Illuminate\Auth\UserInterface $user
+     * @param  UserInterface $user
      * @param  string                         $token
      *
      * @return void
      */
-    public function updateRememberToken( \Illuminate\Auth\UserInterface $user, $token ) {
+    public function updateRememberToken( UserInterface $user, $token ) {
         // TODO: Implement updateRememberToken() method.
     }
 
@@ -48,10 +51,10 @@ class OauthUserProviderInterface implements \Illuminate\Auth\UserProviderInterfa
      *
      * @param  array $credentials
      *
-     * @return \Illuminate\Auth\UserInterface|null
+     * @return UserInterface|null
      */
     public function retrieveByCredentials( array $credentials ) {
-        $auth =  \AvantiDevelopment\JrBank\Oauth::where('token', $credentials['email'])->first();
+        $auth =  Oauth::where('token', $credentials['email'])->first();
         if (!$auth) {
             return;
         }
@@ -62,11 +65,11 @@ class OauthUserProviderInterface implements \Illuminate\Auth\UserProviderInterfa
     /**
      * Validate a user against the given credentials.
      *
-     * @param  \Illuminate\Auth\UserInterface $user
+     * @param  UserInterface $user
      * @param  array                          $credentials
      *
      * @return bool
      */
-    public function validateCredentials( \Illuminate\Auth\UserInterface $user, array $credentials ) {
+    public function validateCredentials( UserInterface $user, array $credentials ) {
         return $this->retrieveByCredentials($credentials) === $user;
 }}

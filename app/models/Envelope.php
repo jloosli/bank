@@ -1,5 +1,5 @@
 <?php
-namespace AvantiDevelopment\JrBank;
+namespace AvantiDevelopment\JrBank\Models;
 
 use LaravelBook\Ardent\Ardent;
 
@@ -14,11 +14,11 @@ class Envelope extends Ardent {
     ];
 
     public function user() {
-        return $this->belongsTo( 'User' );
+        return $this->belongsTo( 'AvantiDevelopment\JrBank\Models\User' );
     }
 
     public function envelope_transactions() {
-        return $this->hasMany( 'EnvelopeTransaction' );
+        return $this->hasMany( 'AvantiDevelopment\JrBank\Models\EnvelopeTransaction' );
     }
 
     public function getGoalAttribute( $value ) {

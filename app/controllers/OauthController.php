@@ -1,7 +1,7 @@
 <?php
 namespace AvantiDevelopment\JrBank;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\View;
 
 class OauthController extends \BaseController {
 
@@ -26,16 +26,21 @@ class OauthController extends \BaseController {
 
             // Send a request with it
             $result = json_decode( $googleService->request( 'https://www.googleapis.com/oauth2/v1/userinfo' ), true );
-//            $result = json_decode( $googleService->request( 'https://www.googleapis.com/auth/plus.login' ), true );
 
             $message = 'Your unique Google user id is: ' . $result['id'] . ' and your name is ' . $result['name'];
-            echo $message . "<br/>";
-            printf( "Your unique token is: %s<br/>", $token = Oauth::storeCredentials( 'google', $result ) );
-            echo "<script>window.opener.angular.element('#loginForm').scope().login.storeToken('$token')</script>";
+            $token = Oauth::storeCredentials( 'google', $result );
+//            echo $message . "<br/>";
+//            printf( "Your unique token is: %s<br/>",  );
+//            echo "<script>window.opener.angular.element('#loginForm').scope().login.storeToken('$token');";
+//            echo "setTimeout(function(){self.close();},5000);";
+//            echo "</script>";
 
             //Var_dump
             //display whole array().
-            dd( $result );
+//            dd( $result );
+            $data = compact('result','message', 'token');
+
+            return View::make('oauth', $data);
 
         } // if not ask for permission first
         else {

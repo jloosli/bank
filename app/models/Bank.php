@@ -1,7 +1,7 @@
 <?php
 
 
-namespace AvantiDevelopment\JrBank;
+namespace AvantiDevelopment\JrBank\Models;
 use LaravelBook\Ardent\Ardent;
 
 class Bank extends Ardent {
@@ -18,7 +18,7 @@ class Bank extends Ardent {
     ];
 
     public function users() {
-        return $this->hasMany( 'User' );
+        return $this->hasMany( 'AvantiDevelopment\JrBank\Models\User' );
     }
 
     /* Set accessors so I'm always getting actual values */

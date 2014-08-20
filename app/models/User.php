@@ -1,6 +1,6 @@
 <?php
 
-namespace AvantiDevelopment\JrBank;
+namespace AvantiDevelopment\JrBank\Models;
 
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;
@@ -14,31 +14,36 @@ class User extends Ardent implements UserInterface, RemindableInterface {
     protected $guarded = [ 'id', 'deleted_at' ];
 
     public function transactions() {
-        return $this->hasMany( 'AvantiDevelopment\JrBank\Transaction' );
+        return $this->hasMany( 'AvantiDevelopment\JrBank\Models\Transaction' );
     }
 
     public function bank() {
-        return $this->belongsTo( 'AvantiDevelopment\JrBank\Bank' );
+        return $this->belongsTo( 'AvantiDevelopment\JrBank\Models\Bank' );
     }
 
     public function oauth() {
-        return $this->hasMany('AvantiDevelopment\JrBank\Oauth');
+        return $this->hasMany( 'AvantiDevelopment\JrBank\Models\Oauth' );
     }
 
     public function envelopes() {
-        return $this->hasMany( 'AvantiDevelopment\JrBank\Envelope' );
+        return $this->hasMany( 'AvantiDevelopment\JrBank\Models\Envelope' );
     }
 
-    public function getRememberToken() {
+    public function sessions() {
+        return $this->hasMany('Token');
+    }
 
+
+    public function getRememberToken() {
+        return $this->rememberToken;
     }
 
     public function getRememberTokenName() {
-
+        return 'remember_token';
     }
 
     public function setRememberToken( $token ) {
-
+        $this->remember_token = $token;
     }
 
     /**
@@ -51,6 +56,28 @@ class User extends Ardent implements UserInterface, RemindableInterface {
         'bank_id'  => 'required|numeric',
         'slug'     => 'unique:users,slug,bank_id'
     );
+
+    protected static $createRules = array(
+        'firstname'             => 'required',
+        'lastname'              => 'required',
+        'password'              => 'required|min:6|confirmed',
+        'password_confirmation' => 'required|min:6',
+        'email'                 => 'required|email|unique:users,email',
+    );
+    protected static $authRules = array(
+        'email'    => 'required|email',
+        'password' => 'required',
+        // 'device_id'				=>	'required',
+        // 'device_type'			=>	'required',
+        // 'device_token'			=>	'required',
+    );
+    protected static $fb_authRules = array(
+        'access_token' => 'required',
+        // 'device_id'				=>	'required',
+        // 'device_type'			=>	'required',
+        // 'device_token'			=>	'required',
+    );
+
 
     public static function boot() {
         parent::boot();
@@ -91,6 +118,50 @@ class User extends Ardent implements UserInterface, RemindableInterface {
     public function getAuthIdentifier() {
         return $this->getKey();
     }
+
+    public static function getCreateRules() {
+        return self::$createRules;
+    }
+
+    public static function getAuthFBRules() {
+        return self::$fb_authRules;
+    }
+
+    public static function getAuthRules() {
+        return self::$authRules;
+    }
+
+    public function isOwnerOf($token) {
+        $owner = Token::userFor( $token );
+        if ( empty($owner) || $owner->user_id!=$this->id )
+            return false;
+        else
+            return true;
+    }
+
+    /**
+     * Generate a token to authenticate a user
+     *
+     * @return mixed
+     */
+    public function login( $device_id=null, $device_type=null, $device_token=null ) {
+
+        // clear old sessions for any user with: same(device_id, os)
+        $to_remove = Token::where('device_id', '=', $device_id)
+                          ->where('device_os', '=', $device_type)
+                          ->delete();
+
+        $token = Token::getInstance();
+        $token->user_id	= $this->id;
+        $token->device_id = $device_id;
+        $token->device_os =	$device_type;
+        $token->device_token = $device_token;
+        $token->save();
+
+        return $token;
+    }
+
+
 
     /**
      * Get the password for the user.

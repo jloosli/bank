@@ -1,6 +1,6 @@
 <?php
 
-use AvantiDevelopment\JrBank\Bank;
+use AvantiDevelopment\JrBank\Models\Bank;
 use Illuminate\Support\Facades\Input;
 
 class BankController extends BaseController {
@@ -12,7 +12,7 @@ class BankController extends BaseController {
      */
     public function index() {
         $user  = API::user();
-        $banks = new AvantiDevelopment\JrBank\Bank();
+        $banks = new AvantiDevelopment\JrBank\Models\Bank();
         if ( Input::get( 'show_deleted' ) === 'true' ) {
             $banks = $banks->withTrashed();
         }

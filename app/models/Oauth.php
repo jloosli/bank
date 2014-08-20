@@ -1,13 +1,14 @@
 <?php
 
-namespace AvantiDevelopment\JrBank;
+namespace AvantiDevelopment\JrBank\Models;
 use LaravelBook\Ardent\Ardent;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class Oauth extends Ardent {
 	protected $fillable = [];
 
     public function user() {
-        return $this->belongsTo('AvantiDevelopment\JrBank\User');
+        return $this->belongsTo('AvantiDevelopment\JrBank\Models\User');
     }
 
     /**
@@ -31,13 +32,13 @@ class Oauth extends Ardent {
      * @param $oauth_provider
      * @param $credentials
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
+     * @throws AccessDeniedHttpException
      * @return string
      */
     public static function storeCredentials( $oauth_provider, $credentials ) {
-        $user = \AvantiDevelopment\JrBank\User::where( 'email', $credentials['email'] )->first();
+        $user = User::where( 'email', $credentials['email'] )->first();
         if ( !$user ) {
-            throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException(
+            throw new AccessDeniedHttpException(
                 sprintf( "No users with the email address of %s are set up.", $credentials['email'] )
             );
         }

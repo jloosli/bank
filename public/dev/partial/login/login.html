@@ -1,4 +1,5 @@
 <div class="col-sm-6 col-sm-offset-3" ng-controller="LoginCtrl as login" id="loginForm">
+    {{currentUser | json}}
     <div class="panel-body">
         <h2 class="text-center">Login</h2>
         <form method="post" ng-submit="login()" name="loginForm" class="ng-pristine ng-invalid ng-invalid-required">

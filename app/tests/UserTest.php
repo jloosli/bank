@@ -96,7 +96,7 @@ class UserTest extends TestCase {
 
     public function testCurrentUser() {
         $this->seed();
-        $user = \AvantiDevelopment\JrBank\User::find(1);
+        $user = \AvantiDevelopment\JrBank\Models\User::find(1);
         API::be($user);
         $response = $this->call('GET', '/api/users/me');
         $this->assertTrue($response->isOk());

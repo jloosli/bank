@@ -1,6 +1,6 @@
 <?php
 
-use AvantiDevelopment\JrBank\User;
+use AvantiDevelopment\JrBank\Models\User;
 
 class UserController extends \BaseController {
 
@@ -57,6 +57,7 @@ class UserController extends \BaseController {
         } else {
             throw new Dingo\Api\Exception\StoreResourceFailedException( 'Could not create User.', $user->errors() );
         }
+        Log::info('Created : ' . $user);
     }
 
     /**

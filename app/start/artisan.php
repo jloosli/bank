@@ -10,7 +10,7 @@
 | the console gets access to each of the command object instances.
 |
 */
-$bank = new \AvantiDevelopment\JrBank\Bank();
+$bank = new \AvantiDevelopment\JrBank\Models\Bank();
 Artisan::add(new InterestCommand($bank));
 
 

@@ -5,7 +5,7 @@ class BankTest extends TestCase {
      public function testGetAllRegularUser() {
         $this->seed();
 
-         $user = \AvantiDevelopment\JrBank\User::find(1);
+         $user = \AvantiDevelopment\JrBank\Models\User::find(1);
          API::be($user);
 
         $response = $this->call( 'GET', '/api/banks' );
@@ -18,7 +18,7 @@ class BankTest extends TestCase {
      public function testGetAllSuperUser() {
         $this->seed();
 
-         $user = \AvantiDevelopment\JrBank\User::find(2);
+         $user = \AvantiDevelopment\JrBank\Models\User::find(2);
          API::be($user);
 
         $response = $this->call( 'GET', '/api/banks' );

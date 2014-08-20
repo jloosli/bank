@@ -1,6 +1,6 @@
 <?php
 
-namespace AvantiDevelopment\JrBank;
+namespace AvantiDevelopment\JrBank\Models;
 
 
 
@@ -16,11 +16,11 @@ class EnvelopeTransaction extends Ardent {
 	public static $rules = array();
 
     public function envelope() {
-        return $this->hasMany('Envelope');
+        return $this->hasMany('AvantiDevelopment\JrBank\Models\Envelope');
     }
 
     public function transaction() {
-        return $this->hasMany('Transaction');
+        return $this->hasMany('AvantiDevelopment\JrBank\Models\Transaction');
     }
 
 }
