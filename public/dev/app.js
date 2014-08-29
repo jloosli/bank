@@ -12,8 +12,8 @@ angular.module('jrbank')
     .config(function($authProvider) {
         $authProvider.google({
             clientId: '554520232798-g78ah8n025muphdv0tddf6de3baje83k.apps.googleusercontent.com',
-            redirectUri: window.location.origin + window.location.pathname,
-            url: window.location.origin + '/oauth/google'
+            redirectUri: window.location.origin + '/auth/google', //window.location.pathname, // + '/oauth/google', //+ window.location.pathname,
+            url: window.location.origin + '/auth/google' //.origin + window.location.pathname // '/oauth/google'
         });
     })
     .config(function ($stateProvider, $urlRouterProvider) {

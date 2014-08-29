@@ -12,7 +12,7 @@
         <?php var_dump($result); ?>
     </div>
 <script>
-window.opener.postMessage({oauth_token: 'asdfnl;324n', oauth_verifier: 'google'},window.opener.location);
+//window.opener.postMessage({oauth_token: 'asdfnl;324n', oauth_verifier: 'google'},window.opener.location);
 setTimeout(function(){
 //    self.close();
     },

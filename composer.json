@@ -10,7 +10,10 @@
         "dingo/api": "0.*",
         "doctrine/dbal": "~2.3",
         "google/apiclient": "1.0.*@beta",
-		"firebase/php-jwt": "1.0.*"
+		"firebase/php-jwt": "1.0.*",
+		"artdarek/oauth-4-laravel": "1.0.5",
+        "guzzlehttp/guzzle": "4.2.1",
+        "guzzlehttp/oauth-subscriber": "0.1.2"
     },
     "require-dev": {
         "mockery/mockery": "dev-master@dev",

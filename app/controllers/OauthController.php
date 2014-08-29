@@ -1,5 +1,5 @@
 <?php
-namespace AvantiDevelopment\JrBank\Controllers;
+//namespace AvantiDevelopment\JrBank\Controllers;
 use Artdarek\OAuth\Facade\OAuth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\View;
