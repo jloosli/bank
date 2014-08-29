@@ -124,16 +124,21 @@ class AuthController extends \BaseController {
 
         $params = array(
             'code' => Input::get('code'),
-            'client_id' => Input::get('clientId'),
-            'redirect_uri' => Input::get('redirectUri'),
+            'client_id' => $_ENV['OAUTH.Google.client_id'], //Input::get('clientId'),
+            'redirect_uri' => 'http://loosli.chickenkiller.com/bob', //Input::get('redirectUri'),
             'grant_type' => 'authorization_code',
-            'client_secret' => Config::get('secrets.GOOGLE_SECRET')
+            'client_secret' => $_ENV['OAUTH.Google.client_secret'] //Config::get('secrets.GOOGLE_SECRET')
         );
 
-        $client = new GuzzleHttp\Client();
-
+            $client = new GuzzleHttp\Client();
         // Step 1. Exchange authorization code for access token.
-        $accessTokenResponse = $client->post($accessTokenUrl, ['body' => $params]);
+        try {
+            $accessTokenResponse = $client->post( $accessTokenUrl, [ 'body' => $params ] );
+        } catch (\GuzzleHttp\Exception\ClientException $e) {
+            echo $e->getRequest();
+            echo $e->getResponse();
+            dd($e);
+        }
         $accessToken = $accessTokenResponse->json()['access_token'];
 
         $headers = array('Authorization' => 'Bearer ' . $accessToken);
