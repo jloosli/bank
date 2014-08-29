@@ -13,8 +13,7 @@ return array(
     |
     */
 
-    'debug'     => true,
-
+    'debug'        => true,
     /*
     |--------------------------------------------------------------------------
     | Application URL
@@ -26,8 +25,7 @@ return array(
     |
     */
 
-    'url'       => 'http://jrbank.co',
-
+    'url'          => 'http://jrbank.co',
     /*
     |--------------------------------------------------------------------------
     | Application Timezone
@@ -39,8 +37,7 @@ return array(
     |
     */
 
-    'timezone'  => 'UTC',
-
+    'timezone'     => 'UTC',
     /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration
@@ -52,8 +49,7 @@ return array(
     |
     */
 
-    'locale'    => 'en',
-
+    'locale'       => 'en',
     /*
     |--------------------------------------------------------------------------
     | Encryption Key
@@ -65,8 +61,9 @@ return array(
     |
     */
 
-    'key'       => 'dulBaelwO47JORWCmktUji8sxwB3bZEj',
-
+    'key'          => 'dulBaelwO47JORWCmktUji8sxwB3bZEj',
+    'token_secret' => '174459JjuelatNi8XHd3Me3Epfkjp293',
+    'cipher' => MCRYPT_RIJNDAEL_256,
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
@@ -78,7 +75,7 @@ return array(
     |
     */
 
-    'providers' => array(
+    'providers'    => array(
 
         'Illuminate\Foundation\Providers\ArtisanServiceProvider',
         'Illuminate\Auth\AuthServiceProvider',
@@ -106,13 +103,11 @@ return array(
         'Illuminate\Validation\ValidationServiceProvider',
         'Illuminate\View\ViewServiceProvider',
         'Illuminate\Workbench\WorkbenchServiceProvider',
-
         'Way\Generators\GeneratorsServiceProvider',
         'Dingo\Api\ApiServiceProvider',
         'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
-        'Artdarek\OAuth\OAuthServiceProvider'
+//        'Artdarek\OAuth\OAuthServiceProvider'
     ),
-
     /*
     |--------------------------------------------------------------------------
     | Service Provider Manifest
@@ -124,8 +119,7 @@ return array(
     |
     */
 
-    'manifest'  => storage_path() . '/meta',
-
+    'manifest'     => storage_path() . '/meta',
     /*
     |--------------------------------------------------------------------------
     | Class Aliases
@@ -137,7 +131,7 @@ return array(
     |
     */
 
-    'aliases'   => array(
+    'aliases'      => array(
 
         'App'         => 'Illuminate\Support\Facades\App',
         'Artisan'     => 'Illuminate\Support\Facades\Artisan',
@@ -176,10 +170,9 @@ return array(
         'URL'         => 'Illuminate\Support\Facades\URL',
         'Validator'   => 'Illuminate\Support\Facades\Validator',
         'View'        => 'Illuminate\Support\Facades\View',
-
-        'API' => 'Dingo\Api\Facades\API',
-        'Controller' => 'Dingo\Api\Routing\Controller',
-        'OAuth' => 'Artdarek\OAuth\Facade\OAuth',
+        'API'         => 'Dingo\Api\Facades\API',
+        'Controller'  => 'Dingo\Api\Routing\Controller',
+//        'OAuth' => 'Artdarek\OAuth\Facade\OAuth',
     ),
 
 );

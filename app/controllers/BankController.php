@@ -80,10 +80,11 @@ class BankController extends BaseController {
      * @return Response
      */
     public function update( $id ) {
-        if ( Input::get( 'undelete' ) == 'true' ) {
+        if ( Input::get( 'undelete' ) === 'true' ) {
             Bank::withTrashed()->where( 'id', $id )->restore();
         }
         $bank = Bank::find( $id );
+//        $bank = Bank::withTrashed()->where( 'id', $id )->first();
         if ( !$bank ) {
             throw new Symfony\Component\HttpKernel\Exception\NotFoundHttpException( "Bank not found." );
         }

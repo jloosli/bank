@@ -44,4 +44,4 @@ Route::api( [ 'version' => 'v1' ], function () {
 
 } );
 
-Route::any( 'oauth/google', 'AvantiDevelopment\JrBank\OauthController@loginWithGoogle' );
+Route::any( 'oauth/google', 'AvantiDevelopment\JrBank\Controllers\OauthController@loginWithGoogle' );

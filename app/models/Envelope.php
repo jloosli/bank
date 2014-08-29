@@ -1,10 +1,17 @@
 <?php
 namespace AvantiDevelopment\JrBank\Models;
 
+use Illuminate\Database\Eloquent\SoftDeletingTrait;
 use LaravelBook\Ardent\Ardent;
 
 class Envelope extends Ardent {
 
+    // For some reason, Ardent doesn't work with the softDelete Trait
+    // The following two lines should be uncommented when upgraded to 4.2 and Ardent is fixed
+//    use SoftDeletingTrait;
+//    protected $dates = ['deleted_at'];
+
+    // This should be deleted when ardent starts to work for this.
     protected $softDelete = true;
 
     protected $fillable = array( 'user_id', 'name', 'goal', 'goal_date', 'percent', 'default_spend' );

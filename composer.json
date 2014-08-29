@@ -6,15 +6,15 @@
 	"require": {
 		"laravel/framework": "4.1.*",
         "way/generators": "dev-master",
-        "laravelbook/ardent": "dev-master",
+        "laravelbook/ardent": "2.4.*",
         "dingo/api": "0.*",
         "doctrine/dbal": "~2.3",
-        "artdarek/oauth-4-laravel": "dev-master",
-        "google/apiclient": "1.0.*@beta"
+        "google/apiclient": "1.0.*@beta",
+		"firebase/php-jwt": "1.0.*"
     },
     "require-dev": {
         "mockery/mockery": "dev-master@dev",
-        "phpunit/phpunit": "4.2.x-dev",
+        "phpunit/phpunit": "4.3.*",
         "barryvdh/laravel-ide-helper": "1.*"
     },
 	"autoload": {

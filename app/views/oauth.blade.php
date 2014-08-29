@@ -12,9 +12,9 @@
         <?php var_dump($result); ?>
     </div>
 <script>
-window.opener.angular.element('#loginForm').scope().login.storeToken('{{$token}}');
+window.opener.postMessage({oauth_token: 'asdfnl;324n', oauth_verifier: 'google'},window.opener.location);
 setTimeout(function(){
-    self.close();
+//    self.close();
     },
     5000);
 </script>

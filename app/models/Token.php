@@ -4,31 +4,42 @@
 
 class Token extends Eloquent {
 
-	protected $collection = 'tokens';
+    protected $collection = 'tokens';
 
-    protected $guarded = array('key');
+    protected $guarded = array( 'key' );
 
-	public static function getInstance() {
+    public static function getInstance() {
         $token = new Token();
-		do {
-			 $key = openssl_random_pseudo_bytes ( 30 , $strongEnough );
-		} while( !$strongEnough );
-        $token->key = base64_encode($key);
+        do {
+            $key = openssl_random_pseudo_bytes( 30, $strongEnough );
+        } while ( !$strongEnough );
+        $token->key = base64_encode( $key );
 
         return $token;
     }
 
-    public static function userFor($token) {
-    	$token = Token::where('key', '=', $token)->first();
-    	if ( empty($token) ) return null;
+    public static function userFor( $token ) {
+        $token = Token::where( 'key', '=', $token )->first();
+        if ( empty( $token ) ) {
+            return null;
+        }
 
-    	return User::find($token->user_id);
+        return User::find( $token->user_id );
     }
 
     public static function isUserToken( $user_id, $token ) {
-    	return Token::where('user_id', '=', $user_id)
-        			->where('key', '=', $token)
-        			->exists();
+        return Token::where( 'user_id', '=', $user_id )
+                    ->where( 'key', '=', $token )
+                    ->exists();
+    }
+
+    public function google() {
+        $client = new Google_Client();
+        $client->setClientId($client_id);
+        $client->setClientSecret($client_secret);
+        $client->setRedirectUri($redirect_uri);
+
+
     }
 
 
