@@ -12,8 +12,14 @@ angular.module('jrbank')
     .config(function($authProvider) {
         $authProvider.google({
             clientId: '554520232798-g78ah8n025muphdv0tddf6de3baje83k.apps.googleusercontent.com',
-            redirectUri: window.location.origin + '/auth/google', //window.location.pathname, // + '/oauth/google', //+ window.location.pathname,
-            url: window.location.origin + 'index.html#/user/login' //.origin + window.location.pathname // '/oauth/google'
+            redirectUri: window.location.origin + '/dev/index.html', //window.location.pathname, // + '/oauth/google', //+ window.location.pathname,
+            url: window.location.origin + '/auth/google' //.origin + window.location.pathname // '/oauth/google'
+        });
+        $authProvider.github({
+            clientId: 'ef17c21a425f8310c1ab',
+            redirectUri: window.location.origin + '/dev/index.html', //window.location.pathname, // + '/oauth/google', //+ window.location.pathname,
+            url: window.location.origin + '/auth/github' //.origin + window.location.pathname // '/oauth/google'
+
         });
     })
     .config(function ($stateProvider, $urlRouterProvider) {

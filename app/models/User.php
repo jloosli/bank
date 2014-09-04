@@ -28,16 +28,12 @@ class User extends Ardent implements UserInterface, RemindableInterface {
         return $this->belongsTo( 'AvantiDevelopment\JrBank\Models\Bank' );
     }
 
-    public function oauth() {
-        return $this->hasMany( 'AvantiDevelopment\JrBank\Models\Oauth' );
-    }
-
     public function envelopes() {
         return $this->hasMany( 'AvantiDevelopment\JrBank\Models\Envelope' );
     }
 
     public function sessions() {
-        return $this->hasMany('Token');
+        return $this->hasMany( 'Token' );
     }
 
 
@@ -57,7 +53,7 @@ class User extends Ardent implements UserInterface, RemindableInterface {
      * Ardent validation rules
      */
     public static $rules = array(
-        'username' => 'required|between:4,16',
+        'username' => 'required|between:4,100',
         'email'    => 'required|email',
         'password' => 'min:3',
         'bank_id'  => 'required|numeric',
@@ -74,17 +70,7 @@ class User extends Ardent implements UserInterface, RemindableInterface {
     protected static $authRules = array(
         'email'    => 'required|email',
         'password' => 'required',
-        // 'device_id'				=>	'required',
-        // 'device_type'			=>	'required',
-        // 'device_token'			=>	'required',
     );
-    protected static $fb_authRules = array(
-        'access_token' => 'required',
-        // 'device_id'				=>	'required',
-        // 'device_type'			=>	'required',
-        // 'device_token'			=>	'required',
-    );
-
 
     public static function boot() {
         parent::boot();
@@ -115,7 +101,17 @@ class User extends Ardent implements UserInterface, RemindableInterface {
      *
      * @var array
      */
-    protected $hidden = array( 'password', 'deleted_at', 'token' );
+    protected $hidden = array(
+        'password',
+        'deleted_at',
+        'token',
+        'foursquare',
+        'github',
+        'google',
+        'linkedin',
+        'twitter',
+        'facebook'
+    );
 
     /**
      * Get the unique identifier for the user.
@@ -138,12 +134,13 @@ class User extends Ardent implements UserInterface, RemindableInterface {
         return self::$authRules;
     }
 
-    public function isOwnerOf($token) {
+    public function isOwnerOf( $token ) {
         $owner = Token::userFor( $token );
-        if ( empty($owner) || $owner->user_id!=$this->id )
+        if ( empty( $owner ) || $owner->user_id != $this->id ) {
             return false;
-        else
+        } else {
             return true;
+        }
     }
 
     /**
@@ -151,23 +148,22 @@ class User extends Ardent implements UserInterface, RemindableInterface {
      *
      * @return mixed
      */
-    public function login( $device_id=null, $device_type=null, $device_token=null ) {
+    public function login( $device_id = null, $device_type = null, $device_token = null ) {
 
         // clear old sessions for any user with: same(device_id, os)
-        $to_remove = Token::where('device_id', '=', $device_id)
-                          ->where('device_os', '=', $device_type)
+        $to_remove = Token::where( 'device_id', '=', $device_id )
+                          ->where( 'device_os', '=', $device_type )
                           ->delete();
 
-        $token = Token::getInstance();
-        $token->user_id	= $this->id;
-        $token->device_id = $device_id;
-        $token->device_os =	$device_type;
+        $token               = Token::getInstance();
+        $token->user_id      = $this->id;
+        $token->device_id    = $device_id;
+        $token->device_os    = $device_type;
         $token->device_token = $device_token;
         $token->save();
 
         return $token;
     }
-
 
 
     /**

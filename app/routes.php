@@ -50,7 +50,7 @@ Route::post('auth/signup', 'AuthController@signup');
 Route::post('auth/facebook', 'AuthController@facebook');
 Route::post('auth/foursquare', 'AuthController@foursquare');
 Route::post('auth/github', 'AuthController@github');
-Route::any('auth/google', 'AuthController@google');
+Route::post('auth/google', 'AuthController@google');
 Route::post('auth/linkedin', 'AuthController@linkedin');
 Route::get('auth/twitter', 'AuthController@twitter');
 Route::get('auth/unlink/{provider}', array('before' => 'auth', 'uses' => 'AuthController@unlink'));

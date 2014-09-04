@@ -1,6 +1,8 @@
 <?php
 
 use GuzzleHttp\Subscriber\Oauth\Oauth1;
+use AvantiDevelopment\JrBank\Models\User;
+use AvantiDevelopment\JrBank\Models\Oauth;
 
 class AuthController extends \BaseController {
 
@@ -18,39 +20,38 @@ class AuthController extends \BaseController {
         return Response::json(array('token' => $this->createToken($user)));
     }
 
-    public function login()
-    {
-        $email = Input::get('email');
-        $password = Input::get('password');
+    protected function link ($provider, $token) {
 
-        $user = User::where('email', '=', $email)->first();
+    }
 
-        if (!$user)
-        {
-            return Response::json(array('message' => 'Wrong email and/or password'), 401);
+    public function login() {
+        $email    = Input::get( 'email' );
+        $password = Input::get( 'password' );
+
+        $user = User::where( 'email', '=', $email )->first();
+
+        if ( !$user ) {
+            return Response::json( array( 'message' => 'Wrong email and/or password' ), 401 );
         }
 
-        if (Hash::check($password, $user->password))
-        {
+        if ( Hash::check( $password, $user->password ) ) {
             // The passwords match...
-            unset($user->password);
-            return Response::json(array('token' => $this->createToken($user)));
-        }
-        else
-        {
-            return Response::json(array('message' => 'Wrong email and/or password'), 401);
+            unset( $user->password );
+
+            return Response::json( array( 'token' => $this->createToken( $user ) ) );
+        } else {
+            return Response::json( array( 'message' => 'Wrong email and/or password' ), 401 );
         }
     }
 
-    public function signup()
-    {
-        $user = new User;
-        $user->displayName = Input::get('displayName');
-        $user->email = Input::get('email');
-        $user->password = Hash::make(Input::get('password'));
+    public function signup() {
+        $user              = new User;
+        $user->displayName = Input::get( 'displayName' );
+        $user->email       = Input::get( 'email' );
+        $user->password    = Hash::make( Input::get( 'password' ) );
         $user->save();
 
-        return Response::make(200);
+        return Response::make( 200 );
     }
 
     public function facebook()
@@ -124,21 +125,16 @@ class AuthController extends \BaseController {
 
         $params = array(
             'code' => Input::get('code'),
-            'client_id' => $_ENV['OAUTH.Google.client_id'], //Input::get('clientId'),
-            'redirect_uri' => 'http://loosli.chickenkiller.com/bob', //Input::get('redirectUri'),
+            'client_id' => Input::get('clientId'),
+            'redirect_uri' => Input::get('redirectUri'),
             'grant_type' => 'authorization_code',
-            'client_secret' => $_ENV['OAUTH.Google.client_secret'] //Config::get('secrets.GOOGLE_SECRET')
+            'client_secret' => $_ENV['secrets.GOOGLE_SECRET']
         );
 
-            $client = new GuzzleHttp\Client();
+        $client = new GuzzleHttp\Client();
+
         // Step 1. Exchange authorization code for access token.
-        try {
-            $accessTokenResponse = $client->post( $accessTokenUrl, [ 'body' => $params ] );
-        } catch (\GuzzleHttp\Exception\ClientException $e) {
-            echo $e->getRequest();
-            echo $e->getResponse();
-            dd($e);
-        }
+        $accessTokenResponse = $client->post($accessTokenUrl, ['body' => $params]);
         $accessToken = $accessTokenResponse->json()['access_token'];
 
         $headers = array('Authorization' => 'Bearer ' . $accessToken);
@@ -180,304 +176,282 @@ class AuthController extends \BaseController {
 
             $user = new User;
             $user->google = $profile['sub'];
-            $user->displayName = $profile['name'];
-            $user->save();
-
-            return Response::json(array('token' => $this->createToken($user)));
+            $user->name = $profile['name'];
+            $user->email = $profile['email'];
+            $user->bank_id = 1;
+            $user->username = $profile['email'];
+            if($user->save())
+                return Response::json(array('token' => $this->createToken($user)));
+            else {
+                return Response::json($user->errors()->all());
+            }
         }
     }
 
-    public function linkedin()
-    {
+    public function linkedin() {
         $accessTokenUrl = 'https://www.linkedin.com/uas/oauth2/accessToken';
-        $peopleApiUrl = 'https://api.linkedin.com/v1/people/~:(id,first-name,last-name)';
+        $peopleApiUrl   = 'https://api.linkedin.com/v1/people/~:(id,first-name,last-name)';
 
         $params = array(
-            'code' => Input::get('code'),
-            'client_id' => Input::get('clientId'),
-            'redirect_uri' => Input::get('redirectUri'),
-            'grant_type' => 'authorization_code',
-            'client_secret' => Config::get('secrets.LINKEDIN_SECRET'),
+            'code'          => Input::get( 'code' ),
+            'client_id'     => Input::get( 'clientId' ),
+            'redirect_uri'  => Input::get( 'redirectUri' ),
+            'grant_type'    => 'authorization_code',
+            'client_secret' => Config::get( 'secrets.LINKEDIN_SECRET' ),
         );
 
         $client = new GuzzleHttp\Client();
 
         // Step 1. Exchange authorization code for access token.
-        $accessTokenResponse = $client->post($accessTokenUrl, ['body' => $params]);
+        $accessTokenResponse = $client->post( $accessTokenUrl, [ 'body' => $params ] );
 
         $apiParams = array(
             'oauth2_access_token' => $accessTokenResponse->json()['access_token'],
-            'format' => 'json'
+            'format'              => 'json'
         );
 
         // Step 2. Retrieve profile information about the current user.
-        $peopleApiResponse = $client->get($peopleApiUrl, ['query' => $apiParams]);
-        $profile = $peopleApiResponse->json();
+        $peopleApiResponse = $client->get( $peopleApiUrl, [ 'query' => $apiParams ] );
+        $profile           = $peopleApiResponse->json();
 
         // Step 3a. If user is already signed in then link accounts.
-        if (Request::header('Authorization'))
-        {
-            $user = User::where('linkedin', '=', $profile['id']);
+        if ( Request::header( 'Authorization' ) ) {
+            $user = User::where( 'linkedin', '=', $profile['id'] );
 
-            if ($user->first())
-            {
-                return Response::json(array('message' => 'There is already a LinkedIn account that belongs to you'), 409);
+            if ( $user->first() ) {
+                return Response::json( array( 'message' => 'There is already a LinkedIn account that belongs to you' ), 409 );
             }
 
-            $token = explode(' ', Request::header('Authorization'))[1];
-            $payloadObject = JWT::decode($token, Config::get('secrets.TOKEN_SECRET'));
-            $payload = json_decode(json_encode($payloadObject), true);
+            $token         = explode( ' ', Request::header( 'Authorization' ) )[1];
+            $payloadObject = JWT::decode( $token, Config::get( 'secrets.TOKEN_SECRET' ) );
+            $payload       = json_decode( json_encode( $payloadObject ), true );
 
-            $user = User::find($payload['sub']);
-            $user->linkedin = $profile['id'];
+            $user              = User::find( $payload['sub'] );
+            $user->linkedin    = $profile['id'];
             $user->displayName = $user->displayName || $profile['firstName'] . ' ' . $profile['lastName'];
             $user->save();
 
-            return Response::json(array('token' => $this->createToken($user)));
-        }
-        // Step 3b. Create a new user account or return an existing one.
-        else
-        {
-            $user = User::where('linkedin', '=', $profile['id']);
+            return Response::json( array( 'token' => $this->createToken( $user ) ) );
+        } // Step 3b. Create a new user account or return an existing one.
+        else {
+            $user = User::where( 'linkedin', '=', $profile['id'] );
 
-            if ($user->first())
-            {
-                return Response::json(array('token' => $this->createToken($user)));
+            if ( $user->first() ) {
+                return Response::json( array( 'token' => $this->createToken( $user ) ) );
             }
 
-            $user = new User;
-            $user->linkedin = $profile['id'];
-            $user->displayName =  $profile['firstName'] . ' ' . $profile['lastName'];
+            $user              = new User;
+            $user->linkedin    = $profile['id'];
+            $user->displayName = $profile['firstName'] . ' ' . $profile['lastName'];
             $user->save();
 
-            return Response::json(array('token' => $this->createToken($user)));
+            return Response::json( array( 'token' => $this->createToken( $user ) ) );
         }
     }
 
-    public function twitter()
-    {
+    public function twitter() {
 
         $requestTokenUrl = 'https://api.twitter.com/oauth/request_token';
-        $accessTokenUrl = 'https://api.twitter.com/oauth/access_token';
+        $accessTokenUrl  = 'https://api.twitter.com/oauth/access_token';
         $authenticateUrl = 'https://api.twitter.com/oauth/authenticate';
 
         $client = new GuzzleHttp\Client();
 
-        if (!Request::get('oauth_token') || !Request::get('oauth_verifier'))
-        {
-            $oauth = new Oauth1([
-                'consumer_key' => Config::get('secrets.TWITTER_KEY'),
-                'consumer_secret' => Config::get('secrets.TWITTER_SECRET'),
-                'callback' => Config::get('secrets.TWITTER_CALLBACK')
-            ]);
+        if ( !Request::get( 'oauth_token' ) || !Request::get( 'oauth_verifier' ) ) {
+            $oauth = new Oauth1( [
+                'consumer_key'    => Config::get( 'secrets.TWITTER_KEY' ),
+                'consumer_secret' => Config::get( 'secrets.TWITTER_SECRET' ),
+                'callback'        => Config::get( 'secrets.TWITTER_CALLBACK' )
+            ] );
 
-            $client->getEmitter()->attach($oauth);
+            $client->getEmitter()->attach( $oauth );
 
             // Step 1. Obtain request token for the authorization popup.
-            $requestTokenResponse = $client->post($requestTokenUrl, ['auth' => 'oauth']);
+            $requestTokenResponse = $client->post( $requestTokenUrl, [ 'auth' => 'oauth' ] );
 
             $oauthToken = array();
-            parse_str($requestTokenResponse->getBody(), $oauthToken);
+            parse_str( $requestTokenResponse->getBody(), $oauthToken );
 
-            $params = http_build_query(array(
+            $params = http_build_query( array(
                 'oauth_token' => $oauthToken['oauth_token']
-            ));
+            ) );
 
             // Step 2. Redirect to the authorization screen.
-            return Redirect::to($authenticateUrl . '?' . $params);
-        }
-        else
-        {
-            $oauth = new Oauth1([
-                'consumer_key' => Config::get('secrets.TWITTER_KEY'),
-                'consumer_secret' => Config::get('secrets.TWITTER_SECRET'),
-                'token' => Request::get('oauth_token'),
-                'verifier' => Request::get('oauth_verifier')
-            ]);
+            return Redirect::to( $authenticateUrl . '?' . $params );
+        } else {
+            $oauth = new Oauth1( [
+                'consumer_key'    => Config::get( 'secrets.TWITTER_KEY' ),
+                'consumer_secret' => Config::get( 'secrets.TWITTER_SECRET' ),
+                'token'           => Request::get( 'oauth_token' ),
+                'verifier'        => Request::get( 'oauth_verifier' )
+            ] );
 
-            $client->getEmitter()->attach($oauth);
+            $client->getEmitter()->attach( $oauth );
 
             // Step 3. Exchange oauth token and oauth verifier for access token.
-            $accessTokenResponse = $client->post($accessTokenUrl, ['auth' => 'oauth']);
+            $accessTokenResponse = $client->post( $accessTokenUrl, [ 'auth' => 'oauth' ] );
 
             $profile = array();
-            parse_str($accessTokenResponse, $profile);
+            parse_str( $accessTokenResponse, $profile );
 
             // Step 4a. If user is already signed in then link accounts.
-            if (Request::header('Authorization'))
-            {
-                $user = User::where('twitter', '=', $profile['user_id']);
-                if ($user->first())
-                {
-                    return Response::json(array('message' => 'There is already a Twitter account that belongs to you'), 409);
+            if ( Request::header( 'Authorization' ) ) {
+                $user = User::where( 'twitter', '=', $profile['user_id'] );
+                if ( $user->first() ) {
+                    return Response::json( array( 'message' => 'There is already a Twitter account that belongs to you' ), 409 );
                 }
 
-                $token = explode(' ', Request::header('Authorization'))[1];
-                $payloadObject = JWT::decode($token, Config::get('secrets.TOKEN_SECRET'));
-                $payload = json_decode(json_encode($payloadObject), true);
+                $token         = explode( ' ', Request::header( 'Authorization' ) )[1];
+                $payloadObject = JWT::decode( $token, Config::get( 'secrets.TOKEN_SECRET' ) );
+                $payload       = json_decode( json_encode( $payloadObject ), true );
 
-                $user = User::find($payload['sub']);
-                $user->twitter = $profile['user_id'];
+                $user              = User::find( $payload['sub'] );
+                $user->twitter     = $profile['user_id'];
                 $user->displayName = $user->displayName || $profile['screen_name'];
                 $user->save();
 
-                return Response::json(array('token' => $this->createToken($user)));
-            }
-            // Step 4b. Create a new user account or return an existing one.
-            else
-            {
-                $user = User::where('twitter', '=', $profile['user_id']);
+                return Response::json( array( 'token' => $this->createToken( $user ) ) );
+            } // Step 4b. Create a new user account or return an existing one.
+            else {
+                $user = User::where( 'twitter', '=', $profile['user_id'] );
 
-                if ($user->first())
-                {
-                    return Response::json(array('token' => $this->createToken($user)));
+                if ( $user->first() ) {
+                    return Response::json( array( 'token' => $this->createToken( $user ) ) );
                 }
 
-                $user = new User;
-                $user->twitter = $profile['user_id'];
+                $user              = new User;
+                $user->twitter     = $profile['user_id'];
                 $user->displayName = $profile['screen_name'];
                 $user->save();
 
-                return Response::json(array('token' => $this->createToken($user)));
+                return Response::json( array( 'token' => $this->createToken( $user ) ) );
             }
 
         }
     }
 
-    public function foursquare()
-    {
+    public function foursquare() {
         $accessTokenUrl = 'https://foursquare.com/oauth2/access_token';
         $userProfileUrl = 'https://api.foursquare.com/v2/users/self';
 
         $params = array(
-            'code' => Input::get('code'),
-            'client_id' => Input::get('clientId'),
-            'redirect_uri' => Input::get('redirectUri'),
-            'grant_type' => 'authorization_code',
-            'client_secret' => Config::get('secrets.FOURSQUARE_SECRET')
+            'code'          => Input::get( 'code' ),
+            'client_id'     => Input::get( 'clientId' ),
+            'redirect_uri'  => Input::get( 'redirectUri' ),
+            'grant_type'    => 'authorization_code',
+            'client_secret' => Config::get( 'secrets.FOURSQUARE_SECRET' )
         );
 
         $client = new GuzzleHttp\Client();
 
         // Step 1. Exchange authorization code for access token.
-        $accessTokenResponse = $client->post($accessTokenUrl, ['body' => $params]);
-        $accessToken = $accessTokenResponse->json()['access_token'];
+        $accessTokenResponse = $client->post( $accessTokenUrl, [ 'body' => $params ] );
+        $accessToken         = $accessTokenResponse->json()['access_token'];
 
         $profileParams = array(
-            'v' => '20140806',
+            'v'           => '20140806',
             'oauth_token' => $accessToken
         );
 
         // Step 2. Retrieve profile information about the current user.
-        $profileResponse = $client->get($userProfileUrl, ['query' => $profileParams]);
+        $profileResponse = $client->get( $userProfileUrl, [ 'query' => $profileParams ] );
 
         $profile = $profileResponse->json()['response']['user'];
 
         // Step 3a. If user is already signed in then link accounts.
-        if (Request::header('Authorization'))
-        {
-            $user = User::where('foursquare', '=', $profile['id']);
-            if ($user->first())
-            {
-                return Response::json(array('message' => 'There is already a Foursquare account that belongs to you'), 409);
+        if ( Request::header( 'Authorization' ) ) {
+            $user = User::where( 'foursquare', '=', $profile['id'] );
+            if ( $user->first() ) {
+                return Response::json( array( 'message' => 'There is already a Foursquare account that belongs to you' ), 409 );
             }
 
-            $token = explode(' ', Request::header('Authorization'))[1];
-            $payloadObject = JWT::decode($token, Config::get('secrets.TOKEN_SECRET'));
-            $payload = json_decode(json_encode($payloadObject), true);
+            $token         = explode( ' ', Request::header( 'Authorization' ) )[1];
+            $payloadObject = JWT::decode( $token, Config::get( 'secrets.TOKEN_SECRET' ) );
+            $payload       = json_decode( json_encode( $payloadObject ), true );
 
-            $user = User::find($payload['sub']);
-            $user->foursquare = $profile['id'];
+            $user              = User::find( $payload['sub'] );
+            $user->foursquare  = $profile['id'];
             $user->displayName = $user->displayName || $profile['firstName'] . ' ' . $profile['lastName'];
             $user->save();
 
-            return Response::json(array('token' => $this->createToken($user)));
-        }
-        // Step 3b. Create a new user account or return an existing one.
-        else
-        {
-            $user = User::where('foursquare', '=', $profile['id']);
+            return Response::json( array( 'token' => $this->createToken( $user ) ) );
+        } // Step 3b. Create a new user account or return an existing one.
+        else {
+            $user = User::where( 'foursquare', '=', $profile['id'] );
 
-            if ($user->first())
-            {
-                return Response::json(array('token' => $this->createToken($user)));
+            if ( $user->first() ) {
+                return Response::json( array( 'token' => $this->createToken( $user ) ) );
             }
 
-            $user = new User;
-            $user->foursquare = $profile['id'];
-            $user->displayName =  $profile['firstName'] . ' ' . $profile['lastName'];
+            $user              = new User;
+            $user->foursquare  = $profile['id'];
+            $user->displayName = $profile['firstName'] . ' ' . $profile['lastName'];
             $user->save();
 
-            return Response::json(array('token' => $this->createToken($user)));
+            return Response::json( array( 'token' => $this->createToken( $user ) ) );
         }
     }
 
-    public function github()
-    {
+    public function github() {
         $accessTokenUrl = 'https://github.com/login/oauth/access_token';
-        $userApiUrl = 'https://api.github.com/user';
+        $userApiUrl     = 'https://api.github.com/user';
 
         $params = array(
-            'code' => Input::get('code'),
-            'client_id' => Input::get('clientId'),
-            'redirect_uri' => Input::get('redirectUri'),
-            'client_secret' => Config::get('secrets.GITHUB_SECRET')
+            'code'          => Input::get( 'code' ),
+            'client_id'     => Input::get( 'clientId' ),
+            'redirect_uri'  => Input::get( 'redirectUri' ),
+            'client_secret' => $_ENV['secrets.GITHUB_SECRET']
         );
 
         $client = new GuzzleHttp\Client();
 
         // Step 1. Exchange authorization code for access token.
-        $accessTokenResponse = $client->get($accessTokenUrl, ['query' => $params]);
+        $accessTokenResponse = $client->get( $accessTokenUrl, [ 'query' => $params ] );
 
         $accessToken = array();
-        parse_str($accessTokenResponse->getBody(), $accessToken);
+        parse_str( $accessTokenResponse->getBody(), $accessToken );
 
-        $headers = array('User-Agent' => 'Satellizer');
+        $headers = array( 'User-Agent' => 'Satellizer' );
 
         // Step 2. Retrieve profile information about the current user.
-        $userApiResponse = $client->get($userApiUrl, [
+        $userApiResponse = $client->get( $userApiUrl, [
             'headers' => $headers,
-            'query' => $accessToken
-        ]);
-        $profile = $userApiResponse->json();
+            'query'   => $accessToken
+        ] );
+        $profile         = $userApiResponse->json();
 
         // Step 3a. If user is already signed in then link accounts.
-        if (Request::header('Authorization'))
-        {
-            $user = User::where('github', '=', $profile['id']);
+        if ( Request::header( 'Authorization' ) ) {
+            $user = User::where( 'github', '=', $profile['id'] );
 
-            if ($user->first())
-            {
-                return Response::json(array('message' => 'There is already a GitHub account that belongs to you'), 409);
+            if ( $user->first() ) {
+                return Response::json( array( 'message' => 'There is already a GitHub account that belongs to you' ), 409 );
             }
 
-            $token = explode(' ', Request::header('Authorization'))[1];
-            $payloadObject = JWT::decode($token, Config::get('secrets.TOKEN_SECRET'));
-            $payload = json_decode(json_encode($payloadObject), true);
+            $token         = explode( ' ', Request::header( 'Authorization' ) )[1];
+            $payloadObject = JWT::decode( $token, Config::get( 'secrets.TOKEN_SECRET' ) );
+            $payload       = json_decode( json_encode( $payloadObject ), true );
 
-            $user = User::find($payload['sub']);
-            $user->github = $profile['id'];
+            $user              = User::find( $payload['sub'] );
+            $user->github      = $profile['id'];
             $user->displayName = $user->displayName || $profile['name'];
             $user->save();
 
-            return Response::json(array('token' => $this->createToken($user)));
-        }
-        // Step 3b. Create a new user account or return an existing one.
-        else
-        {
-            $user = User::where('github', '=', $profile['id']);
+            return Response::json( array( 'token' => $this->createToken( $user ) ) );
+        } // Step 3b. Create a new user account or return an existing one.
+        else {
+            $user = User::where( 'github', '=', $profile['id'] );
 
-            if ($user->first())
-            {
-                return Response::json(array('token' => $this->createToken($user)));
+            if ( $user->first() ) {
+                return Response::json( array( 'token' => $this->createToken( $user ) ) );
             }
 
-            $user = new User;
-            $user->github = $profile['id'];
+            $user              = new User;
+            $user->github      = $profile['id'];
             $user->displayName = $profile['name'];
             $user->save();
 
-            return Response::json(array('token' => $this->createToken($user)));
+            return Response::json( array( 'token' => $this->createToken( $user ) ) );
         }
     }
 

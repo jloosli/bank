@@ -10,7 +10,6 @@ namespace AvantiDevelopment\JrBank\Auth;
 
 
 use AvantiDevelopment\JrBank\Models\User;
-use AvantiDevelopment\JrBank\Oauth;
 use Dingo\Api\Auth\Provider;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
