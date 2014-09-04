@@ -1,15 +1,15 @@
 /*global ACCESS_LEVELS:true */
-angular.module('jrbank', ['ui.bootstrap', 'ui.utils', 'ui.router', 'ngAnimate','ngResource', 'Satellizer']);
+angular.module('jrbank', ['ui.bootstrap', 'ui.utils', 'ui.router', 'ngAnimate', 'ngResource', 'Satellizer']);
 
 angular.module('jrbank')
     .constant('ACCESS_LEVELS', {
-        pub: 0,
-        user: 1,
+        pub:    0,
+        user:   1,
         parent: 2,
-        super: 3
+        super:  3
     })
     .constant('API_URL', "/api/")
-    .config(function($authProvider) {
+    .config(function ($authProvider) {
         $authProvider.google({
             clientId: '554520232798-g78ah8n025muphdv0tddf6de3baje83k.apps.googleusercontent.com',
             redirectUri: window.location.origin + '/dev/index.html', //window.location.pathname, // + '/oauth/google', //+ window.location.pathname,
@@ -23,26 +23,25 @@ angular.module('jrbank')
         });
     })
     .config(function ($stateProvider, $urlRouterProvider) {
-    'use strict';
+        'use strict';
         $stateProvider.state('accounts', {
-            url: '/accounts',
+            url:         '/accounts',
             templateUrl: 'accounts/accounts-list/accounts-list.html',
-            controller: 'AccountsListCtrl as accounts'
+            controller:  'AccountsListCtrl as accounts'
         });
-    $stateProvider.state('login', {
-        url: '/user/login',
-        templateUrl: 'partial/login/login.html'
-    });
-    /* Add New States Above */
-    $urlRouterProvider.otherwise('/home');
+        $stateProvider.state('login', {
+            url:         '/user/login',
+            templateUrl: 'partial/login/login.html'
+        });
+        /* Add New States Above */
+        $urlRouterProvider.otherwise('/home');
 
-});
+    });
 
 angular.module('jrbank').run(function ($rootScope, $http, authService) {
     'use strict';
 
     authService.init();
-
 
 
     $rootScope.safeApply = function (fn) {
@@ -59,5 +58,5 @@ angular.module('jrbank').run(function ($rootScope, $http, authService) {
 });
 
 /*
-Trying to follow @link http://toddmotto.com/opinionated-angular-js-styleguide-for-teams/
+ Trying to follow @link http://toddmotto.com/opinionated-angular-js-styleguide-for-teams/
  */

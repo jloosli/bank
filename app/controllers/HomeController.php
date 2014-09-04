@@ -6,7 +6,7 @@ class HomeController extends BaseController {
     {
         $public = public_path();
         $idx = File::get( $public . '/dev/index.html' );
-        return Redirect::to('/dev/index.html');
+        return $idx; //Redirect::to('/dev/index.html');
     }
 
 }

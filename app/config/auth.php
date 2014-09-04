@@ -15,8 +15,8 @@ return array(
 	|
 	*/
 
-	'driver' => 'avantiAuth',
-//	'driver' => 'eloquent',
+//	'driver' => 'avantiAuth',
+	'driver' => 'eloquent',
 
 	/*
 	|--------------------------------------------------------------------------

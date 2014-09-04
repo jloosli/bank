@@ -106,7 +106,6 @@ return array(
         'Way\Generators\GeneratorsServiceProvider',
         'Dingo\Api\ApiServiceProvider',
         'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
-        'Artdarek\OAuth\OAuthServiceProvider'
     ),
     /*
     |--------------------------------------------------------------------------
@@ -172,7 +171,6 @@ return array(
         'View'        => 'Illuminate\Support\Facades\View',
         'API'         => 'Dingo\Api\Facades\API',
         'Controller'  => 'Dingo\Api\Routing\Controller',
-        'OAuth' => 'Artdarek\OAuth\Facade\OAuth',
     ),
 
 );

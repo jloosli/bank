@@ -174,6 +174,16 @@ class AuthController extends \BaseController {
                 return Response::json(array('token' => $this->createToken($user)));
             }
 
+            $user = User::where('email','=',$profile['email']);
+
+            if($user->first()) {
+                $user = $user->first();
+                $user->google = $profile['sub'];
+                $user->save();
+                return Response::json(array('token' => $this->createToken($user)));
+            }
+
+            return Response::json(['error' => 'No account associated with ' . $profile['email']],400);
             $user = new User;
             $user->google = $profile['sub'];
             $user->name = $profile['name'];
