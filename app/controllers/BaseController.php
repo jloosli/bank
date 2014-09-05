@@ -25,7 +25,7 @@ class BaseController extends Controller {
             'user' => $user->first()->toArray()
         );
 
-        return JWT::encode($payload, Config::get('secrets.TOKEN_SECRET'));
+        return JWT::encode($payload, $_ENV['token']);
     }
 
 

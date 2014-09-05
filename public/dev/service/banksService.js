@@ -3,32 +3,37 @@
     /*
     @ngInject
      */
-    function banksService ($resource, API_URL) {
+    function banksService ($resource, $auth, $rootScope, API_URL) {
         "use strict";
-        var svc = {},
-            currentBank = null;
+        var svc = {};
+
+        function currentBank () {
+            if($auth.isAuthenticated()) {
+                var user = $rootScope.currentUser;
+                return user.bank_id;
+            }
+            return 0;
+        }
 
         svc.bank = function () {
             return $resource(API_URL + ':bank_id');
         };
 
-        svc.user = function () {
-            return $resource(API_URL + currentBank + '/users/:user_id');
+        svc.users = function (user_id) {
+            return $resource(API_URL + 'banks/' + currentBank() + '/users/:user_id', {
+                "user_id": user_id || ''
+            });
+        };
+
+        svc.transactions = function(user_id) {
+            return $resource(API_URL  + 'banks/' + currentBank() + '/users/:user_id/transactions', {
+                "user_id": user_id
+            })
         };
 
         svc.envelopes = function (user_id) {
-            return $resource(API_URL + currentBank + '/users/' + user_id + '/envelopes/:envelope_id');
+            return $resource(API_URL + currentBank() + '/users/' + user_id + '/envelopes/:envelope_id');
         };
-
-        svc.setBank = function (bank_id) {
-            currentBank = bank_id;
-        };
-
-        svc.clearBank = function() {
-            currentBank = null;
-        };
-
-
 
         return svc;
     }

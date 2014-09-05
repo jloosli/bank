@@ -33,6 +33,14 @@ angular.module('jrbank')
                     access: ACCESS_LEVELS.user
                 }
             })
+            .state('account-details', {
+                url:         '/accounts/:id',
+                templateUrl: 'accounts/account-details/account-details.html',
+                controller: 'AccountDetailsCtrl as accountDetails',
+                data: {
+                    access: ACCESS_LEVELS.user
+                }
+            })
             .state('login', {
                 url:         '/user/login',
                 templateUrl: 'partial/login/login.html',
@@ -49,8 +57,9 @@ angular.module('jrbank')
                     access: ACCESS_LEVELS.pub
                 }
             });
+
         /* Add New States Above */
-        $urlRouterProvider.otherwise('/home');
+        $urlRouterProvider.otherwise('/accounts');
 
     });
 
