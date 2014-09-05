@@ -41,6 +41,14 @@ angular.module('jrbank')
                     access: ACCESS_LEVELS.user
                 }
             })
+            .state('account-details.transaction-add', {
+                url: '/add',
+                templateUrl: 'accounts/transaction-add/transaction-add.html',
+                controller: 'TransactionAddCtrl as transactionAdd',
+                data: {
+                    access: ACCESS_LEVELS.user
+                }
+            })
             .state('login', {
                 url:         '/user/login',
                 templateUrl: 'partial/login/login.html',
@@ -57,6 +65,7 @@ angular.module('jrbank')
                     access: ACCESS_LEVELS.pub
                 }
             });
+
 
         /* Add New States Above */
         $urlRouterProvider.otherwise('/accounts');

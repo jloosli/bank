@@ -1,0 +1,17 @@
+<div>
+    <h1>Details</h1>
+
+    <ui-view></ui-view>
+
+    <div class="row touchable">
+        <div class="col-sm-4">Date</div>
+        <div class="col-sm-4">Description</div>
+        <div class="col-sm-4">Amount</div>
+    </div>
+    <div class="row touchable" ng-repeat="transaction in accountDetails.transactions track by transaction.id" ng-click="hidden=!hidden" ng-init="hidden=true">
+        <div class="col-sm-4">{{transaction.created}}</div>
+        <div class="col-sm-4">{{transaction.description}}</div>
+        <div class="col-sm-4">{{transaction.amount}}</div>
+        <div class="row" ng-hide="hidden">This is hidden</div>
+    </div>
+</div>
