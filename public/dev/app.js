@@ -31,7 +31,8 @@ angular.module('jrbank')
         });
         $stateProvider.state('login', {
             url:         '/user/login',
-            templateUrl: 'partial/login/login.html'
+            templateUrl: 'partial/login/login.html',
+            controller: 'LoginCtrl as login'
         });
         /* Add New States Above */
         $urlRouterProvider.otherwise('/home');
