@@ -13,7 +13,6 @@
 
         this.transactions = [];
         banksService.transactions($stateParams.id).get().$promise.then(function (results) {
-                console.log(results);
                 var transactions = _.each(results.data, function (item) {
                     console.log(item);
                     var created = moment(item.created_at);
@@ -24,7 +23,12 @@
                 });
                 self.transactions = transactions;
             }
-        )
+        );
+
+        banksService.users($stateParams.id).get().$promise.then(function(results) {
+            console.log(results);
+            self.user = results.users[0];
+        });
     }
 
     angular.module('jrbank').controller('AccountDetailsCtrl', AccountDetailsCtrl);
