@@ -2,9 +2,31 @@
     /*
      @ngInject
      */
-    function authService($http, $q, API_URL) {
+    function authService($http, $q, $rootScope, API_URL, ACCESS_LEVELS) {
 
         var svc = {};
+
+        function accessLevel() {
+            if(!$rootScope.currentUser) {
+                return 0;
+            } else if ($rootScope.currentUser) {
+                switch ($rootScope.currentUser.user_type) {
+                    case 'user':
+                        return 1;
+                    case 'admin':
+                    case 'parent':
+                        return 2;
+                    case 'super-admin':
+                        return 3;
+                    default:
+                        return 0;
+                }
+            }
+        }
+
+        svc.checkAccess = function (routeAccess) {
+            return accessLevel() >= routeAccess;
+        };
 
         svc.init = function () {
             if(!!this.getToken()) {

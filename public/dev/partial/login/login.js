@@ -4,12 +4,13 @@
      * @ngInject
      * @constructor
      */
-    function LoginCtrl($auth, authService) {
+    function LoginCtrl($auth, $state) {
         'use strict';
         var self = this;
         this.authenticate = function (provider) {
             $auth.authenticate(provider).then(function () {
                 console.log('authenticated!');
+                $state.go('accounts')
             })
                 .catch(function (response) {
                     console.log(response.data);
