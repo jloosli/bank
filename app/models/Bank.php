@@ -20,12 +20,11 @@ class Bank extends Eloquent {
     protected $hidden = [ 'password' ];
     protected $guarded = [ 'id', 'deleted_at' ];
     protected $fillable = [ 'name', 'password', 'interest', 'compounding' ];
-//    protected $softDelete = true;
 
     protected $rules = [
         'name'        => 'required|unique:banks,name',
         'password'    => 'required',
-        'compounding' => 'required'
+        'compounding' => 'required',
     ];
 
     public function users() {

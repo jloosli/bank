@@ -17,8 +17,9 @@ class BankController extends BaseController {
             $banks = $banks->withTrashed();
         }
         if ( $user && $user->user_type !== 'super-admin' ) {
-            $banks = $banks->where('id',$user->bank_id);
+            $banks = $banks->where( 'id', $user->bank_id );
         }
+
         return $banks->get();
     }
 
@@ -35,17 +36,19 @@ class BankController extends BaseController {
         $bank->slug        = Input::get( 'slug', Str::slug( $bank->name ) );
         $bank->password    = Hash::make( Input::get( 'password' ) );
         $bank->interest    = Input::get( 'interest', 0 );
-        $bank->compounding = Input::get( 'compounding' );
+        if (Input::get( 'compounding' )) {
+            $bank->compounding = Input::get( 'compounding' );
+        }
 
-        if ( $bank->save() ) {
-            return Response::api()->withArray( [
-                'success' => true,
-                'message' => "{$bank->name} saved Successfully",
-                'data'    => $bank->toArray()
-            ] );
-        } else {
+        if ( !$bank->save() ) {
             throw new Dingo\Api\Exception\StoreResourceFailedException( 'Could not create Bank.', $bank->errors() );
         }
+
+        return Response::api()->withArray( [
+            'success' => true,
+            'message' => "{$bank->name} saved Successfully",
+            'data'    => $bank->toArray()
+        ] );
     }
 
 
