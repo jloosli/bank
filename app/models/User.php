@@ -2,17 +2,17 @@
 
 namespace AvantiDevelopment\JrBank\Models;
 
+use Eloquent;
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
-use LaravelBook\Ardent\Ardent;
 
-class User extends Ardent implements UserInterface, RemindableInterface {
+class User extends Eloquent implements UserInterface, RemindableInterface {
 
     // For some reason, Ardent doesn't work with the softDelete Trait
     // The following two lines should be uncommented when upgraded to 4.2 and Ardent is fixed
-//    use SoftDeletingTrait;
-//    protected $dates = ['deleted_at'];
+    use SoftDeletingTrait;
+    protected $dates = ['deleted_at'];
 
     // This should be deleted when ardent starts to work for this.
     protected $softDelete = true;

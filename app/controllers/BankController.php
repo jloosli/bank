@@ -37,7 +37,7 @@ class BankController extends BaseController {
         $bank->interest    = Input::get( 'interest', 0 );
         $bank->compounding = Input::get( 'compounding' );
 
-        if ( $bank->updateUniques() ) {
+        if ( $bank->save() ) {
             return Response::api()->withArray( [
                 'success' => true,
                 'message' => "{$bank->name} saved Successfully",
@@ -94,7 +94,7 @@ class BankController extends BaseController {
         $bank->update( $inputs );
 
 
-        if ( $bank->updateUniques() ) {
+        if ( $bank->save() ) {
             return Response::api()->withArray( [
                 'success' => true,
                 'message' => "{$bank->name} updated Successfully",

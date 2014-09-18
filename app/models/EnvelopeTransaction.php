@@ -4,9 +4,10 @@ namespace AvantiDevelopment\JrBank\Models;
 
 
 
-use LaravelBook\Ardent\Ardent;
 
-class EnvelopeTransaction extends Ardent {
+use Eloquent;
+
+class EnvelopeTransaction extends Eloquent {
     protected $table = 'envelope_transactions';
 
 	protected $guarded = array();

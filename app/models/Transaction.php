@@ -1,8 +1,10 @@
 <?php
 
 namespace AvantiDevelopment\JrBank\Models;
-use LaravelBook\Ardent\Ardent;
-class Transaction extends Ardent {
+
+use Eloquent;
+
+class Transaction extends Eloquent {
     protected $table = "transactions";
 
     protected $fillable = array('user_id','description','amount');

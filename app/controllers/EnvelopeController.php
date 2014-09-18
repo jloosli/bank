@@ -108,7 +108,7 @@ class EnvelopeController extends BaseController {
         $envelope->update( $inputs );
 
 
-        if ( $envelope->updateUniques() ) {
+        if ( $envelope->save() ) {
             return Response::api()->withArray( [
                 'success' => true,
                 'message' => "{$envelope->name} updated Successfully",

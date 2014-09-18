@@ -117,7 +117,7 @@ class UserController extends \BaseController {
         $user->update( $inputs );
 
 
-        if ( $user->updateUniques() ) {
+        if ( $user->save() ) {
             return Response::api()->withArray( [
                 'success' => true,
                 'message' => "{$user->name} updated Successfully",
