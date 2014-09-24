@@ -17,20 +17,23 @@
         <ui-view></ui-view>
     </div>
     <a ui-sref-active="hidden" ui-sref="account-details.transaction-add" class="btn btn-default">Add Transaction</a>
-    <div class="row">
-        <h2>Details</h2>
 
-        <div class="row touchable">
-            <div class="col-sm-4">Date</div>
-            <div class="col-sm-4">Description</div>
-            <div class="col-sm-4">Amount</div>
-        </div>
-        <div class="row touchable" ng-repeat="transaction in accountDetails.transactions track by transaction.id"
-             ng-click="hidden=!hidden" ng-init="hidden=true">
-            <div class="col-sm-4">{{transaction.created}}</div>
-            <div class="col-sm-4">{{transaction.description}}</div>
-            <div class="col-sm-4">{{transaction.amount}}</div>
-            <div class="row" ng-hide="hidden">This is hidden</div>
+    <div class="row">
+        <div class="col-xs-12">
+            <h2>Details</h2>
+
+            <div class="row touchable">
+                <div class="col-xs-4">Date</div>
+                <div class="col-xs-4">Description</div>
+                <div class="col-xs-4">Amount</div>
+            </div>
+            <div class="row touchable" ng-repeat="transaction in accountDetails.transactions track by transaction.id"
+                 ng-click="hidden=!hidden" ng-init="hidden=true">
+                <div class="col-xs-4">{{transaction.created}}</div>
+                <div class="col-xs-4">{{transaction.description}}</div>
+                <div class="col-xs-4">{{transaction.amount}}</div>
+                <div class="row" ng-hide="hidden">This is hidden</div>
+            </div>
         </div>
     </div>
 </div>
