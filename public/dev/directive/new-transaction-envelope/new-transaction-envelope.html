@@ -1,4 +1,7 @@
 <div>
-New Transaction Envelope {{envelope | json}} {{transaction | json}} {{total | json}}
+{{envelope.name}} {{envelope.percent}}%
 
+<input type="number" ng-model="envelope.amount" />
+
+    {{transaction}}
 </div>

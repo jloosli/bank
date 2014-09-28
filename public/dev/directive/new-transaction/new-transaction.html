@@ -1,6 +1,6 @@
 <div>
     <h2>New Transaction tpl</h2>
     <input type="number" ng-model="trans.amount"/>
-<new-transaction-envelope envelope="envelope" transaction="trans" ng-repeat="envelope in envelopes track by envelope.id"></new-transaction-envelope>
+<new-transaction-envelope envelope="envelope" transaction="{{trans.amount}}" ng-repeat="envelope in envelopes track by envelope.id"></new-transaction-envelope>
 
 </div>

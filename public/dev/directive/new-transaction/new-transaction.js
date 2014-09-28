@@ -1,7 +1,7 @@
 /*
  @ngInject
  */
-function newTransactionCtrl() {
+function newTransactionCtrl($scope) {
     var self = this;
     this.envelopes = [];
 
@@ -10,13 +10,18 @@ function newTransactionCtrl() {
     };
 
     this.onTransChange = _.debounce(function (amount) {
-        console.log(amount);
         amount = amount || 0;
-        self.envelopes = _.map(self.envelopes, function (env) {
-            env.amount = Math.round(env.percent * amount ) / 100;
-            return env;
+
+        $scope.$apply(function() {
+            self.envelopes = _.map(self.envelopes, function (env) {
+                if(amount >= 0 ) {
+                    env.amount = Math.round(env.percent * amount) / 100;
+                } else {
+                        env.amount = env.default_spend ? amount : 0;
+                }
+                return env;
+            });
         });
-        console.log(self.envelopes);
     }, 150);
 }
 
