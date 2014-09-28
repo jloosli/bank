@@ -9,15 +9,33 @@ describe('newTransaction', function() {
     compile = $compile;
   }));
 
-  it('should ...', function() {
+  it('should add envelopes', function() {
 
-    /* 
-    To test your directive, you need to create some html that would use your directive,
-    send that through compile() then compare the results.
-
-    var element = compile('<div mydirective name="name">hi</div>')(scope);
-    expect(element.text()).toBe('hello, world');
-    */
-
+      var envelopes = [
+          {
+              id: 1,
+              user_id: '1',
+              name: "Spending",
+              percent: 30,
+              default_spend: true
+          },
+          {
+              id: 2,
+              user_id: '1',
+              name: "Tithing",
+              percent: 10,
+              default_spend: false
+          },
+          {
+              id: 3,
+              user_id: '1',
+              name: "Savings",
+              percent: 60,
+              default_spend: false
+          }
+      ];
+      _.each(envelopes, function(env) {
+          newTransactionCtrl.addEnvelope(env);
+      });
   });
 });

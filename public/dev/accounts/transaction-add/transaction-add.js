@@ -21,6 +21,6 @@ angular.module('jrbank').controller('TransactionAddCtrl',function($scope){
             percent: 60,
             default_spend: false
         }
-    ]
+    ];
 
 });

@@ -9,7 +9,8 @@ describe('newTransactionEnvelope', function() {
     compile = $compile;
   }));
 
-  it('should ...', function() {
+  it('should add envelopes', function() {
+
 
     /* 
     To test your directive, you need to create some html that would use your directive,
