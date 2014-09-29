@@ -1,7 +1,23 @@
 <div>
-{{envelope.name}} {{envelope.percent}}%
-
-<input type="number" ng-model="envelope.amount" />
-
-    {{transaction}}
+    <div class="form-group">
+        <label class="col-sm-4 col-lg-push-2 control-label" for="envelope_{{envelope.id}}">
+            {{envelope.name}} {{envelope.percent}}%
+        </label>
+        <div class="col-sm-8 col-lg-6 col-lg-push-2">
+            <div class="input-group">
+            <input class="form-control" required
+                   id="envelope_{{envelope.id}}" name="envelope_{{envelope.id}}"
+                   type="number" step="any"
+                   ng-model="envelope.amount"
+                   ng-change="envelopeChange()"
+                    />
+            <span class="input-group-btn"><button class="btn btn-default" ng-click="clearEnvelope(envelope.id)"
+                                                  title="Click to clear out envelope amount"
+                    >X</button></span>
+            <span class="input-group-btn"><button class="btn btn-default" ng-click="calcEnvelope(envelope.id)"
+                                                  ng-class="{'btn-info': !balanced}" title="Click to balance envelopes"
+                    >Calc</button></span>
+            </div>
+        </div>
+    </div>
 </div>

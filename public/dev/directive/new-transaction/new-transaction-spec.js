@@ -34,8 +34,5 @@ describe('newTransaction', function() {
               default_spend: false
           }
       ];
-      _.each(envelopes, function(env) {
-          newTransactionCtrl.addEnvelope(env);
-      });
   });
 });

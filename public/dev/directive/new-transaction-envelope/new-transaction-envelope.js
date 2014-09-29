@@ -4,12 +4,17 @@ angular.module('jrbank').directive('newTransactionEnvelope', function() {
 		restrict: 'E',
 		replace: true,
 		scope: {
-            envelope: '='
+            envelope: '=',
+            balanced: '='
 		},
 		templateUrl: 'directive/new-transaction-envelope/new-transaction-envelope.html',
 		link: function(scope, element, attrs, newTransactionCtrl) {
             newTransactionCtrl.addEnvelope(scope.envelope);
+            scope.clearEnvelope = newTransactionCtrl.clearEnvelope;
+            scope.calcEnvelope = newTransactionCtrl.calcEnvelope;
+            scope.envelopeChange = newTransactionCtrl.onValueChange;
 		},
-        require: '^newTransaction'
+        require: '^newTransaction',
+        controllerAs: 'newTransaction'
 	};
 });

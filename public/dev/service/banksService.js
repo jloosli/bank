@@ -28,7 +28,7 @@
         svc.transactions = function(user_id) {
             return $resource(API_URL  + 'banks/' + currentBank() + '/users/:user_id/transactions', {
                 "user_id": user_id
-            })
+            });
         };
 
         svc.envelopes = function (user_id) {

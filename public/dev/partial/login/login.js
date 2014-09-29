@@ -10,7 +10,7 @@
         this.authenticate = function (provider) {
             $auth.authenticate(provider).then(function () {
                 console.log('authenticated!');
-                $state.go('accounts')
+                $state.go('accounts');
             })
                 .catch(function (response) {
                     console.log(response.data);

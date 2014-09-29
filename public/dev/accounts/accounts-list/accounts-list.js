@@ -20,7 +20,7 @@
             $state.go('account-details',
                 {id: id}
             );
-        }
+        };
 
     }
     angular.module('jrbank').controller('AccountsListCtrl', AccountsListCtrl);
