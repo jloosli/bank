@@ -8,6 +8,10 @@
         <ui-view></ui-view>
     </div>
     <a ui-sref-active="hidden" ui-sref="account-details.transaction-add" class="btn btn-default pull-right">Add Transaction</a>
+    <a ui-sref-active="hidden" ui-sref="account-details.envelopes" class="btn btn-default pull-right"  title="Edit envelopes for {{accountDetails.user.name}}">
+        Edit Envelopes <small><span class="glyphicon glyphicon-edit"></span>
+        </small>
+    </a>
 
     <div class="row">
         <div class="col-xs-12">

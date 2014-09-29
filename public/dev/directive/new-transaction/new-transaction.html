@@ -25,10 +25,7 @@
         <fieldset>
             <legend>
                 Envelopes
-                <a ng-href="#/accounts/{{user.id}}/envelopes">
-                    <small><span class="glyphicon glyphicon-edit" title="Edit envelopes for {{user.name}}"></span>
-                    </small>
-                </a>
+
             </legend>
             <new-transaction-envelope envelope="envelope" balanced="balanced"
                                       ng-repeat="envelope in envelopes | filter:{is_active: 1} track by envelope.id"></new-transaction-envelope>

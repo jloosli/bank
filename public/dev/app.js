@@ -26,7 +26,7 @@ angular.module('jrbank')
         'use strict';
         $stateProvider
             .state('accounts', {
-                url:         '/accounts',
+                url:         '/accounts/',
                 templateUrl: 'accounts/accounts-list/accounts-list.html',
                 controller:  'AccountsListCtrl as accounts',
                 data:        {
@@ -34,7 +34,7 @@ angular.module('jrbank')
                 }
             })
             .state('account-details', {
-                url:         '/accounts/:id',
+                url:         '/accounts/:id/',
                 templateUrl: 'accounts/account-details/account-details.html',
                 controller: 'AccountDetailsCtrl as accountDetails',
                 data: {
@@ -42,33 +42,55 @@ angular.module('jrbank')
                 }
             })
             .state('account-details.transaction-add', {
-                url: '/add',
+                url: 'add/',
                 templateUrl: 'accounts/transaction-add/transaction-add.html',
                 controller: 'TransactionAddCtrl as transactionAdd',
                 data: {
                     access: ACCESS_LEVELS.user
                 }
             })
+            .state('account-details.envelopes', {
+                url: 'envelopes/',
+                templateUrl: 'accounts/account-envelopes/account-envelopes.html',
+                controller: 'AccountEnvelopesCtrl as accountEnvelopes',
+                data: {
+                    access: ACCESS_LEVELS.user
+                }
+            })
             .state('login', {
-                url:         '/user/login',
+                url:         '/user/login/',
                 templateUrl: 'partial/login/login.html',
                 controller:  'LoginCtrl as login',
                 data:        {
                     access: ACCESS_LEVELS.pub
                 }
-            })
-            .state('home', {
-                url:         '/',
-                templateUrl: 'partial/home/home.html',
-                controller:  'HomeCtrl as home',
-                data:        {
-                    access: ACCESS_LEVELS.pub
-                }
             });
+            //.state('home', {
+            //    url:         '/',
+            //    templateUrl: 'partial/home/home.html',
+            //    controller:  'HomeCtrl as home',
+            //    data:        {
+            //        access: ACCESS_LEVELS.pub
+            //    }
+            //});
 
 
         /* Add New States Above */
         $urlRouterProvider.otherwise('/accounts');
+        $urlRouterProvider.rule(function($injector, $location) {
+            var path = $location.url();
+            console.log(path);
+            // check to see if the path already has a slash where it should be
+            if (path[path.length - 1] === '/' || path.indexOf('/?') > -1) {
+                return ;
+            }
+
+            if (path.indexOf('?') > -1) {
+                return path.replace('?', '/?');
+            }
+
+            return path + '/';
+        })
 
     });
 
