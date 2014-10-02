@@ -1,7 +1,7 @@
 <div class="col-md-12">
     <h2>Envelopes</h2>
 
-    <form>
+    <form ng-submit="accountEnvelopes.update()">
         <div class="row">
             <div class="col-xs-4">Name</div>
             <div class="col-xs-2">Percent</div>
@@ -10,19 +10,25 @@
             <div class="col-xs-2">Current Balance</div>
             <div class="col-xs-1">Active</div>
         </div>
-        <div class="row" ng-repeat="envelope in accountDetails.user.envelopes | orderBy:['-deleted_at', 'name'] track by envelope.id">
+
+        <div class="row" ng-repeat="envelope in accountEnvelopes.envelopes.data | orderBy:['-deleted_at', 'name'] track by envelope.id">
             <div class="col-xs-4"><input class="form-control" type="text" ng-model="envelope.name"/></div>
             <div class="col-xs-2"><input class="form-control" type="text" ng-model="envelope.percent"/></div>
             <div class="col-xs-2"><input class="form-control" type="text" ng-model="envelope.goal"/></div>
             <div class="col-xs-1">
-                <input type="checkbox" ng-model="envelope.default_spend" ng-true-value="'1'" ng-false-value="'0'"
-                        ng-disabled="envelope.deleted_at"/>
+                <input type="radio" ng-model="accountEnvelopes.envelopes.default" ng-value="envelope.id"
+                        ng-disabled="envelope.deleted_at"  />
             </div>
             <div class="col-xs-2">{{envelope.balance | currency}}</div>
             <div class="col-xs-1">
-                <input type="checkbox" ng-disabled="envelope.balance == 0 && envelope.default_spend === '1'" ng-model="envelope.deleted_at" ng-true-value="null" ng-false-value="1" />
+                <input type="checkbox"
+                       ng-disabled="envelope.balance == 0 && envelope.id === accountEnvelopes.envelopes.default"
+                       ng-model="envelope.deleted_at"
+                       ng-true-value="null"
+                       ng-false-value="1" />
             </div>
         </div>
-        <button class="btn btn-default">Add Envelope</button>
+        <button class="btn btn-default" ng-click="accountEnvelopes.add()">Add Envelope</button>
+        <button class="btn btn-primary">Save</button>
     </form>
 </div>
