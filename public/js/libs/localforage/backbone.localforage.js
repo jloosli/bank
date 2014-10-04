@@ -24,7 +24,7 @@
     };
 
     _.extend(OfflineStore.prototype, {
-        save: function (callback) {
+        update: function (callback) {
             var _this = this;
             return new Promise(function(resolve, reject) {
                 localforage.setItem(_this.name, JSON.stringify(_this.data), function(data) {
@@ -43,7 +43,7 @@
                 if (_this.data) {
                     if (!model.id) model.id = model.attributes.id = guid();
                     _this.data[model.id] = model;
-                    _this.save(function() {
+                    _this.update(function() {
                         if (callbacks.success) {
                             callbacks.success(model);
                         }
@@ -56,7 +56,7 @@
 
                         if (!model.id) model.id = model.attributes.id = guid();
                         _this.data[model.id] = model;
-                        _this.save(function() {
+                        _this.update(function() {
                             if (callbacks.success) {
                                 callbacks.success(model);
                             }
@@ -73,7 +73,7 @@
             return new Promise(function(resolve, reject) {
                 if (_this.data) {
                     _this.data[model.id] = model;
-                    _this.save(function() {
+                    _this.update(function() {
                         if (callbacks.success) {
                             callbacks.success(model);
                         }
@@ -85,7 +85,7 @@
                         _this.data = JSON.parse(data) || {};
 
                         _this.data[model.id] = model;
-                        _this.save(function() {
+                        _this.update(function() {
                             if (callbacks.success) {
                                 callbacks.success(model);
                             }
@@ -147,7 +147,7 @@
             return new Promise(function(resolve, reject) {
                 if (_this.data) {
                     delete _this.data[model.id];
-                    _this.save(function() {
+                    _this.update(function() {
                         if (callbacks.success) {
                             callbacks.success(model);
                         }
@@ -159,7 +159,7 @@
                         _this.data = JSON.parse(data) || {};
 
                         delete _this.data[model.id];
-                        _this.save(function() {
+                        _this.update(function() {
                             if (callbacks.success) {
                                 callbacks.success(model);
                             }
