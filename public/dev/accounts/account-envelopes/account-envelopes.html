@@ -6,20 +6,20 @@
             <div class="col-xs-4">Name</div>
             <div class="col-xs-2">Percent</div>
             <div class="col-xs-2">Goal</div>
-            <div class="col-xs-1">Spending Default?</div>
             <div class="col-xs-2">Current Balance</div>
+            <div class="col-xs-1">Spending Default?</div>
             <div class="col-xs-1">Active</div>
         </div>
 
         <div class="row" ng-repeat="envelope in accountEnvelopes.envelopes.data | orderBy:['-deleted_at', 'name'] track by envelope.id">
             <div class="col-xs-4"><input class="form-control" type="text" ng-model="envelope.name"/></div>
-            <div class="col-xs-2"><input class="form-control" type="text" ng-model="envelope.percent"/></div>
-            <div class="col-xs-2"><input class="form-control" type="text" ng-model="envelope.goal"/></div>
+            <div class="col-xs-2"><input class="form-control" type="number" ng-model="envelope.percent"/></div>
+            <div class="col-xs-2"><input class="form-control" type="number" ng-model="envelope.goal"/></div>
+            <div class="col-xs-2 text-right">{{envelope.balance | currency}}</div>
             <div class="col-xs-1">
                 <input type="radio" ng-model="accountEnvelopes.envelopes.default" ng-value="envelope.id"
                         ng-disabled="envelope.deleted_at"  />
             </div>
-            <div class="col-xs-2">{{envelope.balance | currency}}</div>
             <div class="col-xs-1">
                 <input type="checkbox"
                        ng-disabled="envelope.balance == 0 && envelope.id === accountEnvelopes.envelopes.default"
@@ -29,12 +29,21 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-4">Total</div>
-            <div class="col-xs-2">{{accountEnvelopes.sumPercents()}}</div>
-            <div class="col-xs-2"></div>
+            <div class="col-xs-4"><p class="form-control-static text-center h4">Totals</p></div>
+            <div class="col-xs-2">
+                <p class="form-control-static text-center h4"
+                   ng-class='{"bg-danger": accountEnvelopes.totals().percent > 100}'>
+                    {{accountEnvelopes.totals().percent}}%
+                </p>
+            </div>
+            <div class="col-xs-2">
+                <p class="form-control-static text-center h4">{{accountEnvelopes.totals().goals | currency}}</p>
+            </div>
+            <div class="col-xs-2">
+                <p class="form-control-static text-center h4">{{accountEnvelopes.totals().balance | currency}}</p>
+            </div>
             <div class="col-xs-1">
             </div>
-            <div class="col-xs-2"></div>
             <div class="col-xs-1">
             </div>
 
