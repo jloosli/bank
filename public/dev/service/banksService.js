@@ -3,7 +3,7 @@
     /*
      @ngInject
      */
-    function banksService($resource, $auth, $rootScope, $q, API_URL) {
+    function banksService($resource, $auth, $rootScope, $q, $cacheFactory, API_URL) {
         "use strict";
         var svc = {};
 
@@ -20,24 +20,42 @@
         };
 
         svc.users = function (user_id) {
-            return $resource(API_URL + 'banks/' + currentBank() + '/users/:user_id', {
-                "user_id": user_id || '',
-                cache: true
-            });
+            return $resource(API_URL + 'banks/' + currentBank() + '/users/:user_id',
+                {"user_id": user_id || ''},
+                {cache: true}
+            );
         };
 
         svc.transactions = function (user_id) {
-            return $resource(API_URL + 'banks/' + currentBank() + '/users/:user_id/transactions', {
-                "user_id": user_id,
-                cache:     true
-            });
+            return $resource(API_URL + 'banks/' + currentBank() + '/users/:user_id/transactions',
+                {"user_id": user_id},
+                {cache: true}
+            );
         };
 
         svc.envelopes = function (user_id) {
-            return $resource(API_URL + currentBank() + '/users/' + user_id + '/envelopes/:envelope_id', {
-                "envelope_id": '',
-                cache:         true
-            });
+            return $resource(API_URL + 'banks/' + currentBank() + '/users/' + user_id + '/envelopes/:envelope_id',
+                {"envelope_id": ''},
+                {cache: true}
+            );
+        };
+
+        svc.flush = function(service, user_id) {
+            var key = API_URL + 'banks' + currentBank() + '/users/' + user_id ;
+            switch (service) {
+                case 'envelopes':
+                    key += '/envelopes/';
+                    break;
+                case 'transactions':
+                    key += '/transactions';
+                    break;
+                case 'users':
+                default:
+                    key += '';
+            }
+            console.log($cacheFactory.get('$http').info());
+            $cacheFactory.get('$http').remove(key);
+            console.log('cleared: ',key);
         };
 
         svc.defaultEnvelope = function (user_id) {

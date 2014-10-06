@@ -4,6 +4,7 @@ use AvantiDevelopment\JrBank\Models\Transaction;
 use AvantiDevelopment\JrBank\Models\User;
 use AvantiDevelopment\JrBank\Models\EnvelopeTransaction;
 use AvantiDevelopment\JrBank\Models\Envelope;
+
 class TransactionController extends BaseController {
 
     /**
@@ -37,46 +38,48 @@ class TransactionController extends BaseController {
             throw new Symfony\Component\HttpKernel\Exception\NotFoundHttpException( "User not found" );
         }
         $mainTransaction       = Input::get( 'transaction' );
-        $envelope_transactions = Input::get( 'envelope_transactions' );
+        $envelope_transactions = $mainTransaction['envelope_transactions'];
         $transaction_check     = array_reduce(
             $envelope_transactions,
             function ( $item1, $item2 ) {
                 return $item1 - $item2['amount'];
             },
             $mainTransaction['amount'] );
-        if ( $transaction_check != 0 ) {
+        if ( round($transaction_check,2) != 0 ) {
             throw new Symfony\Component\HttpKernel\Exception\BadRequestHttpException( "Envelope Transactions don't match up" );
         }
 
         try {
-            DB::transaction( function () use ( $user, $mainTransaction, $envelope_transactions ) {
-                // Update the user balance
-                $user->balance += $mainTransaction['amount'];
-                $user->save();
+            DB::beginTransaction();
+            // Update the user balance
+            $user->balance += $mainTransaction['amount'];
+            $user->save();
 
-                // Enter the envelope transaction
-                $transaction              = new Transaction();
-                $transaction->amount      = $mainTransaction['amount'];
-                $transaction->description = $mainTransaction['description'];
-                $user->transactions()->save( $transaction );
+            // Enter the envelope transaction
+            $transaction              = new Transaction();
+            $transaction->amount      = $mainTransaction['amount'];
+            $transaction->description = $mainTransaction['description'];
+            $user->transactions()->save( $transaction );
 
-                // Save the envelope Transactions
-                foreach ( $envelope_transactions as $et ) {
-                    $theSubTransaction              = new EnvelopeTransaction();
-                    $theSubTransaction->amount      = $et['amount'];
-                    $theSubTransaction->envelope_id = $et['envelope_id'];
-                    $transaction->envelope_transaction()->save( $theSubTransaction );
+            // Save the envelope Transactions
+            foreach ( $envelope_transactions as $et ) {
+                $theSubTransaction              = new EnvelopeTransaction();
+                $theSubTransaction->amount      = $et['amount'];
+                $theSubTransaction->envelope_id = $et['envelope_id'];
+                $transaction->envelope_transaction()->save( $theSubTransaction );
 
-                    // Update the existing envelope balance.
-                    $envelope = Envelope::findorFail( $et['envelope_id'] );
-                    $envelope->balance += $et['amount'];
-                    $envelope->save();
-                }
-            } );
-
-            return Response::api()->withArray( array( 'success' => true ) );
-
+                // Update the existing envelope balance.
+                $envelope = Envelope::findorFail( $et['envelope_id'] );
+                $envelope->balance += $et['amount'];
+                $envelope->save();
+            }
+            DB::commit();
+            return Response::api()->withArray( array(
+                'success' => true,
+                'transaction' => $transaction
+            ) );
         } catch ( Exception $e ) {
+            DB::rollBack();
             var_dump( $e );
             throw new Dingo\Api\Exception\StoreResourceFailedException( "Couldn't save Transaction" );
         }

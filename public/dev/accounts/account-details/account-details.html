@@ -25,11 +25,11 @@
                 <div class="col-xs-4">Description</div>
                 <div class="col-xs-4">Amount</div>
             </div>
-            <div class="row touchable" ng-repeat="transaction in accountDetails.transactions track by transaction.id"
+            <div class="row touchable" ng-repeat="transaction in accountDetails.transactions | orderBy:'-created_at' track by transaction.id"
                  ng-click="hidden=!hidden" ng-init="hidden=true">
                 <div class="col-xs-4">{{transaction.created}}</div>
                 <div class="col-xs-4">{{transaction.description}}</div>
-                <div class="col-xs-4">{{transaction.amount}}</div>
+                <div class="col-xs-4">{{transaction.amount | currency}}</div>
                 <div class="row" ng-hide="hidden">This is hidden</div>
             </div>
         </div>

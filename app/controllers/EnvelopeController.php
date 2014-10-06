@@ -29,24 +29,31 @@ class EnvelopeController extends BaseController {
                 'User not found.'
             );
         }
-        $envelope                = new Envelope();
-        $envelope->user_id       = Input::get( 'user_id' );
-        $envelope->name          = Input::get( 'name' );
-        $envelope->percent       = Input::get( 'percent', 0 );
-        $envelope->goal          = Input::get( 'goal' );
-        $envelope->balance       = 0;
-        $envelope->goal_date     = Input::get( 'goal_date' );
-        $envelope->default_spend = Input::get( 'default_spend' ) ? 1 : 0;
+        $envelopes = Input::get('envelopes');
+        foreach($envelopes as $env) {
+            if(empty($env['id'])) {
+                $envelope = new Envelope();
+            } else {
+                $envelope = $user->envelopes()->find($env['id']);
+            }
+            $envelope->user_id       = $env['user_id'];
+            $envelope->name          = $env['name'];
+            $envelope->percent       = $env['percent'] ? $env['percent'] : 0;
+            $envelope->goal          = $env['goal'];
+            $envelope->balance       = 0;
+            $envelope->goal_date     = $env['goal_date'];
+            $envelope->default_spend = $env['default_spend'] ? 1 : 0;
+            $user->envelopes()->save( $envelope );
+        }
 
-        if ( $user->envelopes()->save( $envelope ) ) {
             return Response::api()->withArray( [
                 'success' => true,
-                'message' => "Envelope saved",
-                'data'    => $envelope->toArray()
+                'message' => "Envelopes saved",
+                'data'    => $user->envelopes()->get()->toArray()
             ] );
-        } else {
-            throw new Dingo\Api\Exception\StoreResourceFailedException( 'Could not create Envelope.', $envelope->errors() );
-        }
+//        } else {
+//            throw new Dingo\Api\Exception\StoreResourceFailedException( 'Could not create Envelope.', $envelope->errors() );
+//        }
 
 
     }

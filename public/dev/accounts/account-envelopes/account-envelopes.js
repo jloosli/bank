@@ -43,7 +43,7 @@
                 }
                 return env;
             });
-            banksService.envelopes(params.id).save(theEnvelopes);
+            banksService.envelopes(params.id).save({envelopes:theEnvelopes});
             $state.go('^');
         };
 

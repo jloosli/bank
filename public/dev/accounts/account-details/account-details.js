@@ -4,21 +4,18 @@
     /*
      @ngInject
      */
-    function AccountDetailsCtrl($stateParams, banksService) {
+    function AccountDetailsCtrl($stateParams, banksService, utilsService) {
         var self = this;
 
         this.params = $stateParams;
 
         this.transactions = [];
         banksService.transactions($stateParams.id).get().$promise.then(function (results) {
-                var transactions = _.each(results.data, function (item) {
-                    console.log(item);
-                    var created = moment(item.created_at);
-                    var diff = created.diff(moment(), 'days');
-                    item.created = Math.abs(diff) > 7 ? created.format('L') : created.fromNow();
+                self.transactions = _.each(results.data, function (item) {
+
+                    item.created = utilsService.relDate(item.created_at);
                     return item;
                 });
-                self.transactions = transactions;
             }
         );
 

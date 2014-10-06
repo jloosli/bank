@@ -19,7 +19,7 @@ class CreateBanksTable extends Migration {
             $table->string('slug')->unique();
             $table->string('password');
             $table->decimal('interest',5,2);
-            $table->enum('compounding',array('monthly','annually'));
+            $table->enum('compounding',array('monthly','annually'))->default('monthly');
 			$table->timestamps();
 		});
 	}

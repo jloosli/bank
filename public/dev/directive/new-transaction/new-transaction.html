@@ -1,6 +1,6 @@
 <div>
     <form class="form-horizontal clearfix" role="form" name="addTransaction"
-          ng-submit="submitTransaction(user.id,this)"
+
           ng-model="theTransactionForm">
         <div class="form-group">
             <label class="col-sm-2 col-lg-push-2 control-label" for="description">Description</label>
@@ -23,14 +23,13 @@
             </div>
         </div>
         <fieldset>
-            <legend>
-                Envelopes
-
-            </legend>
+            <legend>Envelopes</legend>
             <new-transaction-envelope envelope="envelope" balanced="balanced"
-                                      ng-repeat="envelope in envelopes | filter:{is_active: 1} track by envelope.id"></new-transaction-envelope>
+                                      ng-repeat="envelope in envelopes | filter:{'deleted_at': null} track by envelope.id"></new-transaction-envelope>
         </fieldset>
-        <button type="submit" class="btn btn-primary btn-lg col-xs-12">Submit</button>
+        <button class="btn btn-primary btn-lg col-xs-12"
+                ng-click="transactionCtrl.submitTransaction()"
+                ng-class="{disabled: !balanced}">Submit</button>
 
     </form>
     <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}
@@ -38,8 +37,6 @@
     <copytrans ng-show="(alerts  | filter:{copy:true}).length" message="Copy to another user?"
                users="accountHolders" current="user" last-trans="{{lastTransaction}}">
     </copytrans>
-
-
 
 
 </div>

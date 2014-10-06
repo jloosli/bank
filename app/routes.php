@@ -35,7 +35,7 @@ Route::api( [ 'version' => 'v1' ], function () {
         Route::put( '/{bank_id}/users/{user_id}/envelopes/{env_id}', 'EnvelopeController@update' ); // Update user envelope
         Route::delete( '/{bank_id}/users/{user_id}/envelopes/{env_id}', 'EnvelopeController@destroy' ); // Delete user envelope
         Route::post( '/{bank_id}/users/{user_id}/envelopes/', 'EnvelopeController@store' ); // Add new envelope
-
+        http://jrbank.co/api/1/users/1/envelopes
         /* Transactions */
         Route::get( '/{bank_id}/users/{user_id}/transactions', 'TransactionController@index' ); // Get all transactions (pagination get queries expected)
         Route::post( '/{bank_id}/users/{user_id}/transactions', 'TransactionController@store' ); // Create new transaction
