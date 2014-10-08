@@ -26,9 +26,9 @@
             );
         };
 
-        svc.transactions = function (user_id) {
+        svc.transactions = function (user_id, page) {
             return $resource(API_URL + 'banks/' + currentBank() + '/users/:user_id/transactions',
-                {"user_id": user_id},
+                {"user_id": user_id, page: page || 1},
                 {cache: true}
             );
         };

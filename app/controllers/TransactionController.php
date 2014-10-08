@@ -13,13 +13,19 @@ class TransactionController extends BaseController {
      * @return Response
      */
     public function index( $bank_id, $user_id ) {
-        $transactions = Transaction::with( 'envelope_transaction' )->where( 'user_id', $user_id )->paginate();
+        $transactions = Transaction::with( 'envelope_transaction' )
+            ->where( 'user_id', $user_id )
+            ->orderBy('created_at', 'desc')
+            ->paginate();
 
         return $transactions;
     }
 
     public function user( $id ) {
-        $transactions = Transaction::with( 'envelope_transaction' )->where( 'user_id', '=', $id )->get();
+        $transactions = Transaction::with( 'envelope_transaction' )
+            ->where( 'user_id', '=', $id )
+            ->orderBy('created')
+            ->get();
 
         return Response::json( $transactions );
     }
