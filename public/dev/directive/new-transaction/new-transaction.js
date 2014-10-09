@@ -6,11 +6,6 @@ function newTransactionCtrl($scope, banksService, utilsService) {
     //this.envelopes = $$scope.envelopes;
     this.sumEnvelopes = 0;
 
-
-    //this.addEnvelope = function (envelope) {
-    //    $scope.envelopes.push(envelope);
-    //};
-
     this.onTransChange = _.debounce(function (amount) {
         amount = amount || 0;
 
@@ -77,20 +72,30 @@ function newTransactionCtrl($scope, banksService, utilsService) {
                 description:           $scope.trans.description,
                 amount:                $scope.trans.amount,
                 envelope_transactions: _.map($scope.envelopes, function (env) {
-                    return {amount: env.amount, envelope_id: env.id}
+                    return {amount: env.amount, envelope_id: env.id};
                 })
             }
         };
-        console.log(transaction);
         banksService.transactions($scope.user).save(transaction).$promise.then(function (result) {
             var newTransaction = result.transaction;
             newTransaction.envelope_transactions = transaction.envelope_transactions;
             newTransaction.created = utilsService.relDate(newTransaction.created_at);
 
             $scope.transactions.push(newTransaction);
+
+            $scope.envelopes = _.map($scope.envelopes, function(env) {
+                env.balance += _.find(transaction.transaction.envelope_transactions, function(et) {
+                    return parseInt(et.envelope_id) === parseInt(env.id);
+                }).amount;
+                return env;
+            });
             banksService.flush('transactions', newTransaction.user_id);
+            console.log($scope.addTransaction);
+            $scope.trans = {};
+            $scope.addTransaction.$setPristine();
+            console.log($scope.addTransaction);
         });
-    }
+    };
 }
 
 angular.module('jrbank').directive('newTransaction', function () {
