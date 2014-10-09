@@ -39,6 +39,12 @@
             );
         };
 
+        this.getEnvelope = function(envelope_id) {
+            return _.find(self.user.envelopes, function(env) {
+                return parseInt(env.id) === parseInt(envelope_id);
+            });
+        };
+
         banksService.users($stateParams.id).get().$promise.then(function(results) {
             self.user = results.users[0];
         });

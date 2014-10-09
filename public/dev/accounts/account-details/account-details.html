@@ -19,19 +19,31 @@
     <div class="row">
         <div class="col-xs-12">
             <h2>Transactions</h2>
+
             <div class="row touchable">
-                <div class="col-xs-4">Date</div>
-                <div class="col-xs-4">Description</div>
-                <div class="col-xs-4">Amount</div>
+                <div class="col-xs-4 h3">Date</div>
+                <div class="col-xs-4 h3">Description</div>
+                <div class="col-xs-4 h3">Amount</div>
             </div>
-            <div class="row touchable" ng-repeat="transaction in accountDetails.transactions | orderBy:'-created_at' track by transaction.id"
-                 ng-click="hidden=!hidden" ng-init="hidden=true">
-                <div class="col-xs-4">{{transaction.created}}</div>
-                <div class="col-xs-4">{{transaction.description}}</div>
-                <div class="col-xs-4">{{transaction.amount | currency}}</div>
-                <div class="row" ng-hide="hidden">This is hidden</div>
+            <div ng-repeat="transaction in accountDetails.transactions | orderBy:'-created_at' track by transaction.id">
+                <div class="row touchable"
+                     ng-click="hidden=!hidden" ng-init="hidden=true">
+                    <div class="col-xs-4">{{transaction.created}}</div>
+                    <div class="col-xs-4">{{transaction.description}}</div>
+                    <div class="col-xs-4">{{transaction.amount | currency}}</div>
+                    <div class="row" ng-hide="hidden">
+                        <div ng-repeat="et in transaction.envelope_transaction  track by et.id">
+                            <div class="col-xs-3 text-center">
+                                <span class="label label-info"><strong><span class="glyphicon glyphicon-envelope"></span> {{accountDetails.getEnvelope(et.envelope_id).name}}</strong>:
+                                {{et.amount | currency}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <button class="btn btn-primary btn-block btn-large" ng-click="accountDetails.getMore()" ng-show="accountDetails.morePages()">Load more</button>
+            <button class="btn btn-primary btn-block btn-large" ng-click="accountDetails.getMore()"
+                    ng-show="accountDetails.morePages()">Load more
+            </button>
         </div>
     </div>
 </div>
