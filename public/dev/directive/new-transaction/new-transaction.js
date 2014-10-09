@@ -1,10 +1,12 @@
 /*
  @ngInject
  */
-function newTransactionCtrl($scope, banksService, utilsService) {
+function newTransactionCtrl($scope, $location, banksService, utilsService) {
     var self = this;
     //this.envelopes = $$scope.envelopes;
     this.sumEnvelopes = 0;
+    this.submitted = false;
+    this.lastTransaction = {};
 
     this.onTransChange = _.debounce(function (amount) {
         amount = amount || 0;
@@ -28,9 +30,11 @@ function newTransactionCtrl($scope, banksService, utilsService) {
         });
     });
 
-
     $scope.balanced = true;
-    $scope.trans = {amount: 0};
+    $scope.trans = {
+        description: $location.search().description || '',
+        amount: parseFloat($location.search().amount) || 0
+    };
 
     var checkDiff = function () {
         var amount = $scope.trans.amount || 0;
@@ -81,6 +85,8 @@ function newTransactionCtrl($scope, banksService, utilsService) {
             newTransaction.envelope_transactions = transaction.envelope_transactions;
             newTransaction.created = utilsService.relDate(newTransaction.created_at);
 
+            self.lastTransaction = transaction.transaction;
+
             $scope.transactions.push(newTransaction);
 
             $scope.envelopes = _.map($scope.envelopes, function(env) {
@@ -92,7 +98,7 @@ function newTransactionCtrl($scope, banksService, utilsService) {
             banksService.flush('transactions', newTransaction.user_id);
             $scope.trans = {};
             $scope.addTransaction.$setPristine();
-            console.log($scope.addTransaction);
+            self.submitted = true;
         });
     };
 }

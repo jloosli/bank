@@ -1,6 +1,7 @@
 <div>
+    <h2>Add Transaction <span class=""><a ui-sref="^" type="submit" class="btn btn-danger pull-right" >X</a></span></h2>
     <form class="form-horizontal clearfix" role="form" name="addTransaction"
-          ng-model="theTransactionForm">
+          ng-model="theTransactionForm" >
         <div class="form-group">
             <label class="col-sm-2 col-lg-push-2 control-label" for="description">Description</label>
 
@@ -31,11 +32,7 @@
                 ng-class="{disabled: !balanced}">Submit</button>
 
     </form>
-    <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}
-    </alert>
-    <copytrans ng-show="(alerts  | filter:{copy:true}).length" message="Copy to another user?"
-               users="accountHolders" current="user" last-trans="{{lastTransaction}}">
-    </copytrans>
-
-
+    <copy-transaction current="{{user}}" ng-show="transactionCtrl.submitted"
+                      transaction="transactionCtrl.lastTransaction"
+            ></copy-transaction>
 </div>
