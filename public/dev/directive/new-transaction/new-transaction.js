@@ -90,7 +90,6 @@ function newTransactionCtrl($scope, banksService, utilsService) {
                 return env;
             });
             banksService.flush('transactions', newTransaction.user_id);
-            console.log($scope.addTransaction);
             $scope.trans = {};
             $scope.addTransaction.$setPristine();
             console.log($scope.addTransaction);
