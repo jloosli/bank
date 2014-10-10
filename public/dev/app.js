@@ -25,47 +25,81 @@ angular.module('jrbank')
     .config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
         'use strict';
         $stateProvider
-            .state('accounts', {
+            .state('root', {
+                url:         '',
+                //abstract: true,
+                views: {
+                    header: {
+                        templateUrl: 'partial/bank-header/bank-header.html',
+                        controller:  'bankHeaderCtrl as bankHeader'
+                    },
+                    footer: {
+                        templateUrl: 'partial/bank-header/bank-header.html',
+                        controller:  'bankHeaderCtrl as bankHeader'
+                    }
+                }
+            })
+            .state('root.accounts', {
                 url:         '/accounts/',
-                templateUrl: 'accounts/accounts-list/accounts-list.html',
-                controller:  'AccountsListCtrl as accounts',
+                views: {
+                    "container@": {
+                        templateUrl: 'accounts/accounts-list/accounts-list.html',
+                        controller:  'AccountsListCtrl as accounts'
+                    }
+                },
                 data:        {
                     access: ACCESS_LEVELS.user
                 }
             })
-            .state('account-details', {
+            .state('root.account-details', {
                 url:         '/accounts/:id/',
+                views: {
+                    "container@": {
                 templateUrl: 'accounts/account-details/account-details.html',
-                controller: 'AccountDetailsCtrl as accountDetails',
+                controller: 'AccountDetailsCtrl as accountDetails'
+                    }
+                },
                 data: {
                     access: ACCESS_LEVELS.user
                 }
             })
-            .state('account-details.transaction-add', {
+            .state('root.account-details.transaction-add', {
                 url: 'add/',
-                templateUrl: 'accounts/transaction-add/transaction-add.html',
-                controller: 'TransactionAddCtrl as transactionAdd',
+                views: {
+                    "popins": {
+                        templateUrl: 'accounts/transaction-add/transaction-add.html',
+                controller: 'TransactionAddCtrl as transactionAdd'
+                    }
+                },
                 data: {
                     access: ACCESS_LEVELS.user
                 }
             })
-            .state('account-details.envelopes', {
+            .state('root.account-details.envelopes', {
                 url: 'envelopes/',
-                templateUrl: 'accounts/account-envelopes/account-envelopes.html',
-                controller: 'AccountEnvelopesCtrl as accountEnvelopes',
+                views: {
+                    "popins": {
+                        templateUrl: 'accounts/account-envelopes/account-envelopes.html',
+                controller: 'AccountEnvelopesCtrl as accountEnvelopes'
+                    }
+                },
                 data: {
                     access: ACCESS_LEVELS.user
                 }
             })
-            .state('login', {
+            .state('root.login', {
                 url:         '/user/login/',
-                templateUrl: 'partial/login/login.html',
-                controller:  'LoginCtrl as login',
+                views: {
+                    "container@": {
+                        templateUrl: 'partial/login/login.html',
+                controller:  'LoginCtrl as login'
+                    }
+                },
                 data:        {
                     access: ACCESS_LEVELS.pub
                 }
             });
-            //.state('home', {
+            //.state('root.home', {
             //    url:         '/',
             //    templateUrl: 'partial/home/home.html',
             //    controller:  'HomeCtrl as home',
@@ -76,7 +110,7 @@ angular.module('jrbank')
 
 
         /* Add New States Above */
-        $urlRouterProvider.otherwise('/accounts');
+        $urlRouterProvider.otherwise('/');
 
         // Always use slashes at the end
         $urlRouterProvider.rule(function($injector, $location) {
@@ -91,7 +125,7 @@ angular.module('jrbank')
             }
 
             return path + '/';
-        })
+        });
 
     });
 

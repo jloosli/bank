@@ -63,7 +63,7 @@
             svc.users(user_id).get().$promise.then(function (results) {
                 var envelopes = results.users[0].envelopes;
                 var default_envelope = _.find(envelopes, function (env) {
-                    return env.default_spend === '1';
+                    return env.default_spend;
                 });
                 deferred.resolve(default_envelope);
             });

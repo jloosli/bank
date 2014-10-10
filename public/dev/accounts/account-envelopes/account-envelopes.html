@@ -5,18 +5,18 @@
     <form >
         <div class="row">
             <div class="col-xs-4">Name</div>
-            <div class="col-xs-2">Percent</div>
-            <div class="col-xs-2">Goal</div>
-            <div class="col-xs-2">Current Balance</div>
+            <div class="col-sm-2 col-xs-3">Percent</div>
+            <div class="col-sm-2 col-xs-3">Goal</div>
+            <div class="col-sm-2 hidden-xs">Current Balance</div>
             <div class="col-xs-1">Spending Default?</div>
             <div class="col-xs-1">Active</div>
         </div>
 
         <div class="row" ng-repeat="envelope in accountEnvelopes.envelopes.data | orderBy:['-deleted_at', 'name'] track by envelope.id">
             <div class="col-xs-4"><input class="form-control" type="text" ng-model="envelope.name"/></div>
-            <div class="col-xs-2"><input class="form-control" type="number" ng-model="envelope.percent"/></div>
-            <div class="col-xs-2"><input class="form-control" type="number" ng-model="envelope.goal"/></div>
-            <div class="col-xs-2 text-right">{{envelope.balance | currency}}</div>
+            <div class="col-sm-2 col-xs-3"><input class="form-control" type="number" ng-model="envelope.percent"/></div>
+            <div class="col-sm-2 col-xs-3"><input class="form-control" type="number" ng-model="envelope.goal"/></div>
+            <div class="col-sm-2 hidden-xs text-right">{{envelope.balance | currency}}</div>
             <div class="col-xs-1">
                 <input type="radio" ng-model="accountEnvelopes.envelopes.default" ng-value="envelope.id"
                         ng-disabled="envelope.deleted_at"  />
@@ -31,16 +31,16 @@
         </div>
         <div class="row">
             <div class="col-xs-4"><p class="form-control-static text-center h4">Totals</p></div>
-            <div class="col-xs-2">
+            <div class="col-sm-2 col-xs-3">
                 <p class="form-control-static text-center h4"
                    ng-class='{"bg-danger": accountEnvelopes.totals().percent > 100}'>
                     {{accountEnvelopes.totals().percent}}%
                 </p>
             </div>
-            <div class="col-xs-2">
+            <div class="col-sm-2 col-xs-3">
                 <p class="form-control-static text-center h4">{{accountEnvelopes.totals().goals | currency}}</p>
             </div>
-            <div class="col-xs-2">
+            <div class="col-sm-2 hidden-xs">
                 <p class="form-control-static text-center h4">{{accountEnvelopes.totals().balance | currency}}</p>
             </div>
             <div class="col-xs-1">
@@ -49,7 +49,13 @@
             </div>
 
         </div>
-        <button class="btn btn-default" ng-click="accountEnvelopes.add()"><span class="glyphicon glyphicon-plus"></span> Add Envelope</button>
-        <button class="btn btn-primary" ng-click="accountEnvelopes.save()">Save</button>
+        <div class="row margin-top">
+            <div class="col-xs-8 col-md-6 col-md-push-1">
+                <button class="btn btn-primary btn-block" ng-click="accountEnvelopes.save()">Save</button>
+            </div>
+            <div class="col-xs-3 col-md-4 col-xs-push-1">
+                <button class="btn btn-default btn-block" ng-click="accountEnvelopes.add()"><span class="glyphicon glyphicon-plus"></span> Add Envelope</button>
+            </div>
+        </div>
     </form>
 </div>

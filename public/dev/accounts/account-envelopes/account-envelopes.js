@@ -14,10 +14,9 @@
                 self.envelopes.data = results.users[0].envelopes;
             }
         });
-
-        banksService.defaultEnvelope(params.id).then(function (env) {
-            self.envelopes['default'] = env.id;
-        });
+            banksService.defaultEnvelope(params.id).then(function (env) {
+                self.envelopes['default'] = env.id;
+            });
 
         this.add = function () {
             var env = {

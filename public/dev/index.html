@@ -46,11 +46,13 @@
 <script src="accounts/account-envelopes/account-envelopes.js"></script>
 <script src="service/utilsService.js"></script>
 <script src="directive/copy-transaction/copy-transaction.js"></script>
+<script src="partial/bank-header/bank-header.js"></script>
 <!-- Add New Component JS Above -->
 
 <div>
     <div id="content" class="container">
-            <div ui-view>
+        <div ui-view="bank-header"></div>
+        <div ui-view="container">
         </div>
     </div>
 </div>

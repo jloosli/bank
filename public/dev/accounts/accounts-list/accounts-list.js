@@ -18,7 +18,7 @@
         });
 
         this.accountDetails = function(id) {
-            $state.go('account-details',
+            $state.go('root.account-details',
                 {id: id}
             );
         };
