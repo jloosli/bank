@@ -49,6 +49,6 @@ class Envelope extends Eloquent {
     }
 
     public function getDefaultSpendAttribute($value) {
-        return (bool) $value;
+        return $value === '1';
     }
 }

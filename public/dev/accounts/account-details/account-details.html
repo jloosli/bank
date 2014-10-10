@@ -2,19 +2,19 @@
     <div class="row">
         <h1>{{accountDetails.user.name}}
             <switch-account current="{{accountDetails.user.id}}"></switch-account>
+            <a ui-sref-active="hidden" ui-sref="account-details.transaction-add" class="btn btn-default pull-right">Add
+                Transaction</a>
+            <a ui-sref-active="hidden" ui-sref="account-details.envelopes" class="btn btn-default pull-right"
+               title="Edit envelopes for {{accountDetails.user.name}}">
+                Edit Envelopes
+                <small><span class="glyphicon glyphicon-edit"></span>
+                </small>
+            </a>
         </h1>
-    </div>
-    <div class="row ui-view-container">
+     </div>
+     <div class="row ui-view-container">
         <ui-view></ui-view>
     </div>
-    <a ui-sref-active="hidden" ui-sref="account-details.transaction-add" class="btn btn-default pull-right">Add
-        Transaction</a>
-    <a ui-sref-active="hidden" ui-sref="account-details.envelopes" class="btn btn-default pull-right"
-       title="Edit envelopes for {{accountDetails.user.name}}">
-        Edit Envelopes
-        <small><span class="glyphicon glyphicon-edit"></span>
-        </small>
-    </a>
 
     <div class="row">
         <div class="col-xs-12">

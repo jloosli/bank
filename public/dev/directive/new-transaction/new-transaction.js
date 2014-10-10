@@ -10,13 +10,12 @@ function newTransactionCtrl($scope, $location, banksService, utilsService) {
 
     this.onTransChange = _.debounce(function (amount) {
         amount = amount || 0;
-
         $scope.$apply(function () {
             $scope.envelopes = _.map($scope.envelopes, function (env) {
                 if (amount >= 0) {
                     env.amount = Math.round(env.percent * amount) / 100;
                 } else {
-                    env.amount = parseInt(env.default_spend, 10) === 1 ? amount : 0;
+                    env.amount = env.default_spend ? amount : 0;
                 }
                 return env;
             });
@@ -115,6 +114,13 @@ angular.module('jrbank').directive('newTransaction', function () {
         templateUrl:  'directive/new-transaction/new-transaction.html',
         link:         function (scope, element, attrs, transactionCtrl) {
             scope.$watch('trans.amount', transactionCtrl.onTransChange);
+            // @todo Hack to run transaction change once envelopes are loaded. Should do something more eloquent.
+            var once = scope.$watch('envelopes', function(env) {
+                if(env.length > 0) {
+                    transactionCtrl.onTransChange(scope.trans.amount);
+                    once();
+                }
+            });
         },
         controller:   newTransactionCtrl,
         controllerAs: 'transactionCtrl'

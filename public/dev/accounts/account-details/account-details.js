@@ -40,7 +40,7 @@
         };
 
         this.getEnvelope = function(envelope_id) {
-            return _.find(self.user.envelopes, function(env) {
+            return self.user && _.find(self.user.envelopes, function(env) {
                 return parseInt(env.id) === parseInt(envelope_id);
             });
         };
