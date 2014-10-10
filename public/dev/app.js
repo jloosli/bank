@@ -31,7 +31,7 @@ angular.module('jrbank')
                 views: {
                     header: {
                         templateUrl: 'partial/bank-header/bank-header.html',
-                        controller:  'bankHeaderCtrl as bankHeader'
+                        controller:  'BankHeaderCtrl as bankHeader'
                     },
                     footer: {
                         templateUrl: 'partial/bank-header/bank-header.html',
