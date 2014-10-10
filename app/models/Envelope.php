@@ -43,4 +43,12 @@ class Envelope extends Eloquent {
     public function getIdAttribute( $value ) {
         return (int) $value;
     }
+
+    public function getUserIdAttribute( $value ) {
+        return (int) $value;
+    }
+
+    public function getDefaultSpendAttribute($value) {
+        return (bool) $value;
+    }
 }

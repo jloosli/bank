@@ -80,9 +80,11 @@ class TransactionController extends BaseController {
                 $envelope->save();
             }
             DB::commit();
+            $trans = $transaction->toArray();
+            $trans['envelope_transaction'] = $transaction->envelope_transaction()->get()->toArray();
             return Response::api()->withArray( array(
                 'success' => true,
-                'transaction' => $transaction
+                'transaction' => $trans
             ) );
         } catch ( Exception $e ) {
             DB::rollBack();
