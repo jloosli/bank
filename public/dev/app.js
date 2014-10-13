@@ -26,9 +26,9 @@ angular.module('jrbank')
         'use strict';
         $stateProvider
             .state('root', {
-                url:   '',
+                url:      '',
                 abstract: true,
-                views: {
+                views:    {
                     header: {
                         templateUrl: 'partial/bank-header/bank-header.html',
                         controller:  'BankHeaderCtrl as bankHeader'
@@ -38,7 +38,7 @@ angular.module('jrbank')
                         controller:  'bankHeaderCtrl as bankHeader'
                     }
                 },
-                data:  {
+                data:     {
                     access: ACCESS_LEVELS.pub
                 }
             })
@@ -90,14 +90,36 @@ angular.module('jrbank')
                     access: ACCESS_LEVELS.user
                 }
             }).state('root.manage', {
-                url: '/manage/',
+                url:   '/manage/',
                 views: {
                     "container@": {
                         templateUrl: 'partial/manage/main/manage.html',
-                        controller: 'ManageCtrl as AccountManagement'
+                        controller:  'ManageCtrl as AccountManagement'
                     }
                 },
-                data: {
+                data:  {
+                    access: ACCESS_LEVELS.user
+                }
+            })
+            .state('root.manage.manage-bank', {
+                url:   'bank/',
+                views: {
+                    manage: {
+                        templateUrl: 'partial/manage/manage-bank/manage-bank.html'
+                    }
+                },
+                data:  {
+                    access: ACCESS_LEVELS.user
+                }
+            })
+            .state('root.manage.manage-users', {
+                url: 'users/',
+                views: {
+                    manage: {
+                        templateUrl: 'partial/manage/manage-users/manage-users.html'
+                    }
+                },
+                data:  {
                     access: ACCESS_LEVELS.user
                 }
             })
@@ -113,14 +135,6 @@ angular.module('jrbank')
                     access: ACCESS_LEVELS.pub
                 }
             });
-        //.state('root.home', {
-        //    url:         '/',
-        //    templateUrl: 'partial/home/home.html',
-        //    controller:  'HomeCtrl as home',
-        //    data:        {
-        //        access: ACCESS_LEVELS.pub
-        //    }
-        //});
 
 
         $stateProvider;

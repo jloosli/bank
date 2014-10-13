@@ -1,4 +1,8 @@
-<div class="col-md-12" ng-controller="ManageCtrl">
-
-
+<div class="col-md-12">
+    <h2>Account Management</h2>
+    <ul>
+        <li><a ui-sref="root.manage.manage-bank">Manage the Bank</a></li>
+        <li><a ui-sref="root.manage.manage-users">Manage Users</a></li>
+    </ul>
+    <div ui-view="manage"></div>
 </div>
