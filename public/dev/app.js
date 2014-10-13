@@ -110,7 +110,7 @@ angular.module('jrbank')
 
 
         /* Add New States Above */
-        $urlRouterProvider.otherwise('/');
+        $urlRouterProvider.otherwise('/accounts/');
 
         // Always use slashes at the end
         $urlRouterProvider.rule(function($injector, $location) {
