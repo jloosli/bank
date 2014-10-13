@@ -117,7 +117,8 @@ angular.module('jrbank')
                 url: 'users/',
                 views: {
                     manage: {
-                        templateUrl: 'partial/manage/manage-users/manage-users.html'
+                        templateUrl: 'partial/manage/manage-users/manage-users.html',
+                        controller: 'ManageUsersCtrl as manageUsers'
                     }
                 },
                 data:  {
@@ -128,8 +129,12 @@ angular.module('jrbank')
                 url: 'edit/:id/',
                 views: {
                     edit: {
-                        templateUrl: 'partial/manage/manage-users-edit/manage-users-edit.html'
+                        templateUrl: 'partial/manage/manage-users-edit/manage-users-edit.html',
+                        controller: 'ManageUsersEditCtrl as editUser'
                     }
+                },
+                resolve : {
+                    currentUser : function(ManageUsersCtrl) {return ManageUsersCtrl.users;}
                 },
                 data:  {
                     access: ACCESS_LEVELS.user

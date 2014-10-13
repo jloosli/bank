@@ -1,4 +1,4 @@
-<div class="col-md-12" ng-controller="ManageUsersCtrl">
+<div class="col-md-12">
     <h3>User Management <a class="btn btn-danger pull-right" ui-sref="^">X</a></h3>
 
     <div class="table-responsive">
@@ -12,24 +12,18 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>1</td>
-                <td>Billy Jones</td>
-                <td>Account Holder</td>
+            <tr ng-repeat="user in manageUsers.users track by user.id">
+                <td>{{$i}}</td>
+                <td>{{user.name}}</td>
+                <td>{{user.user_type}}</td>
                 <td>
-                    <button class="btn btn-default">Edit</button>
-                </td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Bobby Jones</td>
-                <td>Admin</td>
-                <td>
-                    <button class="btn btn-default">Edit</button>
+                    <a ui-sref="root.manage.manage-users.manage-users-edit({ id: user.id })"
+                       class="btn btn-default">Edit</a>
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
-    <div ng-view="edit"></div>
+    {{users | json}}
+    <div ui-view="edit"></div>
 </div>
