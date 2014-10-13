@@ -1,4 +1,23 @@
-<div class="col-md-12" ng-controller="ManageBankCtrl">
-<h3>Bank Management</h3>
+<div class="col-md-4 col-md-push-4" ng-controller="ManageBankCtrl">
+    <h3>Bank Management <a class="btn btn-danger pull-right" ui-sref="^">X</a></h3>
+
+    <form class="form">
+        <div class="form-group">
+            <label for="bank_name">Bank Name:</label>
+            <input class="form-control" type="text" id="bank_name"/>
+        </div>
+        <div class="form-group">
+            <label for="bank_rate">Bank Rate:</label>
+            <input class="form-control" type="number" id="bank_rate"/>
+        </div>
+        <div class="form-group">
+            <label for="bank_compounding">Bank Compounding</label>
+            <select class="form-control" name="bank_compounding" id="bank_compounding">
+                <option>Monthly</option>
+                <option>Yearly</option>
+            </select>
+        </div>
+        <button class="btn btn-primary">Save</button>
+    </form>
 
 </div>

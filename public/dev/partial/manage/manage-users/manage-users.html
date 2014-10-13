@@ -1,4 +1,35 @@
 <div class="col-md-12" ng-controller="ManageUsersCtrl">
+    <h3>User Management <a class="btn btn-danger pull-right" ui-sref="^">X</a></h3>
 
-
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>User</th>
+                <th>User Type</th>
+                <th>Edit</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>1</td>
+                <td>Billy Jones</td>
+                <td>Account Holder</td>
+                <td>
+                    <button class="btn btn-default">Edit</button>
+                </td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Bobby Jones</td>
+                <td>Admin</td>
+                <td>
+                    <button class="btn btn-default">Edit</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div ng-view="edit"></div>
 </div>

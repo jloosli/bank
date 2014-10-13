@@ -123,6 +123,17 @@ angular.module('jrbank')
                     access: ACCESS_LEVELS.user
                 }
             })
+            .state('root.manage.manage-users.manage-users-edit', {
+                url: 'edit/:id/',
+                views: {
+                    edit: {
+                        templateUrl: 'partial/manage/manage-users-edit/manage-users-edit.html'
+                    }
+                },
+                data:  {
+                    access: ACCESS_LEVELS.user
+                }
+            })
             .state('root.login', {
                 url:   '/user/login/',
                 views: {
@@ -137,7 +148,6 @@ angular.module('jrbank')
             });
 
 
-        $stateProvider;
         /* Add New States Above */
         $urlRouterProvider.otherwise('/user/login/'); // This needs to point to a public url
 
