@@ -15,8 +15,12 @@
             return 0;
         }
 
-        svc.bank = function () {
-            return $resource(API_URL + ':bank_id', {cache: true});
+        svc.bank = function (bank_id) {
+            bank_id = bank_id || currentBank();
+            return $resource(API_URL + 'banks/:bank_id',{"bank_id": bank_id}, {
+                cache: true,
+                update: {method: 'PUT'}
+            });
         };
 
         svc.users = function (user_id) {

@@ -105,7 +105,8 @@ angular.module('jrbank')
                 url:   'bank/',
                 views: {
                     manage: {
-                        templateUrl: 'partial/manage/manage-bank/manage-bank.html'
+                        templateUrl: 'partial/manage/manage-bank/manage-bank.html',
+                        controller: 'ManageBankCtrl as ManageBank'
                     }
                 },
                 data:  {
