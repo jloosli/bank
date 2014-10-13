@@ -1,10 +1,17 @@
-angular.module('jrbank').controller('BankHeaderCtrl',function($scope){
-    $scope.loggedIn = function() {
+(function() {
 
-    };
+    /**
+     * @ngInject
+     * @constructor
+     */
+    function BankHeaderController(utilsService) {
 
-    $scope.logOut = function() {
+        this.logOut = utilsService.logout;
+        this.isLoggedIn = utilsService.isLoggedIn;
 
-    };
+    }
+    angular.module('jrbank').controller('BankHeaderCtrl',BankHeaderController);
 
-});
+})();
+
+

@@ -15,10 +15,11 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li><a ui-sref="root.accounts">Accounts</a></li>
+                <li><a>{{error}}</a></li>
                 </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a ui-sref="root.login">Log In {{access}}</a></li>
-                <li><a ui-sref="root.login">Log Out</a></li>
+                <li><a ui-sref="root.login" ng-show="!bankHeader.isLoggedIn()">Log In {{access}}</a></li>
+                <li><a ng-click="bankHeader.logOut()" ng-show="bankHeader.isLoggedIn()">Log Out</a></li>
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->

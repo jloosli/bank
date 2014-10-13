@@ -26,8 +26,8 @@ angular.module('jrbank')
         'use strict';
         $stateProvider
             .state('root', {
-                url:         '',
-                //abstract: true,
+                url:   '',
+                abstract: true,
                 views: {
                     header: {
                         templateUrl: 'partial/bank-header/bank-header.html',
@@ -37,50 +37,64 @@ angular.module('jrbank')
                         templateUrl: 'partial/bank-header/bank-header.html',
                         controller:  'bankHeaderCtrl as bankHeader'
                     }
+                },
+                data:  {
+                    access: ACCESS_LEVELS.pub
                 }
             })
             .state('root.accounts', {
-                url:         '/accounts/',
+                url:   '/accounts/',
                 views: {
                     "container@": {
                         templateUrl: 'accounts/accounts-list/accounts-list.html',
                         controller:  'AccountsListCtrl as accounts'
                     }
                 },
-                data:        {
+                data:  {
                     access: ACCESS_LEVELS.user
                 }
             })
             .state('root.account-details', {
-                url:         '/accounts/:id/',
+                url:   '/accounts/:id/',
                 views: {
                     "container@": {
-                templateUrl: 'accounts/account-details/account-details.html',
-                controller: 'AccountDetailsCtrl as accountDetails'
+                        templateUrl: 'accounts/account-details/account-details.html',
+                        controller:  'AccountDetailsCtrl as accountDetails'
                     }
                 },
-                data: {
+                data:  {
                     access: ACCESS_LEVELS.user
                 }
             })
             .state('root.account-details.transaction-add', {
-                url: 'add/',
+                url:   'add/',
                 views: {
                     "popins": {
                         templateUrl: 'accounts/transaction-add/transaction-add.html',
-                controller: 'TransactionAddCtrl as transactionAdd'
+                        controller:  'TransactionAddCtrl as transactionAdd'
                     }
                 },
-                data: {
+                data:  {
                     access: ACCESS_LEVELS.user
                 }
             })
             .state('root.account-details.envelopes', {
-                url: 'envelopes/',
+                url:   'envelopes/',
                 views: {
                     "popins": {
                         templateUrl: 'accounts/account-envelopes/account-envelopes.html',
-                controller: 'AccountEnvelopesCtrl as accountEnvelopes'
+                        controller:  'AccountEnvelopesCtrl as accountEnvelopes'
+                    }
+                },
+                data:  {
+                    access: ACCESS_LEVELS.user
+                }
+            }).state('root.manage', {
+                url: '/manage/',
+                views: {
+                    "container@": {
+                        templateUrl: 'partial/manage/main/manage.html',
+                        controller: 'ManageCtrl as AccountManagement'
                     }
                 },
                 data: {
@@ -88,36 +102,37 @@ angular.module('jrbank')
                 }
             })
             .state('root.login', {
-                url:         '/user/login/',
+                url:   '/user/login/',
                 views: {
                     "container@": {
                         templateUrl: 'partial/login/login.html',
-                controller:  'LoginCtrl as login'
+                        controller:  'LoginCtrl as login'
                     }
                 },
-                data:        {
+                data:  {
                     access: ACCESS_LEVELS.pub
                 }
             });
-            //.state('root.home', {
-            //    url:         '/',
-            //    templateUrl: 'partial/home/home.html',
-            //    controller:  'HomeCtrl as home',
-            //    data:        {
-            //        access: ACCESS_LEVELS.pub
-            //    }
-            //});
+        //.state('root.home', {
+        //    url:         '/',
+        //    templateUrl: 'partial/home/home.html',
+        //    controller:  'HomeCtrl as home',
+        //    data:        {
+        //        access: ACCESS_LEVELS.pub
+        //    }
+        //});
 
 
+        $stateProvider;
         /* Add New States Above */
-        $urlRouterProvider.otherwise('/accounts/');
+        $urlRouterProvider.otherwise('/user/login/'); // This needs to point to a public url
 
         // Always use slashes at the end
-        $urlRouterProvider.rule(function($injector, $location) {
+        $urlRouterProvider.rule(function ($injector, $location) {
             var path = $location.url();
             // check to see if the path already has a slash where it should be
             if (path[path.length - 1] === '/' || path.indexOf('/?') > -1) {
-                return ;
+                return;
             }
 
             if (path.indexOf('?') > -1) {
@@ -135,26 +150,27 @@ angular.module('jrbank').run(function ($rootScope, $http, $auth, $state, authSer
     authService.init();
 
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+        //debugger;
         if (!(_.has(toState, "data") && _.has(toState['data'], 'access'))) {
             $rootScope.error = "Access undefined for this state";
-            console.log(toState);
-
+            console.log($rootScope.error + ": " + toState.name);
             event.preventDefault();
         } else if (!authService.checkAccess(toState.data.access)) {
             $rootScope.error = "Seems like you tried accessing a route you don't have access to...";
             event.preventDefault();
-
-            if (fromState.url === '^') {
+            if (fromState.url === '^' || fromState.url === '') {
                 if ($auth.isAuthenticated()) {
-                    $state.go('accounts');
+                    console.log('Already logged in. Going to accounts.');
+                    $state.go('root.accounts');
                 } else {
+                    console.log("Going to login page.");
                     $rootScope.error = null;
-                    $state.go('login');
+                    $state.go('root.login');
                 }
             }
-        } else if (toState.name === 'login' && $auth.isAuthenticated()) {
+        } else if (toState.name === 'root.login' && $auth.isAuthenticated()) {
             event.preventDefault();
-            $state.go('accounts');
+            $state.go('root.accounts');
         }
     });
 

@@ -7,7 +7,6 @@
     function AccountsListCtrl ($state, banksService) {
         var self = this;
         banksService.users().get().$promise.then(function(results) {
-            console.log(results);
             results.users = _.forEach(results.users, function(item, idx, orig) {
                 item['default_spend'] = _.filter(item['envelopes'],function(env) {
                     return env.default_spend;

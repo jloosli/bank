@@ -6,21 +6,20 @@ use AvantiDevelopment\JrBank\Models\Oauth;
 
 class AuthController extends \BaseController {
 
-    public function unlink($provider)
-    {
-        $user = User::find(Request::get('id'));
+    public function unlink( $provider ) {
+        $user = User::find( Request::get( 'id' ) );
 
-        if (!$user)
-        {
-            Response::json(array('message' => 'User not found'));
+        if ( !$user ) {
+            Response::json( array( 'message' => 'User not found' ) );
         }
 
-        unset($user->$provider);
+        unset( $user->$provider );
         $user->save();
-        return Response::json(array('token' => $this->createToken($user)));
+
+        return Response::json( array( 'token' => $this->createToken( $user ) ) );
     }
 
-    protected function link ($provider, $token) {
+    protected function link( $provider, $token ) {
 
     }
 
@@ -30,18 +29,13 @@ class AuthController extends \BaseController {
 
         $user = User::where( 'email', '=', $email )->first();
 
-        if ( !$user ) {
+        if ( !$user || !Hash::check( $password, $user->password ) ) {
             return Response::json( array( 'message' => 'Wrong email and/or password' ), 401 );
         }
+        // The passwords match...
+        unset( $user->password );
 
-        if ( Hash::check( $password, $user->password ) ) {
-            // The passwords match...
-            unset( $user->password );
-
-            return Response::json( array( 'token' => $this->createToken( $user ) ) );
-        } else {
-            return Response::json( array( 'message' => 'Wrong email and/or password' ), 401 );
-        }
+        return Response::json( array( 'token' => $this->createToken( $user ) ) );
     }
 
     public function signup() {
@@ -54,146 +48,135 @@ class AuthController extends \BaseController {
         return Response::make( 200 );
     }
 
-    public function facebook()
-    {
+    public function facebook() {
         $accessTokenUrl = 'https://graph.facebook.com/oauth/access_token';
-        $graphApiUrl = 'https://graph.facebook.com/me';
+        $graphApiUrl    = 'https://graph.facebook.com/me';
 
         $params = array(
-            'code' => Input::get('code'),
-            'client_id' => Input::get('clientId'),
-            'redirect_uri' => Input::get('redirectUri'),
-            'client_secret' => Config::get('secrets.FACEBOOK_SECRET')
+            'code'          => Input::get( 'code' ),
+            'client_id'     => Input::get( 'clientId' ),
+            'redirect_uri'  => Input::get( 'redirectUri' ),
+            'client_secret' => Config::get( 'secrets.FACEBOOK_SECRET' )
         );
 
         $client = new GuzzleHttp\Client();
 
         // Step 1. Exchange authorization code for access token.
-        $accessTokenResponse = $client->get($accessTokenUrl, ['query' => $params]);
+        $accessTokenResponse = $client->get( $accessTokenUrl, [ 'query' => $params ] );
 
         $accessToken = array();
-        parse_str($accessTokenResponse->getBody(), $accessToken);
+        parse_str( $accessTokenResponse->getBody(), $accessToken );
 
         // Step 2. Retrieve profile information about the current user.
-        $graphiApiResponse = $client->get($graphApiUrl, ['query' => $accessToken]);
-        $profile = $graphiApiResponse->json();
+        $graphiApiResponse = $client->get( $graphApiUrl, [ 'query' => $accessToken ] );
+        $profile           = $graphiApiResponse->json();
 
         // Step 3a. If user is already signed in then link accounts.
-        if (Request::header('Authorization'))
-        {
-            $user = User::where('facebook', '=', $profile['id']);
+        if ( Request::header( 'Authorization' ) ) {
+            $user = User::where( 'facebook', '=', $profile['id'] );
 
-            if ($user->first())
-            {
-                return Response::json(array('message' => 'There is already a Facebook account that belongs to you'), 409);
+            if ( $user->first() ) {
+                return Response::json( array( 'message' => 'There is already a Facebook account that belongs to you' ), 409 );
             }
 
-            $token = explode(' ', Request::header('Authorization'))[1];
-            $payloadObject = JWT::decode($token, Config::get('secrets.TOKEN_SECRET'));
-            $payload = json_decode(json_encode($payloadObject), true);
+            $token         = explode( ' ', Request::header( 'Authorization' ) )[1];
+            $payloadObject = JWT::decode( $token, Config::get( 'secrets.TOKEN_SECRET' ) );
+            $payload       = json_decode( json_encode( $payloadObject ), true );
 
-            $user = User::find($payload['sub']);
-            $user->facebook = $profile['id'];
+            $user              = User::find( $payload['sub'] );
+            $user->facebook    = $profile['id'];
             $user->displayName = $user->displayName || $profile['name'];
             $user->save();
 
-            return Response::json(array('token' => $this->createToken($user)));
-        }
-        // Step 3b. Create a new user account or return an existing one.
-        else
-        {
-            $user = User::where('facebook', '=', $profile['id']);
+            return Response::json( array( 'token' => $this->createToken( $user ) ) );
+        } // Step 3b. Create a new user account or return an existing one.
+        else {
+            $user = User::where( 'facebook', '=', $profile['id'] );
 
-            if ($user->first())
-            {
-                return Response::json(array('token' => $this->createToken($user)));
+            if ( $user->first() ) {
+                return Response::json( array( 'token' => $this->createToken( $user ) ) );
             }
 
-            $user = new User;
-            $user->facebook = $profile['id'];
+            $user              = new User;
+            $user->facebook    = $profile['id'];
             $user->displayName = $profile['name'];
             $user->save();
 
-            return Response::json(array('token' => $this->createToken($user)));
+            return Response::json( array( 'token' => $this->createToken( $user ) ) );
         }
     }
 
-    public function google()
-    {
+    public function google() {
         $accessTokenUrl = 'https://accounts.google.com/o/oauth2/token';
-        $peopleApiUrl = 'https://www.googleapis.com/plus/v1/people/me/openIdConnect';
+        $peopleApiUrl   = 'https://www.googleapis.com/plus/v1/people/me/openIdConnect';
 
         $params = array(
-            'code' => Input::get('code'),
-            'client_id' => Input::get('clientId'),
-            'redirect_uri' => Input::get('redirectUri'),
-            'grant_type' => 'authorization_code',
+            'code'          => Input::get( 'code' ),
+            'client_id'     => Input::get( 'clientId' ),
+            'redirect_uri'  => Input::get( 'redirectUri' ),
+            'grant_type'    => 'authorization_code',
             'client_secret' => $_ENV['secrets.GOOGLE_SECRET']
         );
 
         $client = new GuzzleHttp\Client();
 
         // Step 1. Exchange authorization code for access token.
-        $accessTokenResponse = $client->post($accessTokenUrl, ['body' => $params]);
-        $accessToken = $accessTokenResponse->json()['access_token'];
+        $accessTokenResponse = $client->post( $accessTokenUrl, [ 'body' => $params ] );
+        $accessToken         = $accessTokenResponse->json()['access_token'];
 
-        $headers = array('Authorization' => 'Bearer ' . $accessToken);
+        $headers = array( 'Authorization' => 'Bearer ' . $accessToken );
 
         // Step 2. Retrieve profile information about the current user.
-        $profileResponse = $client->get($peopleApiUrl, ['headers' => $headers]);
+        $profileResponse = $client->get( $peopleApiUrl, [ 'headers' => $headers ] );
 
         $profile = $profileResponse->json();
 
         // Step 3a. If user is already signed in then link accounts.
-        if (Request::header('Authorization'))
-        {
-            $user = User::where('google', '=', $profile['sub']);
-            if ($user->first())
-            {
-                return Response::json(array('message' => 'There is already a Google account that belongs to you'), 409);
+        if ( Request::header( 'Authorization' ) ) {
+            $user = User::where( 'google', '=', $profile['sub'] );
+            if ( $user->first() ) {
+                return Response::json( array( 'message' => 'There is already a Google account that belongs to you' ), 409 );
             }
 
-            $token = explode(' ', Request::header('Authorization'))[1];
-            $payloadObject = JWT::decode($token, Config::get('secrets.TOKEN_SECRET'));
-            $payload = json_decode(json_encode($payloadObject), true);
+            $token         = explode( ' ', Request::header( 'Authorization' ) )[1];
+            $payloadObject = JWT::decode( $token, Config::get( 'secrets.TOKEN_SECRET' ) );
+            $payload       = json_decode( json_encode( $payloadObject ), true );
 
-            $user = User::find($payload['sub']);
-            $user->google = $profile['sub'];
+            $user              = User::find( $payload['sub'] );
+            $user->google      = $profile['sub'];
             $user->displayName = $user->displayName || $profile['name'];
             $user->save();
 
-            return Response::json(array('token' => $this->createToken($user)));
-        }
-        // Step 3b. Create a new user account or return an existing one.
-        else
-        {
-            $user = User::where('google', '=', $profile['sub']);
+            return Response::json( array( 'token' => $this->createToken( $user ) ) );
+        } // Step 3b. Create a new user account or return an existing one.
+        else {
+            $user = User::where( 'google', '=', $profile['sub'] );
 
-            if ($user->first())
-            {
-                return Response::json(array('token' => $this->createToken($user)));
+            if ( $user->first() ) {
+                return Response::json( array( 'token' => $this->createToken( $user ) ) );
             }
 
-            $user = User::where('email','=',$profile['email']);
+            $user = User::where( 'email', '=', $profile['email'] );
 
-            if($user->first()) {
-                $user = $user->first();
+            if ( $user->first() ) {
+                $user         = $user->first();
                 $user->google = $profile['sub'];
                 $user->save();
-                return Response::json(array('token' => $this->createToken($user)));
+
+                return Response::json( array( 'token' => $this->createToken( $user ) ) );
             }
 
-            return Response::json(['error' => 'No account associated with ' . $profile['email']],400);
-            $user = new User;
-            $user->google = $profile['sub'];
-            $user->name = $profile['name'];
-            $user->email = $profile['email'];
-            $user->bank_id = 1;
+            return Response::json( [ 'error' => 'No account associated with ' . $profile['email'] ], 400 );
+            $user           = new User;
+            $user->google   = $profile['sub'];
+            $user->name     = $profile['name'];
+            $user->email    = $profile['email'];
+            $user->bank_id  = 1;
             $user->username = $profile['email'];
-            if($user->save())
-                return Response::json(array('token' => $this->createToken($user)));
-            else {
-                return Response::json($user->errors()->all());
+            if ( $user->save() ) {
+                return Response::json( array( 'token' => $this->createToken( $user ) ) );
+            } else {
+                return Response::json( $user->errors()->all() );
             }
         }
     }
