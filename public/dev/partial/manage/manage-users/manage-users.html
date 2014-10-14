@@ -1,5 +1,5 @@
 <div class="col-md-12">
-    <h3>User Management <a class="btn btn-danger pull-right" ui-sref="^">X</a></h3>
+    <h3>User Management <a class="btn btn-info pull-right" ui-sref="^"><span class="glyphicon glyphicon-arrow-left"></span></a></h3>
 
     <div class="table-responsive">
         <table class="table table-striped table-hover">
@@ -13,7 +13,7 @@
             </thead>
             <tbody>
             <tr ng-repeat="user in manageUsers.users track by user.id">
-                <td>{{$i}}</td>
+                <td>{{$index + 1}}</td>
                 <td>{{user.name}}</td>
                 <td>{{user.user_type}}</td>
                 <td>
@@ -24,6 +24,6 @@
             </tbody>
         </table>
     </div>
-    {{users | json}}
     <div ui-view="edit"></div>
+
 </div>

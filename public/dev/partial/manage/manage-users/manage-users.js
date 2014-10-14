@@ -3,12 +3,12 @@
     /**
      * @ngInject
      */
-    function manageUsers($scope, banksService){
+    function manageUsers(users){
         var self = this;
-        banksService.users().get().$promise.then(function(result) {
-            self.users = result.users;
-        })
-
+        //console.log(users);
+        users.$promise.then(function(results) {
+            self.users = results.users;
+        });
     }
 
     angular.module('jrbank').controller('ManageUsersCtrl',manageUsers);

@@ -106,7 +106,7 @@ angular.module('jrbank')
                 views: {
                     manage: {
                         templateUrl: 'partial/manage/manage-bank/manage-bank.html',
-                        controller: 'ManageBankCtrl as ManageBank'
+                        controller:  'ManageBankCtrl as ManageBank'
                     }
                 },
                 data:  {
@@ -114,11 +114,20 @@ angular.module('jrbank')
                 }
             })
             .state('root.manage.manage-users', {
-                url: 'users/',
+                url:   'users/',
                 views: {
                     manage: {
                         templateUrl: 'partial/manage/manage-users/manage-users.html',
-                        controller: 'ManageUsersCtrl as manageUsers'
+                        controller:  'ManageUsersCtrl as manageUsers'
+                    }
+                },
+                resolve:{
+                    banksService: 'banksService',
+                    users: function(banksService) {
+                        console.log('resolved');
+                        var thePromise = banksService.users().get().$promise;
+                        console.log(thePromise);
+                        return thePromise;
                     }
                 },
                 data:  {
@@ -126,16 +135,16 @@ angular.module('jrbank')
                 }
             })
             .state('root.manage.manage-users.manage-users-edit', {
-                url: 'edit/:id/',
+                url:   'edit/:id/',
                 views: {
                     edit: {
                         templateUrl: 'partial/manage/manage-users-edit/manage-users-edit.html',
-                        controller: 'ManageUsersEditCtrl as editUser'
+                        controller:  'ManageUsersEditCtrl as editUser'
                     }
                 },
-                resolve : {
-                    currentUser : function(ManageUsersCtrl) {return ManageUsersCtrl.users;}
-                },
+                //resolve: {
+                //    currentUser: function(parentCtrl) {return 1;}
+                //},
                 data:  {
                     access: ACCESS_LEVELS.user
                 }

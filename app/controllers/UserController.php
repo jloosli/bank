@@ -114,6 +114,9 @@ class UserController extends \BaseController {
         $inputs = array_filter( $inputs, function ( $val ) {
             return !is_null( $val );
         } );
+        if(isset($inputs['password'])) {
+            $inputs['password'] = Hash::make($inputs['password']);
+        }
         $user->update( $inputs );
 
 

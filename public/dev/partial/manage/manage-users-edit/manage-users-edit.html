@@ -1,32 +1,37 @@
 <div class="col-md-12">
-<h4>Edit user <a class="btn btn-danger pull-right" ui-sref="^">X</a></h4>
-{{editUser.user | json}}
+<h4>Edit {{editUser.user.name}} <a class="btn btn-danger pull-right" ui-sref="^">X</a></h4>
     <form class="form" name="manageuser">
         <div class="form-group">
             <label for="user_username">Username:</label>
-            <input class="form-control" type="text" id="user_username" ng-model="user.username"/>
+            <input required class="form-control" type="text" id="user_username" ng-model="editUser.user.username"/>
         </div>
         <div class="form-group">
             <label for="user_name">Name:</label>
-            <input class="form-control" type="text" id="user_name" ng-model="user.name"/>
+            <input required class="form-control" type="text" id="user_name" ng-model="editUser.user.name"/>
         </div>
         <div class="form-group">
             <label for="user_email">Email:</label>
-            <input class="form-control" type="email" id="user_email" ng-model="user.email"/>
+            <input class="form-control" type="email" id="user_email" ng-model="editUser.user.email"/>
         </div>
         <div class="form-group">
             <label for="user_password">Password:</label>
-            <input class="form-control" type="password" id="user_password" ng-model="user.password"/>
+            <input class="form-control" type="password" id="user_password" ng-model="editUser.user.password"/>
+        </div>
+        <div class="form-group" ng-show="editUser.user.password" >
+            <label for="user_password_check">Password (enter again just to be sure):</label>
+            <input ng-required="editUser.user.password" class="form-control" type="password" id="user_password_check"
+                   ng-model="editUser.user.password_check"/>
         </div>
         <div class="form-group">
             <label for="user_usertype">User Type</label>
-            <select class="form-control" name="user_compounding" id="user_usertype" ng-model="user.user_type">
+            <select required class="form-control" name="user_compounding" id="user_usertype"
+                    ng-model="editUser.user.user_type">
                 <option value="user">User</option>
                 <option value="admin">Admin</option>
                 <option value="super-admin">Super Admin</option>
             </select>
         </div>
-        <button class="btn btn-primary" ng-click="Manageuser.save()">Save</button>
+        <button class="btn btn-primary" ng-click="editUser.save()">Save</button>
     </form>
 
 </div>
