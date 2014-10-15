@@ -24,10 +24,12 @@ class AuthController extends \BaseController {
     }
 
     public function login() {
-        $email    = Input::get( 'email' );
-        $password = Input::get( 'password' );
+        $emailOrUsername = Input::get( 'email' );
+        $password        = Input::get( 'password' );
 
-        $user = User::where( 'email', '=', $email )->first();
+        $user = User::where( 'email', '=', $emailOrUsername )
+                    ->orWhere( 'username', '=', $emailOrUsername )
+                    ->first();
 
         if ( !$user || !Hash::check( $password, $user->password ) ) {
             return Response::json( array( 'message' => 'Wrong email and/or password' ), 401 );

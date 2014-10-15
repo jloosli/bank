@@ -124,10 +124,7 @@ angular.module('jrbank')
                 resolve:{
                     banksService: 'banksService',
                     users: function(banksService) {
-                        console.log('resolved');
-                        var thePromise = banksService.users().get().$promise;
-                        console.log(thePromise);
-                        return thePromise;
+                        return banksService.users().get().$promise;
                     }
                 },
                 data:  {
@@ -142,9 +139,6 @@ angular.module('jrbank')
                         controller:  'ManageUsersEditCtrl as editUser'
                     }
                 },
-                //resolve: {
-                //    currentUser: function(parentCtrl) {return 1;}
-                //},
                 data:  {
                     access: ACCESS_LEVELS.user
                 }

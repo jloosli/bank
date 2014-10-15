@@ -17,7 +17,7 @@
             <label for="user_password">Password:</label>
             <input class="form-control" type="password" id="user_password" ng-model="editUser.user.password"/>
         </div>
-        <div class="form-group" ng-show="editUser.user.password" >
+        <div class="form-group" ng-show="editUser.user.password  || editUser.isNew()" >
             <label for="user_password_check">Password (enter again just to be sure):</label>
             <input ng-required="editUser.user.password" class="form-control" type="password" id="user_password_check"
                    ng-model="editUser.user.password_check"/>
