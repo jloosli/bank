@@ -19,7 +19,7 @@ class UserTest extends TestCase {
             'username' => 'bob_jones',
             'password' => 'pass',
             'email' => 'bob@bob.com',
-
+            'user_type'=>'user'
         ];
         $response = $this->call('POST', '/api/banks/1/users', $user);
         $this->checkJsonResponse(200, $response);
@@ -53,7 +53,7 @@ class UserTest extends TestCase {
 
     public function testUpdateUser() {
         $this->seed();
-        $updates  = [ 'name' => "bob" ];
+        $updates  = [ 'name' => "Sammy" ];
         $response = $this->call( "PUT", '/api/banks/1/users/1', $updates );
         $this->checkJsonResponse( 200, $response );
     }

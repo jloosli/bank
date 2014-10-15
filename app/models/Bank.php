@@ -13,10 +13,6 @@ class Bank extends Eloquent {
     use ValidatingTrait;
     protected $dates = ['deleted_at'];
 
-    // This should be deleted when ardent starts to work for this.
-    protected $softDelete = true;
-
-
     protected $hidden = [ 'password' ];
     protected $guarded = [ 'id', 'deleted_at' ];
     protected $fillable = [ 'name', 'password', 'interest', 'compounding' ];

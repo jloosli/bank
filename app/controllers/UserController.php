@@ -17,12 +17,13 @@ class UserController extends \BaseController {
         $users = User::with( 'envelopes' )
                      ->where( 'bank_id', '=', $id )
                      ->get();
+
         return $users;
     }
 
     public function currentUser() {
         $user = API::user();
-        if ($user) {
+        if ( $user ) {
             return API::user();
         }
         throw new Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -34,19 +35,14 @@ class UserController extends \BaseController {
      *
      */
     public function store( $bank_id ) {
-        $user            = new User();
-        $user->email     = Input::get( 'email' );
-        $user->name      = Input::get( 'name' );
-        $user->email     = Input::get( 'email', '' );
-        $user->slug     = Input::get( 'slug', Str::slug($user->name) );
-        $user->user_type = Input::get( 'user_type', 'user' );
-        $user->username  = Input::get( 'username' );
-        $user->password  = Hash::make( Input::get( 'password' ) );
-        $user->balance   = 0;
-        $user->token     = '';
-        $user->bank_id   = $bank_id; //Auth::user()->bank_id;
+        $user = new User();
+        $user->fill( Input::all() );
+        $user->bank_id = $bank_id;
+        if ( empty( $user->slug ) ) {
+            $user->slug = Str::slug( $user->name );
+        }
 
-        if ( $user->save(  ) ) {
+        if ( $user->save() ) {
             $user->load( 'envelopes' );
 
             return Response::api()->withArray( array(
@@ -55,9 +51,9 @@ class UserController extends \BaseController {
                 'data'    => $user->toArray()
             ) );
         } else {
-            throw new Dingo\Api\Exception\StoreResourceFailedException( 'Could not create User.', $user->errors() );
+            throw new Dingo\Api\Exception\StoreResourceFailedException( 'Could not create User.', $user->getErrors() );
         }
-        Log::info('Created : ' . $user);
+        Log::info( 'Created : ' . $user );
     }
 
     /**
@@ -71,23 +67,22 @@ class UserController extends \BaseController {
      * @return Response
      */
     public function show( $bank_id, $user_ids ) {
-        $ids  = explode( ',', $user_ids );
+        $ids = explode( ',', $user_ids );
         if ( Input::get( 'show_deleted' ) === 'true' ) {
             $user = User::withTrashed();
         } else {
             $user = new User();
         }
         $user = $user->with( 'envelopes' )->whereIn( 'id', $ids )
-                    ->where( 'bank_id', $bank_id )->get();
+                     ->where( 'bank_id', $bank_id )->get();
 
-        if(count($user)) {
+        if ( count( $user ) ) {
             return $user;
         } else {
             throw new Symfony\Component\HttpKernel\Exception\NotFoundHttpException(
-                "User" & count($ids) > 1 ? 's':'' & ' not found.'
+                "User" & count( $ids ) > 1 ? 's' : '' & ' not found.'
             );
         }
-
 
 
     }
@@ -114,20 +109,19 @@ class UserController extends \BaseController {
         $inputs = array_filter( $inputs, function ( $val ) {
             return !is_null( $val );
         } );
-        if(isset($inputs['password'])) {
-            $inputs['password'] = Hash::make($inputs['password']);
+        if ( isset( $inputs['password'] ) ) {
+            $inputs['password'] = Hash::make( $inputs['password'] );
         }
-        $user->update( $inputs );
 
 
-        if ( $user->save() ) {
+        if ( $user->update( $inputs ) ) {
             return Response::api()->withArray( [
                 'success' => true,
                 'message' => "{$user->name} updated Successfully",
                 'data'    => $user->toArray()
             ] );
         } else {
-            throw new Dingo\Api\Exception\StoreResourceFailedException( 'Could not update User.', $user->errors() );
+            throw new Dingo\Api\Exception\StoreResourceFailedException( 'Could not update User.', $user->getErrors() );
         }
     }
 
@@ -151,9 +145,9 @@ class UserController extends \BaseController {
 
     public function login() {
         $credentials = array(
-            'username' => Input::get( 'username' ),
-            'password' => Input::get( 'password' ),
-            'deleted_at'   => null
+            'username'   => Input::get( 'username' ),
+            'password'   => Input::get( 'password' ),
+            'deleted_at' => null
         );
         if ( Auth::attempt( $credentials ) ) {
             $authToken   = AuthToken::create( Auth::user() );

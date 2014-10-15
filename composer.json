@@ -7,13 +7,13 @@
 		"laravel/framework": "4.2.*",
         "way/generators": "~2.0",
         "watson/validating": "0.10.*",
-        "dingo/api": "dev-master",
+        "dingo/api": "0.6.*",
         "doctrine/dbal": "~2.3",
         "google/apiclient": "1.0.*@beta",
 		"firebase/php-jwt": "~1.0",
 		"artdarek/oauth-4-laravel": "1.0.5",
-        "guzzlehttp/guzzle": "4.2.1",
-        "guzzlehttp/oauth-subscriber": "0.1.2"
+        "guzzlehttp/guzzle": "~4.2",
+        "guzzlehttp/oauth-subscriber": "~0.1"
     },
     "require-dev": {
         "mockery/mockery": "dev-master@dev",

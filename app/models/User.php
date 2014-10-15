@@ -6,19 +6,16 @@ use Eloquent;
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
+use Watson\Validating\ValidatingTrait;
 
 class User extends Eloquent implements UserInterface, RemindableInterface {
 
-    // For some reason, Ardent doesn't work with the softDelete Trait
-    // The following two lines should be uncommented when upgraded to 4.2 and Ardent is fixed
     use SoftDeletingTrait;
+    use ValidatingTrait;
     protected $dates = ['deleted_at'];
 
-    // This should be deleted when ardent starts to work for this.
-    protected $softDelete = true;
-
     protected $fillable = array( 'username', 'name', 'email', 'bank_id', 'password' );
-    protected $guarded = [ 'id', 'deleted_at' ];
+    protected $guarded = [ 'id' ];
 
     public function transactions() {
         return $this->hasMany( 'AvantiDevelopment\JrBank\Models\Transaction' );
@@ -50,27 +47,18 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     }
 
     /**
-     * Ardent validation rules
+     * Validation rules
      */
-    public static $rules = array(
+    protected $rules = array(
         'username' => 'required|between:4,100',
         'email'    => 'required|email',
         'password' => 'min:3',
         'bank_id'  => 'required|numeric',
-        'slug'     => 'unique:users,slug,bank_id'
+        'slug'     => 'required|unique:users,slug',
+        'user_type' => 'required'
     );
 
-    protected static $createRules = array(
-        'firstname'             => 'required',
-        'lastname'              => 'required',
-        'password'              => 'required|min:6|confirmed',
-        'password_confirmation' => 'required|min:6',
-        'email'                 => 'required|email|unique:users,email',
-    );
-    protected static $authRules = array(
-        'email'    => 'required|email',
-        'password' => 'required',
-    );
+    protected $observables = ['creating'];
 
     public static function boot() {
         parent::boot();
@@ -87,6 +75,14 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
             return true;
         } );
+
+        static::creating(function($user) {
+            // Start off with 0 balance;
+            $user->balance = 0;
+
+
+        });
+
     }
 
     /**

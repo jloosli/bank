@@ -41,7 +41,7 @@ class BankController extends BaseController {
         }
 
         if ( !$bank->save() ) {
-            throw new Dingo\Api\Exception\StoreResourceFailedException( 'Could not create Bank.', $bank->errors() );
+            throw new Dingo\Api\Exception\StoreResourceFailedException( 'Could not create Bank.', $bank->getErrors() );
         }
 
         return Response::api()->withArray( [

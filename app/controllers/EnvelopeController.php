@@ -36,13 +36,13 @@ class EnvelopeController extends BaseController {
             } else {
                 $envelope = $user->envelopes()->find($env['id']);
             }
-            $envelope->user_id       = $env['user_id'];
+            $envelope->user_id       = $user_id;
             $envelope->name          = $env['name'];
             $envelope->percent       = $env['percent'] ? $env['percent'] : 0;
             $envelope->goal          = $env['goal'];
             $envelope->balance       = 0;
-            $envelope->goal_date     = $env['goal_date'];
-            $envelope->default_spend = $env['default_spend'] ? 1 : 0;
+            $envelope->goal_date     = empty($env['goal_date'])? '':$env['goal_date'];
+            $envelope->default_spend = empty($env['default_spend']) ? 0: $env['default_spend'];
             $user->envelopes()->save( $envelope );
         }
 
@@ -51,11 +51,6 @@ class EnvelopeController extends BaseController {
                 'message' => "Envelopes saved",
                 'data'    => $user->envelopes()->get()->toArray()
             ] );
-//        } else {
-//            throw new Dingo\Api\Exception\StoreResourceFailedException( 'Could not create Envelope.', $envelope->errors() );
-//        }
-
-
     }
 
     /**

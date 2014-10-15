@@ -16,22 +16,22 @@ class TransactionTest extends TestCase {
     public function testCreateTransaction() {
         $this->seed();
         $transaction = [
-            'transaction'           => [
-                'amount'      => 21.57,
-                'description' => "Wanted to get some lollypops",
-            ],
-            'envelope_transactions' => [
-                [
-                    'envelope_id' => 1,
-                    'amount'      => 10,
-                ],
-                [
-                    'envelope_id' => 2,
-                    'amount'      => 21.57 - 35,
-                ],
-                [
-                    'envelope_id' => 3,
-                    'amount'      => 25,
+            'transaction' => [
+                'amount'                => 21.57,
+                'description'           => "Wanted to get some lollypops",
+                'envelope_transactions' => [
+                    [
+                        'envelope_id' => 1,
+                        'amount'      => 10,
+                    ],
+                    [
+                        'envelope_id' => 2,
+                        'amount'      => 21.57 - 35,
+                    ],
+                    [
+                        'envelope_id' => 3,
+                        'amount'      => 25,
+                    ]
                 ]
             ]
         ];
@@ -51,22 +51,22 @@ class TransactionTest extends TestCase {
         $this->seed();
         // Transaction and envelopeTransactions don't add up
         $transaction = [
-            'transaction'           => [
-                'amount'      => 50,
-                'description' => "Wanted to get some lollypops",
-            ],
-            'envelope_transactions' => [
-                [
-                    'envelope_id' => 1,
-                    'amount'      => 10,
-                ],
-                [
-                    'envelope_id' => 2,
-                    'amount'      => 21.57 - 35,
-                ],
-                [
-                    'envelope_id' => 3,
-                    'amount'      => 25,
+            'transaction' => [
+                'amount'                => 50,
+                'description'           => "Wanted to get some lollypops",
+                'envelope_transactions' => [
+                    [
+                        'envelope_id' => 1,
+                        'amount'      => 10,
+                    ],
+                    [
+                        'envelope_id' => 2,
+                        'amount'      => 21.57 - 35,
+                    ],
+                    [
+                        'envelope_id' => 3,
+                        'amount'      => 25,
+                    ]
                 ]
             ]
         ];

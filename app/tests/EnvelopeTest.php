@@ -16,9 +16,13 @@ class EnvelopeTest extends TestCase {
     public function testCreateEnvelope() {
         $this->seed();
         $envelope = [
-            'name'    => 'Want to spend, spend, spend',
-            'goal'    => 230,
-            'percent' => 20,
+            'envelopes' => [
+                [
+                    'name'    => 'Want to spend, spend, spend',
+                    'goal'    => 230,
+                    'percent' => 20,
+                ]
+            ]
         ];
         $response = $this->call( 'POST', '/api/banks/1/users/1/envelopes', $envelope );
         $this->checkJsonResponse( 200, $response );
