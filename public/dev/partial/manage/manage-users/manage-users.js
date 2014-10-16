@@ -1,5 +1,4 @@
 (function () {
-
     /**
      * @ngInject
      */
@@ -29,7 +28,7 @@
 
         this.addUser = function(user) {
             self.users.push(user);
-        }
+        };
 
     }
 

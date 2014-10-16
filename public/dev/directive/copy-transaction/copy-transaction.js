@@ -16,7 +16,7 @@ angular.module('jrbank').directive('copyTransaction', function (banksService) {
             scope.queryString = function () {
                 return 'description=' + encodeURIComponent(scope.transaction.description) + '&' +
                     'amount=' + scope.transaction.amount;
-            }
+            };
         }
     };
 });
