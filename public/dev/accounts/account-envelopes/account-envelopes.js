@@ -31,7 +31,6 @@
 
         this.save = function () {
             var theEnvelopes = _.map(self.envelopes.data, function (env) {
-                console.log(env);
                 env.default_spend = (env.id === self.envelopes.default) ? 1 : 0;
                 if (typeof env.id === 'string' && env.id.indexOf('new-') === 0) {
                     delete(env.id);

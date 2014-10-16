@@ -23,7 +23,7 @@
             </div>
             <div class="col-xs-1">
                 <input type="checkbox"
-                       ng-disabled="envelope.balance == 0 && envelope.id === accountEnvelopes.envelopes.default"
+                       ng-disabled="envelope.balance !== 0 || envelope.id === accountEnvelopes.envelopes.default"
                        ng-model="envelope.deleted_at"
                        ng-true-value="null"
                        ng-false-value="1" />

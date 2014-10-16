@@ -33,17 +33,29 @@ class EnvelopeController extends BaseController {
         foreach($envelopes as $env) {
             if(empty($env['id'])) {
                 $envelope = new Envelope();
+                $envelope->balance       = 0;
             } else {
-                $envelope = $user->envelopes()->find($env['id']);
+                $envelope = $user->envelopes()->withTrashed()->find($env['id']);
+                if(!$envelope) {
+                    throw new Symfony\Component\HttpKernel\Exception\NotFoundHttpException('Envelope not found');
+                }
+                if(!$envelope->trashed()) {
+                    echo "";
+                }
+                if($envelope->trashed() && empty($env['deleted_at'])) {
+                    $envelope->restore();
+                } elseif (!$envelope->trashed() && (int) $env['deleted_at'] === 1) {
+                    $envelope->delete();
+                }
             }
             $envelope->user_id       = $user_id;
             $envelope->name          = $env['name'];
             $envelope->percent       = $env['percent'] ? $env['percent'] : 0;
             $envelope->goal          = $env['goal'];
-            $envelope->balance       = 0;
             $envelope->goal_date     = empty($env['goal_date'])? '':$env['goal_date'];
             $envelope->default_spend = empty($env['default_spend']) ? 0: $env['default_spend'];
             $user->envelopes()->save( $envelope );
+
         }
 
             return Response::api()->withArray( [

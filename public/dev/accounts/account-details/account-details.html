@@ -1,16 +1,25 @@
 <div>
     <div class="row">
-        <h1>{{accountDetails.user.name}}
+        <div class="col-sm-4">
+        <h1>{{accountDetails.user.name}} <wbr><small>(Balance:&nbsp;{{accountDetails.user.balance | currency}})</small></h1>
+
+        </div>
+        <div class="col-sm-4">
             <switch-account current="{{accountDetails.user.id}}"></switch-account>
-            <a ui-sref-active="hidden" ui-sref="root.account-details.transaction-add" class="btn btn-default pull-right">Add
-                Transaction</a>
-            <a ui-sref-active="hidden" ui-sref="root.account-details.envelopes" class="btn btn-default pull-right"
+        </div>
+        <div class="col-sm-4">
+            <a ui-sref-active="hidden" ui-sref="root.account-details.transaction-add" class="btn btn-default">
+                Add Transaction
+                <small><span class="glyphicon glyphicon-usd"></span>
+                </small>
+            </a>
+            <a ui-sref-active="hidden" ui-sref="root.account-details.envelopes" class="btn btn-default"
                title="Edit envelopes for {{accountDetails.user.name}}">
                 Edit Envelopes
                 <small><span class="glyphicon glyphicon-edit"></span>
                 </small>
             </a>
-        </h1>
+        </div>
      </div>
      <div class="row ui-view-container">
         <div ui-view="popins"></div>

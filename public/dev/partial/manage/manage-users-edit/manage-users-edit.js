@@ -43,7 +43,7 @@
                 }
             }
 
-            if (self.user.id.indexOf('new-') === 0) {
+            if (self.user.id.toString().indexOf('new-') === 0) {
                 var parent = $scope.$parent; // Grab the parent scope now since by the time the service resolves, $scope will be destroyed
                 banksService.users().save(self.user).$promise.then(function (result) {
                     parent.manageUsers.addUser(result.data);

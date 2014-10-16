@@ -13,6 +13,10 @@
                 })[0];
                 return item;
             });
+            // Filter out the admins
+            results.users = _.filter(results.users,function(item) {
+                return item.user_type === 'user';
+            });
             self.accountsList = results.users;
         });
 

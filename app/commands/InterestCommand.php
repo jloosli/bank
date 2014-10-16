@@ -48,7 +48,6 @@ class InterestCommand extends Command {
                 $this->info($user);
                 $transaction = new Transaction;
                 $transaction->user_id = $user->id;
-                $transaction->description = sprintf("%s interest of %0.0f%%. Negative balances double.",ucwords("{$bank->compounding}"),$bank->interest);
                 $transaction->amount = 0;
                 $envelopeTransactions = [];
                 foreach($user->envelopes as $envelope) {
@@ -64,6 +63,7 @@ class InterestCommand extends Command {
                     $envelope->save();
                     $this->line("Updated {$user->name} envelope {$envelope->name}. New balance: {$envelope->balance}.");
                 }
+                $transaction->description = sprintf("%s interest of %0.0f%%. Negative balances double.",ucwords("{$bank->compounding}"),$bank->interest);
                 $transaction->save();
                 $this->info($transaction);
                 foreach($envelopeTransactions as $et) {
