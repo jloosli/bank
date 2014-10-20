@@ -10,13 +10,13 @@
         <div class="col-sm-4">
             <a ui-sref-active="hidden" ui-sref="root.account-details.transaction-add" class="btn btn-default">
                 Add Transaction
-                <small><span class="glyphicon glyphicon-usd"></span>
+                <small><span class="fa fa-usd"></span>
                 </small>
             </a>
             <a ui-sref-active="hidden" ui-sref="root.account-details.envelopes" class="btn btn-default"
                title="Edit envelopes for {{accountDetails.user.name}}">
                 Edit Envelopes
-                <small><span class="glyphicon glyphicon-edit"></span>
+                <small><span class="fa fa-edit"></span>
                 </small>
             </a>
         </div>
@@ -45,7 +45,7 @@
                     <ul class="list-inline">
                         <li ng-repeat="et in transaction.envelope_transaction track by et.id">
                             <div class="env-labels">
-                                <span class="label label-info"><strong><span class="glyphicon glyphicon-envelope"></span> {{accountDetails.getEnvelope(et.envelope_id).name}}</strong>:
+                                <span class="label label-info"><strong><span class="fa fa-envelope"></span> {{accountDetails.getEnvelope(et.envelope_id).name}}</strong>:
                                 {{et.amount | currency}}</span>
                             </div>
                         </li>

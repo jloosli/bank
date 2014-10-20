@@ -26,7 +26,6 @@
             });
             $authProvider.config.loginUrl = API_URL + 'auth/login';
             $authProvider.config.signupUrl = API_URL + 'auth/signup';
-            console.log($authProvider);
         })
         .config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
             'use strict';
