@@ -8,8 +8,8 @@
             <div class="col-sm-2 col-xs-3">Percent</div>
             <div class="col-sm-2 col-xs-3">Goal</div>
             <div class="col-sm-2 hidden-xs">Current Balance</div>
-            <div class="col-xs-1">Spending Default?</div>
-            <div class="col-xs-1">Active</div>
+            <div class="col-xs-1"><span class="hidden-xs">Spending Default?</span><span class="fa fa-bullseye visible-xs"></span></div>
+            <div class="col-xs-1"><span class="hidden-xs">Active</span><span class="fa fa-check visible-xs"></span></div>
         </div>
 
         <div class="row" ng-repeat="envelope in accountEnvelopes.envelopes.data | orderBy:['-deleted_at', 'name'] track by envelope.id">

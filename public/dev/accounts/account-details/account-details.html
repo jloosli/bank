@@ -30,16 +30,16 @@
             <h2>Transactions</h2>
 
             <div class="row touchable">
-                <div class="col-xs-4 h3">Date</div>
-                <div class="col-xs-4 h3">Description</div>
-                <div class="col-xs-4 h3">Amount</div>
+                <div class="col-xs-2 h3">Date</div>
+                <div class="col-xs-7 h3">Description</div>
+                <div class="col-xs-3 h3">Amount</div>
             </div>
             <div ng-repeat="transaction in accountDetails.transactions | orderBy:'-created_at' track by transaction.id"
                  ng-click="hidden=!hidden" ng-init="hidden=true">
                 <div class="row touchable">
-                    <div class="col-xs-4">{{transaction.created}}</div>
-                    <div class="col-xs-4">{{transaction.description}}</div>
-                    <div class="col-xs-4">{{transaction.amount | currency}}</div>
+                    <div class="col-xs-2">{{transaction.created}}</div>
+                    <div class="col-xs-7">{{transaction.description}}</div>
+                    <div class="col-xs-3">{{transaction.amount | currency}}</div>
                 </div>
                 <div class="row" ng-hide="hidden">
                     <ul class="list-inline col-sm-10 col-sm-offset-1">
