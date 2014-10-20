@@ -10,7 +10,7 @@ angular.module('jrbank').directive('copyTransaction', function (banksService) {
         link:        function (scope, element, attrs, fn) {
             banksService.users().get().$promise.then(function (results) {
                 scope.otherAccountHolders = _.filter(results.users, function (user) {
-                    return parseInt(user.id) !== parseInt(scope.current);
+                    return parseInt(user.id) !== parseInt(scope.current) && user.user_type === 'user';
                 });
             });
             scope.queryString = function () {

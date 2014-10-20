@@ -8,7 +8,7 @@
         var self = this;
 
         users.$promise.then(function (results) {
-            this.users = results.users;
+            self.users = results.users;
         });
 
         this.addNew = function () {

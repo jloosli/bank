@@ -10,7 +10,7 @@ angular.module('jrbank').directive('switchAccount', function(banksService) {
             scope.accountHolders = [];
             banksService.users().get().$promise.then(function(results) {
                 scope.otherAccountHolders = _.filter(results.users, function(user) {
-                    return user.id !== parseInt(scope.current);
+                    return user.id !== parseInt(scope.current) && user.user_type === 'user';
                 });
             });
 		}
