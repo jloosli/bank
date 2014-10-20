@@ -15,6 +15,10 @@
         banksService.transactions($stateParams.id).get().$promise.then(function (results) {
                 self.transactions = _.each(results.data, function (item) {
                     item.created = utilsService.relDate(item.created_at);
+                    // Remove $0.00 transactions
+                    _.remove(item.envelope_transaction,function(trans) {
+                        return Math.round(parseFloat(trans.amount)*100)/100 === 0;
+                    });
                     return item;
                 });
                 totalPages = results.last_page;
