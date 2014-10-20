@@ -56,6 +56,7 @@
                     key += '/transactions';
                     break;
                 case 'users':
+                    break;
                 default:
                     key += '';
             }

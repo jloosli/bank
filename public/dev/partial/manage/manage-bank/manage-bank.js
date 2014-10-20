@@ -5,7 +5,10 @@
      * @param $scope
      */
     function manageBank($rootScope, $scope, $state, banksService){
+        /*jshint validthis: true */
+
         var self = this;
+
 
         banksService.bank($rootScope.currentUser.bank_id).get().$promise.then(function(results) {
             $scope.bank = results.bank;

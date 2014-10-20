@@ -3,10 +3,12 @@
      * @ngInject
      */
     function manageUsers($scope, $state, users) {
+        'use strict';
+        /*jshint validthis: true */
         var self = this;
 
         users.$promise.then(function (results) {
-            self.users = results.users;
+            this.users = results.users;
         });
 
         this.addNew = function () {
