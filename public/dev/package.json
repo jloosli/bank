@@ -1,6 +1,11 @@
 {
   "name": "jrbank",
-  "version": "0.0.0",
+  "version": "0.0.1",
+  "description": "Simple bank to manage family spending/saving accounts and teach kids about money.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jloosli/bank"
+  },
   "devDependencies": {
     "grunt": "~0.4",
     "grunt-angular-templates": "~0.5",
@@ -11,7 +16,7 @@
     "grunt-contrib-copy": "~0.5",
     "grunt-contrib-cssmin": "~0.7",
     "grunt-contrib-htmlmin": "~0.1",
-    "grunt-contrib-imagemin": "~0.4",
+    "grunt-contrib-imagemin": "~0.8",
     "grunt-contrib-jshint": "~0.9",
     "grunt-contrib-less": "~0.8",
     "grunt-contrib-uglify": "~0.2",
