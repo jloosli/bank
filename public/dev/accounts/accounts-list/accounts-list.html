@@ -6,9 +6,9 @@
     </div>
 
     <div class="row touchable" ng-repeat="account in accounts.accountsList track by account.id" ng-click="accounts.accountDetails(account.id)">
-        <div class="col-xs-4">{{account.name}}</div>
-        <div class="col-xs-4">{{account.default_spend.name}} {{account.default_spend.balance | currency}}</div>
-        <div class="col-xs-4">{{account.balance | currency}}</div>
+        <div class="col-xs-4 h4">{{account.name}}</div>
+        <div class="col-xs-4 h4">{{account.default_spend.name}} {{account.default_spend.balance | currency}}</div>
+        <div class="col-xs-4 h4">{{account.balance | currency}}</div>
     </div>
     <ui-view></ui-view>
 </div>
