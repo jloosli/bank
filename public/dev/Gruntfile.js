@@ -106,7 +106,8 @@ module.exports = function (grunt) {
                         dest:   '<%= globalConfig.dest %>',
                         filter: 'isFile',
                         expand: true
-                    }
+                    },
+                    {src: ['manifest.json','favicon.ico'], dest: '<%= globalConfig.dest %>'}
                     //{src: ['bower_components/angular-ui-utils/ui-utils-ieshiv.min.js'], dest: '<%= globalConfig.dest %>'},
                     //{src: ['bower_components/select2/*.png','bower_components/select2/*.gif'], dest:'dist/css/',flatten:true,expand:true},
                     //{src: ['bower_components/angular-mocks/angular-mocks.js'], dest: '<%= globalConfig.dest %>'}
