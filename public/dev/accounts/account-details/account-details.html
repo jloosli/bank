@@ -1,24 +1,23 @@
 <div>
     <div class="row">
-        <div class="col-sm-4">
-        <h1>{{accountDetails.user.name}} <wbr><small>(Balance:&nbsp;{{accountDetails.user.balance | currency}})</small></h1>
+        <div class="col-md-6 col-sm-4">
+        <h1>{{accountDetails.user.name}}&nbsp;<wbr><small>(Balance:&nbsp;{{accountDetails.user.balance | currency}})</small></h1>
 
         </div>
-        <div class="col-sm-4">
-            <switch-account current="{{accountDetails.user.id}}"></switch-account>
-        </div>
-        <div class="col-sm-4">
-            <a ui-sref-active="hidden" ui-sref="root.account-details.transaction-add" class="btn btn-default">
-                Add Transaction
-                <small><span class="fa fa-plus"></span>
-                </small>
-            </a>
-            <a ui-sref-active="hidden" ui-sref="root.account-details.envelopes" class="btn btn-default"
-               title="Edit envelopes for {{accountDetails.user.name}}">
-                Edit Envelopes
-                <small><span class="fa fa-edit"></span>
-                </small>
-            </a>
+        <!--<div class="col-sm-4">-->
+        <!--</div>-->
+        <div class="col-md-6 col-sm-8 text-right">
+            <div class="btn-group">
+                <switch-account current="{{accountDetails.user.id}}"></switch-account>
+                <a ui-sref-active="hidden" ui-sref="root.account-details.transaction-add" class="btn btn-default">
+                    <span class="fa fa-plus fa-fw"></span> Add Transaction
+                </a>
+                <a ui-sref-active="hidden" ui-sref="root.account-details.envelopes" class="btn btn-default"
+                   title="Edit envelopes for {{accountDetails.user.name}}">
+                    <span class="fa fa-edit fa-fw"></span> Edit Envelopes
+                </a>
+
+            </div>
         </div>
      </div>
      <div class="row ui-view-container">
