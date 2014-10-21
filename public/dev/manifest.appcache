@@ -1,0 +1,14 @@
+CACHE MANIFEST
+
+# Version 1
+
+CACHE:
+/app.full.min.css
+/app.full.min.js
+/index.html
+/img/money/png/48x48/Money.png
+/bower_components/font-awesome/fonts/FontAwesome.otf
+/bower_components/font-awesome/fonts/fontaweseom-webfont.eot
+/bower_components/font-awesome/fonts/fontaweseom-webfont.svg
+/bower_components/font-awesome/fonts/fontaweseom-webfont.ttf
+/bower_components/font-awesome/fonts/fontaweseom-webfont.woff
