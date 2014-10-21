@@ -29,11 +29,11 @@
             <h2>Transactions</h2>
 
             <div class="row">
-                <div class="hidden-xs col-sm-3 h3">Date</div>
-                <div class="visible-xs col-xs-2 h3"><span class="fa fa-calendar"></span></div>
-                <div class="col-xs-7 col-sm-5 h3">Description</div>
-                <div class="hidden-xs col-sm-4 h3">Amount</div>
-                <div class="visible-xs col-xs-3 h3"><span class="fa fa-usd"></span></div>
+                <div class="hidden-xs col-sm-3 h3 text-center">Date</div>
+                <div class="visible-xs col-xs-2 h3 text-center"><span class="fa fa-calendar"></span></div>
+                <div class="col-xs-7 col-sm-5 h3 text-center">Description</div>
+                <div class="hidden-xs col-sm-4 h3 text-center">Amount</div>
+                <div class="visible-xs col-xs-3 h3 text-center"><span class="fa fa-usd"></span></div>
             </div>
             <div ng-repeat="transaction in accountDetails.transactions | orderBy:'-created_at' track by transaction.id"
                  ng-click="hidden=!hidden" ng-init="hidden=true"
@@ -41,7 +41,7 @@
                 <div class="row">
                     <div class="col-xs-2 col-sm-3">{{transaction.created}}</div>
                     <div class="col-xs-7 col-sm-5">{{transaction.description}}</div>
-                    <div class="col-xs-3 col-sm-4">{{transaction.amount | currency}}</div>
+                    <div class="col-xs-3 col-sm-4 text-right">{{transaction.amount | currency}}</div>
                 </div>
                 <div class="row" ng-hide="hidden">
                     <ul class="list-inline col-sm-10 col-sm-offset-1">
