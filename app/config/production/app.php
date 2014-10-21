@@ -2,7 +2,7 @@
 
 return array(
 
-    'debug'     => true,
+    'debug'     => false,
     'url'       => 'http://jrbank.co',
     'providers'    => array(
 
