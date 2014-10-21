@@ -9,12 +9,12 @@
         <div class="col-md-6 col-sm-8 text-right">
             <div class="btn-group">
                 <switch-account current="{{accountDetails.user.id}}"></switch-account>
-                <a ui-sref-active="hidden" ui-sref="root.account-details.transaction-add" class="btn btn-default">
-                    <span class="fa fa-plus fa-fw"></span> Add Transaction
+                <a ui-sref-active="hidden" ui-sref="root.account-details.transaction-add" class="btn btn-success">
+                    <span class="fa fa-plus"></span> Add<span class="hidden-xs"> Transaction</span>
                 </a>
                 <a ui-sref-active="hidden" ui-sref="root.account-details.envelopes" class="btn btn-default"
                    title="Edit envelopes for {{accountDetails.user.name}}">
-                    <span class="fa fa-edit fa-fw"></span> Edit Envelopes
+                    <span class="fa fa-edit"></span> <span class="hidden-xs">Edit </span>Env<span class="hidden-xs">elopes</span>
                 </a>
 
             </div>
