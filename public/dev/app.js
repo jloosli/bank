@@ -39,8 +39,8 @@
                             controller:  'BankHeaderCtrl as bankHeader'
                         },
                         footer: {
-                            templateUrl: 'partial/bank-header/bank-header.html',
-                            controller:  'bankHeaderCtrl as bankHeader'
+                            templateUrl: 'partial/bank-footer/bank-footer.html',
+                            controller:  'BankFooterCtrl as bankFooter'
                         }
                     },
                     data:     {

@@ -14,12 +14,13 @@
 		"artdarek/oauth-4-laravel": "1.0.5",
         "guzzlehttp/guzzle": "~4.2",
         "guzzlehttp/oauth-subscriber": "~0.1",
-		"barryvdh/laravel-cors": "0.2.x"
-    },
+		"barryvdh/laravel-cors": "0.2.x",
+		"barryvdh/laravel-ide-helper": "1.*"
+
+	},
     "require-dev": {
         "mockery/mockery": "dev-master@dev",
-        "phpunit/phpunit": "4.3.*",
-        "barryvdh/laravel-ide-helper": "1.*"
+        "phpunit/phpunit": "4.3.*"
     },
 	"autoload": {
 		"classmap": [

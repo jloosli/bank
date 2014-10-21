@@ -32,6 +32,12 @@ return array(
             'allowedMethods' => array('*'),
             'maxAge' => 3600,
         ),
+        'auth/*' => array(
+            'allowedOrigins' => array('*'),
+            'allowedHeaders' => array('*'),
+            'allowedMethods' => array('*'),
+            'maxAge' => 3600,
+        ),
         '*' => array(
             'allowedOrigins' => array('*'),
             'allowedHeaders' => array('Content-Type'),

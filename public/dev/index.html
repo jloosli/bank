@@ -4,11 +4,12 @@
     <title>Jr Bank</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="mobile-web-app-capable" content="yes">
-    <link rel="icon" sizes="256x256" href="img/money/png/256x256/Money.png">
-    <link rel="manifest" href="manifest.json">
+    <link data-remove="false" rel="icon" sizes="256x256" href="img/money/png/256x256/Money.png">
+    <link data-remove="false" rel="apple-touch-icon-precomposed" sizes="256x256"
+          href="img/money/png/256x256/Money.png"/>
+    <link data-remove="false" rel="manifest" href="manifest.json">
     <meta charset="utf-8">
     <link href="app.less" type="text/css" rel="stylesheet/less">
-    <link rel="apple-touch-icon-precomposed" sizes="256x256" href="img/money/png/256x256/Money.png"/>
 </head>
 <body>
 
@@ -53,13 +54,14 @@
 <script src="partial/manage/manage-bank/manage-bank.js"></script>
 <script src="partial/manage/manage-users/manage-users.js"></script>
 <script src="partial/manage/manage-users-edit/manage-users-edit.js"></script>
+<script src="partial/bank-footer/bank-footer.js"></script>
 <!-- Add New Component JS Above -->
 
 <div>
     <div id="content" class="container">
         <div ui-view="header"></div>
-        <div ui-view="container">
-        </div>
+        <div ui-view="container"></div>
+        <div ui-view="footer"></div>
     </div>
 </div>
 
