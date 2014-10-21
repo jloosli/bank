@@ -12,3 +12,8 @@ CACHE:
 /bower_components/font-awesome/fonts/fontaweseom-webfont.svg
 /bower_components/font-awesome/fonts/fontaweseom-webfont.ttf
 /bower_components/font-awesome/fonts/fontaweseom-webfont.woff
+
+FALLBACK:
+
+NETWORK:
+*
