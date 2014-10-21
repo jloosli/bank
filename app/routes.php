@@ -12,6 +12,7 @@
 */
 
 Route::api( [ 'version' => 'v1' ], function () {
+    Route::get('/test', function() {return "Test";});
     Route::get( '/users/me', 'UserController@currentUser' ); // Get the current user
     Route::put( '/users/me', 'UserController@updateUser' ); // Get the current user
     Route::group( [ 'prefix' => '/banks', 'protected' => true ], function () {
@@ -44,7 +45,7 @@ Route::api( [ 'version' => 'v1' ], function () {
     } );
 
 } );
-
+Route::get('/test', function() {return "Test";});
 Route::post('auth/login', 'AuthController@login');
 Route::post('auth/signup', 'AuthController@signup');
 Route::post('auth/facebook', 'AuthController@facebook');
@@ -54,5 +55,3 @@ Route::post('auth/google', 'AuthController@google');
 Route::post('auth/linkedin', 'AuthController@linkedin');
 Route::get('auth/twitter', 'AuthController@twitter');
 Route::get('auth/unlink/{provider}', array('before' => 'auth', 'uses' => 'AuthController@unlink'));
-
-//Route::get('{angular?}', [ 'uses' => 'HomeController@index' ])->where('angular', '.*');

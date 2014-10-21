@@ -13,7 +13,8 @@
 		"firebase/php-jwt": "~1.0",
 		"artdarek/oauth-4-laravel": "1.0.5",
         "guzzlehttp/guzzle": "~4.2",
-        "guzzlehttp/oauth-subscriber": "~0.1"
+        "guzzlehttp/oauth-subscriber": "~0.1",
+		"barryvdh/laravel-cors": "0.2.x"
     },
     "require-dev": {
         "mockery/mockery": "dev-master@dev",
