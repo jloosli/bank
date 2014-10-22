@@ -1,12 +1,12 @@
 <div>
     <div class="row">
-        <div class="col-md-6 col-sm-4">
+        <div class="col-md-6 col-sm-4 text-center">
         <h1>{{::accountDetails.user.name}}&nbsp;<wbr><small>(Balance:&nbsp;{{accountDetails.user.balance | currency}})</small></h1>
 
         </div>
         <!--<div class="col-sm-4">-->
         <!--</div>-->
-        <div class="col-md-6 col-sm-8 text-right">
+        <div class="col-md-6 col-sm-8 text-center">
             <div class="btn-group">
                 <switch-account current="{{::accountDetails.user.id}}"></switch-account>
                 <a ui-sref-active="hidden" ui-sref="root.account-details.transaction-add" class="btn btn-success">
