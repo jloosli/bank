@@ -80,6 +80,7 @@ function newTransactionCtrl($scope, $location, banksService, utilsService) {
             }
         };
         banksService.transactions($scope.user).save(transaction).$promise.then(function (result) {
+
             var newTransaction = result.transaction;
             newTransaction.envelope_transactions = transaction.envelope_transactions;
             newTransaction.created = utilsService.relDate(newTransaction.created_at);
@@ -87,6 +88,7 @@ function newTransactionCtrl($scope, $location, banksService, utilsService) {
             self.lastTransaction = transaction.transaction;
 
             $scope.transactions.push(newTransaction);
+            $scope.$parent.$parent.accountDetails.user.balance += parseFloat(transaction.transaction.amount);
 
             $scope.envelopes = _.map($scope.envelopes, function(env) {
                 env.balance += _.find(transaction.transaction.envelope_transactions, function(et) {
