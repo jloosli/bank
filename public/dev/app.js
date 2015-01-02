@@ -182,8 +182,10 @@
 
         });
 
-    angular.module('jrbank').run(function ($rootScope, $http, $auth, $state, authService) {
+    angular.module('jrbank').run(function ($rootScope, $http, $auth, $state,  authService) {
         'use strict';
+
+        $http.defaults.withCredentials = true;
 
         authService.init();
 

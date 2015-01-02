@@ -1,4 +1,3 @@
-angular.module('jrbank').controller('BankFooterCtrl',function($scope){
-
+angular.module('jrbank').controller('BankFooterCtrl',function($scope, $rootScope){
 
 });

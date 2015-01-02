@@ -15,6 +15,7 @@ angular.module('jrbank').factory('utilsService', function ($auth, $state) {
     };
 
 	utilsService.isLoggedIn = function() {
+
 		return $auth.isAuthenticated();
 	};
 

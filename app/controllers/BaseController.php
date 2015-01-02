@@ -17,12 +17,13 @@ class BaseController extends Controller {
 
     protected function createToken($user)
     {
+//        $theUser = $user->first();
         $payload = array(
             'iss' => Request::url(),
-            'sub' => $user->first()['id'],
+            'sub' => $user->id,
             'iat' => time(),
             'exp' => time() + (2 * 7 * 24 * 60 * 60),
-            'user' => $user->first()->toArray()
+            'user' => $user->toArray()
         );
 
         return JWT::encode($payload, $_ENV['token']);

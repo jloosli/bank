@@ -12,7 +12,7 @@
 */
 
 Route::api( [ 'version' => 'v1' ], function () {
-    Route::get('/test', function() {return "Test";});
+    Route::get('/test', function() {return "API Test";});
     Route::get( '/users/me', 'UserController@currentUser' ); // Get the current user
     Route::put( '/users/me', 'UserController@updateUser' ); // Get the current user
     Route::group( [ 'prefix' => '/banks', 'protected' => true ], function () {
@@ -45,7 +45,7 @@ Route::api( [ 'version' => 'v1' ], function () {
     } );
 
 } );
-Route::get('/test', function() {return "Test";});
+Route::get('tester', function() {return "Test";});
 Route::post('auth/login', 'AuthController@login');
 Route::post('auth/signup', 'AuthController@signup');
 Route::post('auth/facebook', 'AuthController@facebook');

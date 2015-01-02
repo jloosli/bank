@@ -155,7 +155,7 @@ class AuthController extends \BaseController {
             $user = User::where( 'google', '=', $profile['sub'] );
 
             if ( $user->first() ) {
-                return Response::json( array( 'token' => $this->createToken( $user ) ) );
+                return Response::json( array( 'token' => $this->createToken( $user->first() ) ) );
             }
 
             $user = User::where( 'email', '=', $profile['email'] );
