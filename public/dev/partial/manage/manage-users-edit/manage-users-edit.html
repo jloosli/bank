@@ -28,7 +28,7 @@
                     ng-model="editUser.user.user_type">
                 <option value="user">User</option>
                 <option value="admin">Admin</option>
-                <option value="super-admin">Super Admin</option>
+                <!--<option ng-if="editUser.user.user_type=='super-admin'" value="super-admin">Super Admin</option>-->
             </select>
         </div>
         <button class="btn btn-primary" ng-click="editUser.save()">Save</button>

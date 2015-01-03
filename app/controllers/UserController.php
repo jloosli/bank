@@ -43,6 +43,7 @@ class UserController extends \BaseController {
         }
 
         if ( $user->save() ) {
+            Log::info( sprintf( 'Created User %s (%d)', $user->name, $user->id ) );
             $user->load( 'envelopes' );
 
             return Response::api()->withArray( array(
@@ -53,7 +54,6 @@ class UserController extends \BaseController {
         } else {
             throw new Dingo\Api\Exception\StoreResourceFailedException( 'Could not create User.', $user->getErrors() );
         }
-        Log::info( 'Created : ' . $user );
     }
 
     /**

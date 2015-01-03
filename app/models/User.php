@@ -14,7 +14,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     use ValidatingTrait;
     protected $dates = ['deleted_at'];
 
-    protected $fillable = array( 'username', 'name', 'email', 'bank_id', 'password' );
+    protected $fillable = array( 'username', 'name', 'email', 'bank_id', 'password', 'user_type' );
     protected $guarded = [ 'id' ];
 
     public function transactions() {
