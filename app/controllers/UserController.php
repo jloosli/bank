@@ -38,9 +38,6 @@ class UserController extends \BaseController {
         $user = new User();
         $user->fill( Input::all() );
         $user->bank_id = $bank_id;
-        if ( empty( $user->slug ) ) {
-            $user->slug = Str::slug( $user->name );
-        }
 
         if ( $user->save() ) {
             Log::info( sprintf( 'Created User %s (%d)', $user->name, $user->id ) );

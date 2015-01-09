@@ -27,7 +27,7 @@
         <div class="form-group" ng-show="editUser.user.password  || editUser.isNew()" >
             <label for="user_password_check">Password (enter again just to be sure):</label>
             <input ng-required="editUser.user.password" class="form-control" type="password" id="user_password_check"
-                   compare-to="editUser.user.password" name="password_check"
+                   compare-to="editUser.user.password" name="password_check" minlength="3"
                    ng-model="editUser.user.password_check"/>
             <div ng-messages="manageuser.password_check.$error" class="help-block bg-danger text-danger" ng-messages-include="partial/messages.html"></div>
         </div>
@@ -40,7 +40,7 @@
                 <!--<option ng-if="editUser.user.user_type=='super-admin'" value="super-admin">Super Admin</option>-->
             </select>
         </div>
-        <div ng-if="editUser.message" class="bg-danger"><span class="text-danger">{{editUser.message}}</span></div>
+        <div ng-if="editUser.message" class="bg-danger"><span class="text-danger" ng-bind-html="editUser.message"></span></div>
         <button ng-disabled="manageuser.$invalid" class="btn btn-primary" ng-click="editUser.save()">Save</button>
 
 

@@ -41,6 +41,7 @@
 
         this.save = function () {
             self.message='';
+            var promise;
 
             if (typeof self.user.password !== 'undefined' && !self.user.password) {
                 delete(self.user.password);
@@ -54,21 +55,20 @@
 
             if (self.user.id.toString().indexOf('new-') === 0) {
                 var parent = $scope.$parent; // Grab the parent scope now since by the time the service resolves, $scope will be destroyed
-                banksService.users().save(self.user).$promise
-                    .then(function (result) {
-                    parent.manageUsers.addUser(result.data);
-                }).catch(function (result) {
-                    console.log(result);
-                        self.message="There was a problems saving the user.";
-                    });
+                promise= banksService.users().save(self.user).$promise;
             } else {
-                banksService.users(self.user.id).update(self.user).$promise.then(function (result) {
-                    console.log(result);
-                    if (result.success) {
-                    }
-                });
+                promise = banksService.users(self.user.id).update(self.user).$promise;
             }
-            $state.go('^');
+            promise.then(function (result) {
+                parent.manageUsers.addUser(result.data);
+                $state.go('^');
+            }).catch(function (result) {
+                console.log(result);
+                self.message="There was a problems saving the user.<br>";
+                _.forEach(result.data.errors, function(item, idx) {
+                    self.message += item+"<br>";
+                });
+            });
         };
     }
 

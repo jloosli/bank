@@ -1,6 +1,6 @@
 /*global ACCESS_LEVELS:true */
 ;(function () {
-    angular.module('jrbank', ['ui.bootstrap', 'ui.utils', 'ui.router', 'ngAnimate', 'ngResource', 'ngMessages', 'Satellizer']);
+    angular.module('jrbank', ['ui.bootstrap', 'ui.utils', 'ui.router', 'ngAnimate', 'ngResource', 'ngMessages', 'ngSanitize', 'Satellizer']);
 
     var hostparts = window.location.hostname.split('.'),
         API_URL = window.location.protocol + '//' + hostparts[hostparts.length-2] + '.' + hostparts[hostparts.length-1] + '/';

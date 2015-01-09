@@ -50,7 +50,8 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
      * Validation rules
      */
     protected $rules = array(
-        'username' => 'required|between:4,100',
+        'username' => 'required|unique:users|between:4,100',
+        'name' => 'required',
         'email'    => 'email',
         'password' => 'min:3',
         'bank_id'  => 'required|numeric',
