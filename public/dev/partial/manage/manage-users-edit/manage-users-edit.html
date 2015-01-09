@@ -40,6 +40,7 @@
                 <!--<option ng-if="editUser.user.user_type=='super-admin'" value="super-admin">Super Admin</option>-->
             </select>
         </div>
+        <div ng-if="editUser.message" class="bg-danger"><span class="text-danger">{{editUser.message}}</span></div>
         <button ng-disabled="manageuser.$invalid" class="btn btn-primary" ng-click="editUser.save()">Save</button>
 
 

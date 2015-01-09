@@ -8,6 +8,7 @@
     function UserEdit($scope, $state, $stateParams, users, banksService) {
         var self = this;
         var params = $stateParams;
+        this.message = '';
 
         users.$promise.then(function (result) {
             self.user = _.find(result.users, function (user) {
@@ -27,6 +28,7 @@
         };
 
         this.suggestUsername = function (pristine) {
+            console.log(pristine);
             if (self.isNew && pristine) {
                 self.user.username = self.user.name.replace(/ /g, '_').toLowerCase();
             }
@@ -38,6 +40,7 @@
         });
 
         this.save = function () {
+            self.message='';
 
             if (typeof self.user.password !== 'undefined' && !self.user.password) {
                 delete(self.user.password);
@@ -51,9 +54,13 @@
 
             if (self.user.id.toString().indexOf('new-') === 0) {
                 var parent = $scope.$parent; // Grab the parent scope now since by the time the service resolves, $scope will be destroyed
-                banksService.users().save(self.user).$promise.then(function (result) {
+                banksService.users().save(self.user).$promise
+                    .then(function (result) {
                     parent.manageUsers.addUser(result.data);
-                });
+                }).catch(function (result) {
+                    console.log(result);
+                        self.message="There was a problems saving the user.";
+                    });
             } else {
                 banksService.users(self.user.id).update(self.user).$promise.then(function (result) {
                     console.log(result);
