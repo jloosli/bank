@@ -15,7 +15,7 @@
             <tr ng-repeat="user in manageUsers.users track by user.id">
                 <td>{{$index + 1}}</td>
                 <td>{{user.name}}</td>
-                <td>{{user.user_type}}</td>
+                <td>{{user.user_type_clean}}</td>
                 <td>
                     <a ui-sref="root.manage.manage-users.manage-users-edit({ id: user.id })"
                        class="btn btn-default">Edit</a>

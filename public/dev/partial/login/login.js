@@ -24,6 +24,7 @@
                     $state.go('root.accounts');
                 })
                 .catch(function (response) {
+                    console.log(response);
                 });
         };
     }
