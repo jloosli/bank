@@ -28,8 +28,7 @@
         };
 
         this.suggestUsername = function (pristine) {
-            console.log(pristine);
-            if (self.isNew && pristine) {
+            if (self.isNew() && pristine) {
                 self.user.username = self.user.name.replace(/ /g, '_').toLowerCase();
             }
         };
@@ -47,20 +46,21 @@
                 delete(self.user.password);
             } else if (self.user.password) {
                 if (self.user.password !== self.user.password_check) {
-                    console.log('Passwords don\'t match');
-                    //@todo throw up error on form
+                    self.message="Passwords don't match";
                     return;
                 }
             }
+            var parent = $scope.$parent; // Grab the parent scope now since by the time the service resolves, $scope will be destroyed
 
             if (self.user.id.toString().indexOf('new-') === 0) {
-                var parent = $scope.$parent; // Grab the parent scope now since by the time the service resolves, $scope will be destroyed
                 promise= banksService.users().save(self.user).$promise;
             } else {
                 promise = banksService.users(self.user.id).update(self.user).$promise;
             }
             promise.then(function (result) {
-                parent.manageUsers.addUser(result.data);
+                if (self.user.id.toString().indexOf('new-') === 0) {
+                    parent.manageUsers.addUser(result.data);
+                }
                 $state.go('^');
             }).catch(function (result) {
                 console.log(result);

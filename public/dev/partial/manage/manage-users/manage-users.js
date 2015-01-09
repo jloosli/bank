@@ -29,9 +29,9 @@
             });
         };
 
-        //this.addUser = function(user) {
-        //    self.users.push(user);
-        //};
+        this.addUser = function(user) {
+            self.users.push(user);
+        };
 
         this.cleanUserType = function(user_type) {
             var clean_user_type;
