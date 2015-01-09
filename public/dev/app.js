@@ -1,6 +1,6 @@
 /*global ACCESS_LEVELS:true */
 ;(function () {
-    angular.module('jrbank', ['ui.bootstrap', 'ui.utils', 'ui.router', 'ngAnimate', 'ngResource', 'Satellizer']);
+    angular.module('jrbank', ['ui.bootstrap', 'ui.utils', 'ui.router', 'ngAnimate', 'ngResource', 'ngMessages', 'Satellizer']);
 
     var hostparts = window.location.hostname.split('.'),
         API_URL = window.location.protocol + '//' + hostparts[hostparts.length-2] + '.' + hostparts[hostparts.length-1] + '/';
@@ -182,7 +182,7 @@
 
         });
 
-    angular.module('jrbank').run(function ($rootScope, $http, $auth, $state,  authService) {
+    angular.module('jrbank').run(function ($rootScope, $http, $auth, $state, authService) {
         'use strict';
 
         $http.defaults.withCredentials = false;

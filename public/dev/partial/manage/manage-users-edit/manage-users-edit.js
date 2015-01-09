@@ -11,23 +11,29 @@
 
         users.$promise.then(function (result) {
             self.user = _.find(result.users, function (user) {
-                if(params.id.toString().indexOf('new-') === 0) {
+                if (params.id.toString().indexOf('new-') === 0) {
                     return user.id === params.id;
                 }
                 return parseInt(user.id) === parseInt(params.id);
             });
             // If they happened to refresh the screen, take them back to a clean representation of the users.
-            if(!self.user) {
+            if (!self.user) {
                 $state.go('^');
             }
         });
 
-        this.isNew = function() {
+        this.isNew = function () {
             return self.user && self.user.id.toString().indexOf('new-') === 0;
         };
 
+        this.suggestUsername = function (pristine) {
+            if (self.isNew && pristine) {
+                self.user.username = self.user.name.replace(/ /g, '_').toLowerCase();
+            }
+        };
 
-        $scope.$on('$destroy', function() {
+
+        $scope.$on('$destroy', function () {
             $scope.$parent.manageUsers.removeUnsavedUsers();
         });
 
@@ -59,5 +65,23 @@
         };
     }
 
-    angular.module('jrbank').controller('ManageUsersEditCtrl', UserEdit);
+    var compareTo = function () {
+        return {
+            require: "ngModel",
+            scope:   {
+                otherModelValue: "=compareTo"
+            },
+            link:    function (scope, element, attributes, ngModel) {
+                ngModel.$validators.compareTo = function (modelValue) {
+                    return modelValue === scope.otherModelValue;
+                };
+                scope.$watch("otherModelValue", function () {
+                    ngModel.$validate();
+                });
+            }
+        };
+    };
+
+
+    angular.module('jrbank').controller('ManageUsersEditCtrl', UserEdit).directive('compareTo',compareTo);
 })();
