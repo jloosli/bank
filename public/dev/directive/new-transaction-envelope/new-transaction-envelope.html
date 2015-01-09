@@ -14,7 +14,7 @@
                    id="envelope_{{envelope.id}}" name="envelope_{{envelope.id}}"
                    type="number" step="any"
                    ng-model="envelope.amount"
-                   ng-change="envelopeChange()"
+                   ng-change="envelopeChange()" focus-select="0"
                     />
             <span class="input-group-btn"><button class="btn btn-default" ng-click="clearEnvelope(envelope.id)"
                                                   title="Click to clear out envelope amount"
