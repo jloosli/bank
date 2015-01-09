@@ -9,7 +9,7 @@ angular.module('jrbank').directive('focusSelect', function($parse) {
                 if(!attrs.focusSelect || attrs.focusSelect===this.value) {
                     this.select();
                 }
-            })
+            });
 
 		}
 	};
