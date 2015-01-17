@@ -17,7 +17,6 @@ class BaseController extends Controller {
 
     protected function createToken($user)
     {
-//        $theUser = $user->first();
         $payload = array(
             'iss' => Request::url(),
             'sub' => $user->id,

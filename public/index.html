@@ -1,110 +1,197 @@
 <!doctype html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="mobile-web-app-capable" content="yes">
-	<meta name="apple-mobile-web-app-status-bar-style" content="black">
-	<title>JrBank</title>
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"/>
-	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>JrBank | An easy way to teach kids the value of money</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="apple-touch-icon-precomposed" sizes="256x256" href="/images/money/png/256x256/Money.png"/>
+    <link rel="icon" href="/images/money/ico/Money.ico"/>
+    <style>
+        header {
+            position:   fixed;
+            left:       0;
+            right:      0;
+            color:      white;
+            z-index:    100;
+            padding:    20px 0;
+            background: rgba(256, 256, 256, .4);
+        }
 
-	<style>
-		[ng-cloak] { display: none; }
-		[ng-click] { cursor: pointer; }
-		.cleft {clear: left;}
-		.clboth {clear: both;}
-		.navbar-brand  {padding: 0 15px;}
-		* {-webkit-transition: all 1s ease ; transition: all 1s ease;}
-		.navbar-brand:hover img {
-			-webkit-transform: rotate(20deg);
-			transform: rotate(20deg);
-		}
-		.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
-	</style>
-	<link rel="apple-touch-icon-precomposed" sizes="256x256" href="/images/money/png/256x256/Money.png" />
-	<link rel="icon" href="/images/money/ico/Money.ico" />
+
+        a.logo, a.logo:visited, a.logo:hover {
+            font-size: 40px;
+            color: #08110f;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+        a.logo span {
+            color: #25413E;
+        }
+
+        nav.main {
+            float: right;
+        }
+
+        nav.main ul {
+            list-style-type: none;
+        }
+
+        nav.main li {
+            display: inline-block;
+            padding: 5px 10px;
+            margin:  0 10px;
+            border:  1px solid #161c3a;
+        }
+
+        nav.main a, nav.main a:hover, nav.main a:visited {
+            color: #161c3a;
+            text-decoration: none;
+        }
+
+        nav.main li:hover {
+            background: white;
+        }
+
+
+        .mega-image {
+            height:                  100vh;
+            -webkit-background-size: cover;
+            background-size:         cover;
+            background-position:     center;
+            background-repeat:       no-repeat;
+            padding:                 25px;
+            align-items:             center;
+            position:                relative;
+        }
+
+        article.centered {
+            position:  relative;
+            top:       50%;
+            transform: translateY(-50%);
+        }
+
+        article h2 {
+            text-align: center;
+            font-size: 48px;
+            text-shadow: 1px 1px 1px #000;
+
+        }
+
+        article p {
+            font-size: 30px;
+            text-shadow: 1px 1px 1px #000;
+        }
+
+        .mini-gap {
+            height:   50vh;
+            padding:  25px;
+            position: relative;
+        }
+
+        #what-is-jrbank {
+            background-image: url('images/photo-1414924347000-9823c338079b.jpg');
+            color:            white;
+        }
+
+        #where-is-jrbank {
+            background-image: url('images/photo-1417870839255-a23faa90c6b0.jpg');
+            color:            white;
+        }
+
+        #why-jrbank {
+            background-image: url('images/photo-1416339684178-3a239570f315.jpg');
+            color:            white;
+        }
+
+
+
+    </style>
 </head>
-<body ng-cloak>
-<div class="container" ng-controller="mainCtrl">
-	<nav class="navbar navbar-default " role="navigation" ng-controller="menuCtrl">
-		<!-- Brand and toggle get grouped for better mobile display -->
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse"
-			        data-target="#bs-example-navbar-collapse-1" ng-click="isCollapsed=!isCollapsed">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" href="#"><img src="/images/money/png/48x48/Money.png" /> Jr. Bank</a>
-		</div>
+<body>
+<header>
+    <a itemscope itemtype="http://schema.org/Organization" href="/" class="logo"><span>Jr</span>Bank</a>
+    <nav class="main">
+        <ul>
+            <li><a href="app.jrbank.co" class="action">Go to your bank</a></li>
+            <li><a href="#register" class="action">Sign Up</a></li>
+        </ul>
+    </nav>
 
-		<!-- Collect the nav links, forms, and other content for toggling -->
-		<div class="collapse navbar-collapse" collapse="!isCollapsed" id="bs-example-navbar-collapse-1">
-			<ul class="nav navbar-nav">
-				<li menu-active ><a href="#/accounts">Accounts</a></li>
-			</ul>
-			<ul class="nav navbar-nav navbar-right">
-				<li menu-active >
-					<a href="#" ng-show="currentUser.id" ng-click="logout()">Welcome, {{currentUser.name}}
-						<small>(logout)</small>
-					</a>
-					<a href="#/login" ng-show="!currentUser.id">Log In</a>
-				</li>
 
-			</ul>
-		</div>
-		<!-- /.navbar-collapse -->
-	</nav>
-	<div ng-view></div>
+</header>
 
-	<footer class="jumbotron clearfix clboth">Jr Bank: v<span app-version></span></footer>
-</div>
+<section id="what-is-jrbank" class="mega-image container-fluid">
+    <article class="centered">
+        <div class="row">
+            <div class="col-md-offset-8 col-md-4">
+                <h2>Teach kids the value of money</h2>
 
-<script>
-	/*!
-	 * $script.js Async loader & dependency manager
-	 * https://github.com/ded/script.js
-	 * (c) Dustin Diaz 2013
-	 * License: MIT
-	 */
-	!(function(e,t,n){typeof module!="undefined"&&module.exports?module.exports=n():typeof define=="function"&&define.amd?define(n):t[e]=n()})("$script",this,function(){function v(e,t){for(var n=0,r=e.length;n<r;++n)if(!t(e[n]))return f;return 1}function m(e,t){v(e,function(e){return!t(e)})}function g(e,t,a){function d(e){return e.call?e():r[e]}function b(){if(!--p){r[h]=1,c&&c();for(var e in s)v(e.split("|"),d)&&!m(s[e],d)&&(s[e]=[])}}e=e[l]?e:[e];var f=t&&t.call,c=f?t:a,h=f?e.join(""):t,p=e.length;return setTimeout(function(){m(e,function(e){if(e===null)return b();if(u[e])return h&&(i[h]=1),u[e]==2&&b();u[e]=1,h&&(i[h]=1),y(!n.test(e)&&o?o+e+".js":e,b)})},0),g}function y(n,r){var i=e.createElement("script"),s=f;i.onload=i.onerror=i[d]=function(){if(i[h]&&!/^c|loade/.test(i[h])||s)return;i.onload=i[d]=null,s=1,u[n]=2,r()},i.async=1,i.src=n,t.insertBefore(i,t.firstChild)}var e=document,t=e.getElementsByTagName("head")[0],n=/^https?:\/\//,r={},i={},s={},o,u={},a="string",f=!1,l="push",c="DOMContentLoaded",h="readyState",p="addEventListener",d="onreadystatechange";return!e[h]&&e[p]&&(e[p](c,function b(){e.removeEventListener(c,b,f),e[h]="complete"},f),e[h]="loading"),g.get=y,g.order=function(e,t,n){(function r(i){i=e.shift(),e.length?g(i,r):g(i,t,n)})()},g.path=function(e){o=e},g.ready=function(e,t,n){e=e[l]?e:[e];var i=[];return!m(e,function(e){r[e]||i[l](e)})&&v(e,function(e){return r[e]})?t():!function(e){s[e]=s[e]||[],s[e][l](t),n&&n(i)}(e.join("|")),g},g.done=function(e){g([null],e)},g})
+                <p>JrBank helps kids to learn the value of money at an early age.</p>
+            </div>
+        </div>
+    </article>
+</section>
+<!--<section id="when-is-jrbank" class="mini-gap">-->
+<!--<article>-->
+<!--<div class="row">-->
+<!--<div class="col-md-offset-2 col-md-4">-->
+<!--<h2>Right now!</h2>-->
+<!--</div>-->
+<!--<div class="col-md-6"><img class="img-circle" src="images/money/png/256x256/Money.png"/></div>-->
+<!--</div>-->
+<!--</article>-->
+<!--</section>-->
+<section id="where-is-jrbank" class="mega-image">
+    <article>
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <h2>Use JrBank Anywhere</h2>
+                <p>You can use JrBank anywhere you are. All the data syncs up, so it doesn't matter who is using it.</p>
+            </div>
+        </div>
 
-	var angularVersion = "1.2.9",
-			localAng = "/js/libs/angular-" + angularVersion + "/",
-			cdnAng = "//ajax.googleapis.com/ajax/libs/angularjs/" + angularVersion + "/",
-			angularFiles = [
-				'angular.min.js',
-				'angular-route.min.js',
-				'angular-resource.min.js',
-				'angular-sanitize.js'
-			],
-			localFiles = [
-					"/js/libs/lodash/lodash.min.js",
-					"/js/libs/localforage/localforage.min.js",
-				"/js/app.js",
-				"/js/ui-bootstrap-tpls-0.9.0.min.js",
-				"/js/services.js",
-				"/js/controllers.js",
-				"/js/filters.js",
-				"/js/directives.js"
-			],
-			base = cdnAng;
-	$script(base + 'angular.min.js', function() {
-		$script(angularFiles.map(function (file) {
-			return base + file;
-		}), function () {
-			$script(localFiles, function () {
-				angular.bootstrap(document, ['jrBank']);
-			});
-		}, function (notloaded) {
-			notloaded && notloaded.forEach(function (file) {
-				console.error(file);
-				$script(localAng + file);
-			});
-		});
-	});
-</script>
+    </article>
+</section>
+<section id="why-jrbank" class="mega-image">
+    <article class="centered">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <h2>Give your kids the building blocks to manage their finances</h2>
+                <p>Give them the skills early on so they can understand money for the long haul.</p>
+            </div>
+        </div>
+
+    </article>
+</section>
+<section id="register" class="mini-gap">
+    <article class="centered">
+        <h2>Sign Up Today</h2>
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+
+        <form>
+            <div class="form-group">
+                <label for="bank_name">Bank Name</label>
+                <input type="text" class="form-control" id="bank_name" name="bank_name" placeholder="e.g. Johnson Family" />
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="e.g. dad@johnsonfamily.org" />
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Let&rsquo;s open our family bank!</button>
+        </form>
+                </div>
+            </div>
+    </article>
+</section>
+<footer>
+    &copy; 2015 jrbank.co
+</footer>
 </body>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script async src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 </html>

@@ -135,8 +135,8 @@ class AuthController extends \BaseController {
 
         // Step 3a. If user is already signed in then link accounts.
         if ( Request::header( 'Authorization' ) ) {
-            $user = User::where( 'google', '=', $profile['sub'] );
-            if ( $user->first() ) {
+            $user = User::where( 'google', '=', $profile['sub'] )->first();
+            if ( $user ) {
                 return Response::json( array( 'message' => 'There is already a Google account that belongs to you' ), 409 );
             }
 
@@ -152,16 +152,15 @@ class AuthController extends \BaseController {
             return Response::json( array( 'token' => $this->createToken( $user ) ) );
         } // Step 3b. Create a new user account or return an existing one.
         else {
-            $user = User::where( 'google', '=', $profile['sub'] );
+            $user = User::where( 'google', '=', $profile['sub'] )->first();
 
-            if ( $user->first() ) {
-                return Response::json( array( 'token' => $this->createToken( $user->first() ) ) );
+            if ( $user ) {
+                return Response::json( array( 'token' => $this->createToken( $user ) ) );
             }
 
-            $user = User::where( 'email', '=', $profile['email'] );
+            $user = User::where( 'email', '=', $profile['email'] )->first();
 
-            if ( $user->first() ) {
-                $user         = $user->first();
+            if ( $user ) {
                 $user->google = $profile['sub'];
                 $user->save();
 
@@ -449,6 +448,4 @@ class AuthController extends \BaseController {
             return Response::json( array( 'token' => $this->createToken( $user ) ) );
         }
     }
-
-
 }

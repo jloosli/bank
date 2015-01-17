@@ -24,6 +24,7 @@
         };
 
         svc.users = function (user_id) {
+            //debugger;
             return $resource(API_URL + 'banks/' + currentBank() + '/users/:user_id',
                 {"user_id": user_id || ''},
                 {cache: true,
