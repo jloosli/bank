@@ -55,4 +55,6 @@ Route::post('auth/google', 'AuthController@google');
 Route::post('auth/linkedin', 'AuthController@linkedin');
 Route::get('auth/twitter', 'AuthController@twitter');
 Route::get('auth/unlink/{provider}', array('before' => 'auth', 'uses' => 'AuthController@unlink'));
-Route::get('', function() {return Redirect::to('/index.html');});
+Route::get('', function() {
+    return Redirect::to('/index.html');
+});
