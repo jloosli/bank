@@ -24,11 +24,12 @@
         a.logo {
             font-size: 20px;
         }
+
         a.logo, a.logo:visited, a.logo:hover {
 
-            color: #08110f;
+            color:           #08110f;
             text-decoration: none;
-            margin-left: 20px;
+            margin-left:     20px;
         }
 
         @media (min-width: 768px) {
@@ -44,8 +45,13 @@
                 margin: 0 10px;
             }
         }
-        a.logo span {
+
+        .jr {
             color: #25413E;
+        }
+
+        .bank {
+            color: #08110f;
         }
 
         nav.main {
@@ -64,14 +70,13 @@
         }
 
         nav.main a, nav.main a:hover, nav.main a:visited {
-            color: #161c3a;
+            color:           #161c3a;
             text-decoration: none;
         }
 
         nav.main li:hover {
             background: white;
         }
-
 
         .mega-image {
             height:                  100vh;
@@ -91,14 +96,14 @@
         }
 
         article h2 {
-            text-align: center;
-            font-size: 48px;
+            text-align:  center;
+            font-size:   48px;
             text-shadow: 1px 1px 1px #000;
 
         }
 
         article p {
-            font-size: 30px;
+            font-size:   30px;
             text-shadow: 1px 1px 1px #000;
         }
 
@@ -125,23 +130,31 @@
 
         #register {
             background-image: url('images/photo-1416339158484-9637228cc908.jpg');
-            color: white;
+            min-height:       100vh;
+            height:           auto;
+            color:            white;
         }
 
-        #mc_embed_signup{
-            background:rgba(256,256,256,.8);
-            color: #08110f;
-            padding: 20px;
+        #mc_embed_signup {
+            background: rgba(256, 256, 256, .8);
+            color:      #08110f;
+            padding:    20px;
         }
-
 
 
     </style>
     <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
         ga('create', 'UA-58702982-1', 'auto');
         ga('send', 'pageview');
@@ -150,7 +163,8 @@
 </head>
 <body>
 <header>
-    <a itemscope itemtype="http://schema.org/Organization" href="/" class="logo"><span>Jr</span>Bank</a>
+    <a itemscope itemtype="http://schema.org/Organization" href="/" class="logo"><span class="jr">Jr</span><span
+            class="bank">Bank</span></a>
     <nav class="main">
         <ul>
             <li><a href="//app.jrbank.co" class="action">Go to your bank</a></li>
@@ -167,7 +181,8 @@
             <div class="col-md-offset-8 col-md-4">
                 <h2>Teach kids the value of money</h2>
 
-                <p>JrBank helps kids to learn the value of money at an early age.</p>
+                <p><span class="jr">Jr</span><span class="bank">Bank</span> helps kids to learn the value of money at an
+                    early age.</p>
             </div>
         </div>
     </article>
@@ -187,6 +202,7 @@
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
                 <h2>Give your kids the building blocks to manage their finances</h2>
+
                 <p>Use tools that are convenient for the family and continually teach sound money management.</p>
             </div>
         </div>
@@ -197,61 +213,68 @@
     <article>
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
-                <h2>Use JrBank Anywhere</h2>
-                <p>You can use JrBank anywhere you are. All the data syncs up, so it doesn't matter who is using it.</p>
+                <h2>Use <span class="jr">Jr</span>Bank Anywhere</h2>
+
+                <p>You can use <span class="jr">Jr</span>Bank anywhere you are. All the data syncs up, so it doesn't
+                    matter who is using it.</p>
             </div>
         </div>
 
     </article>
 </section>
 <section id="register" class="mega-image">
-    <article class="centered">
+    <article>
         <h2>Ready to start?</h2>
+
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
-
-
-        <!-- Begin MailChimp Signup Form -->
-        <!--<link href="//cdn-images.mailchimp.com/embedcode/classic-081711.css" rel="stylesheet" type="text/css">-->
-        <style type="text/css">
-
-            /* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
-               We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
-        </style>
-        <div id="mc_embed_signup">
-            <form action="//jrbank.us10.list-manage.com/subscribe/post?u=2f75783c6bdecab41e66415f8&amp;id=d185f05be9" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-                <div id="mc_embed_signup_scroll">
-                    <p><small>JrBank is currently in closed beta. If you'd like to be notified when JrBank is available
-                        to you, please enter your information below.</small></p>
-                    <div class="indicates-required"><span class="asterisk">*</span> indicates required</div>
-                    <div class="mc-field-group form-group">
-                        <label for="mce-EMAIL">Email Address  <span class="asterisk">*</span>
-                        </label>
-                        <input type="email" value="" name="EMAIL" class="required email form-control" id="mce-EMAIL">
-                    </div>
-                    <div class="mc-field-group form-group">
-                        <label for="mce-FNAME">First Name </label>
-                        <input type="text" value="" name="FNAME" class=" form-control" id="mce-FNAME">
-                    </div>
-                    <div class="mc-field-group form-group">
-                        <label for="mce-LNAME">Last Name </label>
-                        <input type="text" value="" name="LNAME" class=" form-control" id="mce-LNAME">
-                    </div>
-                    <div class="mc-field-group size1of2 form-group">
-                        <label for="mce-NUM_FAM">Number of people in your family</label>
-                        <input type="number" name="NUM_FAM" class=" form-control" value="" id="mce-NUM_FAM">
-                    </div>
-                    <div id="mce-responses" class="clear">
-                        <div class="response" id="mce-error-response" style="display:none"></div>
-                        <div class="response" id="mce-success-response" style="display:none"></div>
-                    </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-                    <div style="position: absolute; left: -5000px;"><input type="text" name="b_2f75783c6bdecab41e66415f8_d185f05be9" tabindex="-1" value=""></div>
-                    <div class="clear"><input type="submit" value="Keep me up to date" name="subscribe" id="mc-embedded-subscribe" class="button btn btn-default"></div>
+                <!-- Begin MailChimp Signup Form -->
+                <div id="mc_embed_signup">
+                    <form action="//jrbank.us10.list-manage.com/subscribe/post?u=2f75783c6bdecab41e66415f8&amp;id=d185f05be9"
+                          method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"
+                          class="validate" target="_blank" novalidate>
+                        <div id="mc_embed_signup_scroll">
+                            <p>
+                                <small><span class="jr">Jr</span><span class="bank">Bank</span> is currently in closed
+                                    beta. If you'd like to be notified
+                                    when <span class="jr">Jr</span><span class="bank">Bank</span> is available
+                                    to you, please enter your information below.
+                                </small>
+                            </p>
+                            <div class="indicates-required"><span class="asterisk">*</span> indicates required</div>
+                            <div class="mc-field-group form-group">
+                                <label for="mce-EMAIL">Email Address <span class="asterisk">*</span>
+                                </label>
+                                <input type="email" value="" name="EMAIL" class="required email form-control"
+                                       id="mce-EMAIL">
+                            </div>
+                            <div class="mc-field-group form-group">
+                                <label for="mce-FNAME">First Name </label>
+                                <input type="text" value="" name="FNAME" class=" form-control" id="mce-FNAME">
+                            </div>
+                            <div class="mc-field-group form-group">
+                                <label for="mce-LNAME">Last Name </label>
+                                <input type="text" value="" name="LNAME" class=" form-control" id="mce-LNAME">
+                            </div>
+                            <div class="mc-field-group size1of2 form-group">
+                                <label for="mce-NUM_FAM">Number of people in your family</label>
+                                <input type="number" name="NUM_FAM" class=" form-control" value="" id="mce-NUM_FAM">
+                            </div>
+                            <div id="mce-responses" class="clear">
+                                <div class="response" id="mce-error-response" style="display:none"></div>
+                                <div class="response" id="mce-success-response" style="display:none"></div>
+                            </div>
+                            <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                            <div style="position: absolute; left: -5000px;"><input type="text"
+                                                                                   name="b_2f75783c6bdecab41e66415f8_d185f05be9"
+                                                                                   tabindex="-1" value=""></div>
+                            <div class="clear"><input type="submit" value="Keep me up to date" name="subscribe"
+                                                      id="mc-embedded-subscribe" class="button btn btn-default"></div>
+                        </div>
+                    </form>
                 </div>
-            </form>
-        </div>
 
-        <!--End mc_embed_signup-->
+                <!--End mc_embed_signup-->
             </div>
         </div>
     </article>
