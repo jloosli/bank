@@ -12,7 +12,6 @@ class UserTableSeeder extends Seeder {
             'email'=>'first@example.com',
             'password'=>Hash::make('first_user'),
             'bank_id'=>1,
-            'slug'=>'first_user',
             'user_type'=>'user',
             'balance'=>0
         ));
@@ -22,7 +21,6 @@ class UserTableSeeder extends Seeder {
             'email'=>'second@example.com',
             'password'=>Hash::make('second_user'),
             'bank_id'=>1,
-            'slug'=>'second_user',
             'user_type'=>'super-admin',
             'balance'=>0
         ));

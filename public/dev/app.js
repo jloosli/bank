@@ -27,7 +27,7 @@
             $authProvider.config.loginUrl = API_URL + 'auth/login';
             $authProvider.config.signupUrl = API_URL + 'auth/signup';
         })
-        .config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
+        .config(function ($stateProvider, $urlRouterProvider, $httpProvider, ACCESS_LEVELS) {
             'use strict';
             $stateProvider
                 .state('root', {
@@ -179,6 +179,9 @@
 
                 return path + '/';
             });
+
+            // Asynchronous $digest (see http://blog.thoughtram.io/angularjs/2015/01/14/exploring-angular-1.3-speed-up-with-applyAsync.html)
+            $httpProvider.useApplyAsync(true);
 
         });
 
