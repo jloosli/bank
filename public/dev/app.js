@@ -185,7 +185,7 @@
 
         });
 
-    angular.module('jrbank').run(function ($rootScope, $http, $auth, $state, authService) {
+    angular.module('jrbank').run(function ($rootScope, $http, $auth, $state, $window, $location, authService) {
         'use strict';
 
         $http.defaults.withCredentials = false;
@@ -221,8 +221,9 @@
             .$on('$stateChangeSuccess',
             function(event){
 
-                if (!$window.ga)
+                if (!$window.ga) {
                     return;
+                }
 
                 $window.ga('send', 'pageview', { page: $location.path() });
             });
@@ -239,9 +240,9 @@
             }
         };
 
-        if(window.ga && $rootScope.currentUser) {
+        if($window.ga && $rootScope.currentUser) {
             // Add analytics user trackin if user is logged in
-            window.ga('set', '&uid', $rootScope.currentUser.id);
+            $window.ga('set', '&uid', $rootScope.currentUser.id);
         }
 
     });
