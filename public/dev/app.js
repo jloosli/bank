@@ -229,6 +229,11 @@
             }
         };
 
+        if(window.ga && $rootScope.currentUser) {
+            // Add analytics user watching;
+            window.ga('set', $rootScope.currentUser.id);
+        }
+
     });
 })();
 /*
