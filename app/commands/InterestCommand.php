@@ -3,6 +3,8 @@
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
+use AvantiDevelopment\JrBank\Models\Transaction;
+use AvantiDevelopment\JrBank\Models\EnvelopeTransaction;
 
 class InterestCommand extends Command {
 
