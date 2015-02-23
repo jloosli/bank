@@ -183,6 +183,16 @@
             // Asynchronous $digest (see http://blog.thoughtram.io/angularjs/2015/01/14/exploring-angular-1.3-speed-up-with-applyAsync.html)
             $httpProvider.useApplyAsync(true);
 
+            $httpProvider.interceptors.push(function() {
+                return {
+                    'request': function(config) {
+                        config.params = config.params || {};
+                        config.params['XDEBUG_SESSION_START'] = 'PHPSTORM';
+                        return config;
+                    }
+                }
+            });
+
         });
 
     angular.module('jrbank').run(function ($rootScope, $http, $auth, $state, $window, $location, authService) {

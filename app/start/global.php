@@ -53,6 +53,11 @@ App::error(function(Exception $exception, $code)
 	Log::error($exception);
 });
 
+API::error(function (Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException $exception) {
+    // Add Access Control to API error response
+    return Response::make(['error'=>$exception->getMessage()], 401)->header('Access-Control-Allow-Origin','*');
+});
+
 //App::error(function(AuthTokenNotAuthorizedException $exception) {
 //    if(Request::ajax()) {
 //        return Response::json(array('error' => $exception->getMessage()), 401);
