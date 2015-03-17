@@ -7,14 +7,14 @@
 		"laravel/framework": "4.2.*",
         "way/generators": "~2.0",
         "watson/validating": "0.10.*",
-        "dingo/api": "0.6.*",
+        "dingo/api": "0.8.*",
         "doctrine/dbal": "~2.3",
         "google/apiclient": "1.0.*@beta",
 		"firebase/php-jwt": "~1.0",
 		"artdarek/oauth-4-laravel": "1.0.5",
         "guzzlehttp/guzzle": "~4.2",
         "guzzlehttp/oauth-subscriber": "~0.1",
-		"barryvdh/laravel-cors": "0.2.x",
+		"barryvdh/laravel-cors": "0.2.*",
 		"barryvdh/laravel-ide-helper": "1.*"
 
 	},

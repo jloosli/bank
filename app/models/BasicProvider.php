@@ -10,21 +10,21 @@ namespace AvantiDevelopment\JrBank\Auth;
 
 
 use AvantiDevelopment\JrBank\Models\User;
-use Dingo\Api\Auth\Provider;
+use Dingo\Api\Auth\ProviderInterface;
+use Dingo\Api\Routing\Route;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Route;
+//use Illuminate\Routing\Route;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use UnexpectedValueException;
 
-class BasicProvider extends Provider {
+class BasicProvider implements ProviderInterface {
 
     /**
      * Authenticate the request and return the authenticated user instance.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Routing\Route $route
+     * @param  \Illuminate\Http\Request       $request
+     * @param Route|\Illuminate\Routing\Route $route
      *
-     * @throws UnauthorizedHttpException
      * @return mixed
      */
     public function authenticate( Request $request, Route $route = null ) {
@@ -32,28 +32,28 @@ class BasicProvider extends Provider {
         if ( !$authorization ) {
             throw new UnauthorizedHttpException( null, 'Missing authorization header.' );
         }
-        $authparts     = explode( ' ', $authorization );
-        $auth        = $authparts[1];
+        $authparts = explode( ' ', $authorization );
+        $auth      = $authparts[1];
         try {
             $payload = \JWT::decode( $auth, $_ENV['token'] );
-        } catch (UnexpectedValueException $e) {
-            throw new UnauthorizedHttpException(null,'Token not valid.' );
+        } catch ( UnexpectedValueException $e ) {
+            throw new UnauthorizedHttpException( null, 'Token not valid.' );
         }
 
-        $user = User::find($payload->user->id);
+        $user = User::find( $payload->user->id );
 
-        if(!$user) {
+        if ( !$user ) {
             throw new UnauthorizedHttpException( null, 'Could not authenticate.' );
-        }else{
+        } else {
             // Check to make sure user has access to the bank
             if ( $route->parameter( 'bank_id' ) ) {
                 if ( $user->user_type !== 'super-admin' && $user->bank_id !== (int) $route->parameter( 'bank_id' ) ) {
                     throw new UnauthorizedHttpException( null, 'Unable to access this bank.' );
                 }
             }
+
             return $user;
         }
-
 
 
     }

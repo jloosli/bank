@@ -33,7 +33,7 @@ return array(
         'Illuminate\View\ViewServiceProvider',
         'Illuminate\Workbench\WorkbenchServiceProvider',
         'Way\Generators\GeneratorsServiceProvider',
-        'Dingo\Api\ApiServiceProvider',
+        'Dingo\Api\Provider\ApiServiceProvider',
 //        'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
         'Barryvdh\Cors\CorsServiceProvider',
     ),

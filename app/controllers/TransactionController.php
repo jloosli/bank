@@ -6,7 +6,7 @@ use AvantiDevelopment\JrBank\Models\EnvelopeTransaction;
 use AvantiDevelopment\JrBank\Models\Envelope;
 
 class TransactionController extends BaseController {
-
+    use Dingo\Api\Routing\ControllerTrait;
     /**
      * Display a listing of the resource.
      *

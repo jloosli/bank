@@ -3,7 +3,7 @@
 use AvantiDevelopment\JrBank\Models\User;
 
 class UserController extends \BaseController {
-
+    use Dingo\Api\Routing\ControllerTrait;
     /**
      * Display a listing of the resource.
      *
@@ -43,7 +43,7 @@ class UserController extends \BaseController {
             Log::info( sprintf( 'Created User %s (%d)', $user->name, $user->id ) );
             $user->load( 'envelopes' );
 
-            return Response::api()->withArray( array(
+            return $this->response->array( array(
                 'success' => true,
                 'message' => "{$user->name} saved Successfully",
                 'data'    => $user->toArray()
@@ -112,7 +112,7 @@ class UserController extends \BaseController {
 
 
         if ( $user->update( $inputs ) ) {
-            return Response::api()->withArray( [
+            return $this->response->array( [
                 'success' => true,
                 'message' => "{$user->name} updated Successfully",
                 'data'    => $user->toArray()
@@ -135,7 +135,7 @@ class UserController extends \BaseController {
     public function destroy( $bank_id, $user_id ) {
         $user = User::where( 'bank_id', $bank_id )->where( 'id', $user_id )->first();
         if ( $user->delete() ) {
-            return Response::api()->withArray( [ 'success' => true ] );
+            return $this->response->array( [ 'success' => true ] );
         }
         throw new Symfony\Component\HttpKernel\Exception\NotFoundHttpException( "User not found." );
     }

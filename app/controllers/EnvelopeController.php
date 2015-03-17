@@ -4,7 +4,7 @@ use AvantiDevelopment\JrBank\Models\Envelope;
 use AvantiDevelopment\JrBank\Models\User;
 
 class EnvelopeController extends BaseController {
-
+    use Dingo\Api\Routing\ControllerTrait;
     /**
      * Display a listing of a user's envelopes.
      *
@@ -58,7 +58,7 @@ class EnvelopeController extends BaseController {
 
         }
 
-            return Response::api()->withArray( [
+            return $this->response->array( [
                 'success' => true,
                 'message' => "Envelopes saved",
                 'data'    => $user->envelopes()->get()->toArray()
@@ -123,7 +123,7 @@ class EnvelopeController extends BaseController {
 
 
         if ( $envelope->save() ) {
-            return Response::api()->withArray( [
+            return $this->response->array( [
                 'success' => true,
                 'message' => "{$envelope->name} updated Successfully",
                 'data'    => $envelope->toArray()
@@ -150,7 +150,7 @@ class EnvelopeController extends BaseController {
         }
         $envelope = $envelope[0];
         if ( (float) $envelope->balance == 0 && $envelope->delete() ) {
-            return Response::api()->withArray( [ 'success' => true ] );
+            return $this->response->array( [ 'success' => true ] );
         }
         throw new \Symfony\Component\HttpKernel\Exception\PreconditionFailedHttpException( 'Envelope is not empty' );
     }

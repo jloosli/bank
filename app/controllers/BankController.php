@@ -4,7 +4,7 @@ use AvantiDevelopment\JrBank\Models\Bank;
 use Illuminate\Support\Facades\Input;
 
 class BankController extends BaseController {
-
+    use Dingo\Api\Routing\ControllerTrait;
     /**
      * Display a listing of the resource.
      *
@@ -44,7 +44,7 @@ class BankController extends BaseController {
             throw new Dingo\Api\Exception\StoreResourceFailedException( 'Could not create Bank.', $bank->getErrors() );
         }
 
-        return Response::api()->withArray( [
+        return $this->response->array( [
             'success' => true,
             'message' => "{$bank->name} saved Successfully",
             'data'    => $bank->toArray()
@@ -98,7 +98,7 @@ class BankController extends BaseController {
 
 
         if ( $bank->save() ) {
-            return Response::api()->withArray( [
+            return $this->response->array( [
                 'success' => true,
                 'message' => "{$bank->name} updated Successfully",
                 'data'    => $bank->toArray()
@@ -117,7 +117,7 @@ class BankController extends BaseController {
      */
     public function destroy( $id ) {
         if ( Bank::destroy( $id ) ) {
-            return Response::api()->withArray( [ 'success' => true ] );
+            return $this->response->array( [ 'success' => true ] );
         }
         throw new Symfony\Component\HttpKernel\Exception\NotFoundHttpException( "Bank not found." );
     }
