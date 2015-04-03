@@ -3,13 +3,13 @@
     /*
      @ngInject
      */
-    function banksService($resource, $auth, $rootScope, $q, $cacheFactory, API_URL) {
+    function banksService($resource, $auth, $rootScope, $q, $cacheFactory, authService, API_URL) {
         "use strict";
         var svc = {};
 
         function currentBank() {
             if ($auth.isAuthenticated()) {
-                var user = $rootScope.currentUser;
+                var user = authService.getCurrentUser();
                 return user.bank_id;
             }
             return 0;

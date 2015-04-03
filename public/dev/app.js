@@ -1,6 +1,6 @@
 /*global ACCESS_LEVELS:true */
 ;(function () {
-    angular.module('jrbank', ['ui.bootstrap', 'ui.utils', 'ui.router', 'ngAnimate', 'ngResource', 'ngMessages', 'ngSanitize', 'Satellizer']);
+    angular.module('jrbank', ['ui.bootstrap', 'ui.utils', 'ui.router', 'ngAnimate', 'ngResource', 'ngMessages', 'ngSanitize', 'satellizer']);
 
     var hostparts = window.location.hostname.split('.'),
         API_URL = window.location.protocol + '//' + hostparts[hostparts.length-2] + '.' + hostparts[hostparts.length-1] + '/';
@@ -24,8 +24,9 @@
                 redirectUri: window.location.origin,
                 url: API_URL + '/auth/github'
             });
-            $authProvider.config.loginUrl = API_URL + 'auth/login';
-            $authProvider.config.signupUrl = API_URL + 'auth/signup';
+            $authProvider.loginUrl = API_URL + 'auth/login';
+            $authProvider.signupUrl = API_URL + 'auth/signup';
+            $authProvider.withCredentials = false;
         })
         .config(function ($stateProvider, $urlRouterProvider, $httpProvider, ACCESS_LEVELS) {
             'use strict';
@@ -183,12 +184,26 @@
             // Asynchronous $digest (see http://blog.thoughtram.io/angularjs/2015/01/14/exploring-angular-1.3-speed-up-with-applyAsync.html)
             $httpProvider.useApplyAsync(true);
 
-            $httpProvider.interceptors.push(function() {
+            $httpProvider.interceptors.push(function($injector, $q) {
                 return {
                     'request': function(config) {
                         config.params = config.params || {};
                         config.params['XDEBUG_SESSION_START'] = 'PHPSTORM';
                         return config;
+                    },
+                    response: function(response) {
+                        if (response.status === 401) {
+                            console.log("Response 401");
+                        }
+                        return response || $q.when(response);
+                    },
+                    responseError: function(rejection) {
+                        if (rejection.status === 401) {
+                            console.log("Response Error 401", rejection);
+                            $injector.get('$auth').removeToken();
+                            $injector.get('$state').go('root.login',{},{reload:true});
+                        }
+                        return $q.reject(rejection);
                     }
                 }
             });
@@ -250,9 +265,9 @@
             }
         };
 
-        if($window.ga && $rootScope.currentUser) {
+        if($window.ga && $auth.isAuthenticated()) {
             // Add analytics user trackin if user is logged in
-            $window.ga('set', '&uid', $rootScope.currentUser.id);
+            $window.ga('set', '&uid', authService.getCurrentUser().id);
         }
 
     });

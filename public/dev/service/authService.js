@@ -2,15 +2,17 @@
     /*
      @ngInject
      */
-    function authService($http, $q, $rootScope, API_URL, ACCESS_LEVELS) {
+    function authService($http, $q, $auth, API_URL, ACCESS_LEVELS) {
 
         var svc = {};
 
         function accessLevel() {
-            if(!$rootScope.currentUser) {
+            var payload = $auth.getPayload();
+
+            if(!payload || !payload.user) {
                 return 0;
-            } else if ($rootScope.currentUser) {
-                switch ($rootScope.currentUser.user_type) {
+            } else  {
+                switch (payload.user.user_type) {
                     case 'user':
                         return 1;
                     case 'admin':
@@ -65,28 +67,8 @@
 
         svc.getCurrentUser = function() {
             "use strict";
-            var me = this;
-            var user = localStorage.getItem('current_user');
-            if(!!user) {
-                return $q.when(JSON.parse(user));
-            } else {
-                return $http({
-                    method: 'GET',
-                    url: API_URL+ 'users/me'
-                }).then(function (user) { // success (codes 200-299)
-                    /*
-                    Response format:
-                     {"user":{"id":1,"username":"first_user","name":"First User","email":"first@example.com","slug":"first_user","bank_id":1,"user_type":"user","balance":0,"created_at":"2014-07-30 21:23:32","updated_at":"2014-07-30 21:23:32"}}
-                     */
-                    localStorage.setItem('current_user', JSON.stringify(user.data.user));
-                    return me.getCurrentUser();
-                },function(data) { // failure
-                    if(data.status === 403) { // Only clear the token if my server sends back unauthorized. If it's a 404 error, keep the token.
-                        me.clearToken();
-                    }
-                    return $q.when(null);
-                });
-            }
+            var payload = $auth.getPayload();
+            return payload.user || false;
         };
         return svc;
     }

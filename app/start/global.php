@@ -58,12 +58,12 @@ API::error(function (Symfony\Component\HttpKernel\Exception\UnauthorizedHttpExce
     return Response::make(['error'=>$exception->getMessage()], 401)->header('Access-Control-Allow-Origin','*');
 });
 
-//App::error(function(AuthTokenNotAuthorizedException $exception) {
-//    if(Request::ajax()) {
-//        return Response::json(array('error' => $exception->getMessage()), 401);
-//    }
-//
-//});
+App::error(function(AuthTokenNotAuthorizedException $exception) {
+    if(Request::ajax()) {
+        return Response::json(array('error' => $exception->getMessage()), 401);
+    }
+
+});
 
 /*
 |--------------------------------------------------------------------------
