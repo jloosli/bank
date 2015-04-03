@@ -205,7 +205,7 @@
                         }
                         return $q.reject(rejection);
                     }
-                }
+                };
             });
 
         });
