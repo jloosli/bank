@@ -1,4 +1,3 @@
-;
 (function () {
 
     /*
@@ -19,7 +18,7 @@
         svc.bank = function (bank_id) {
             bank_id = bank_id || currentBank();
             return $resource(API_URL + 'banks/:bank_id', {"bank_id": bank_id}, {
-                cache:  true,
+                //get:    {cache: true},
                 update: {method: 'PUT'}
             });
         };
@@ -29,7 +28,7 @@
             return $resource(API_URL + 'banks/' + currentBank() + '/users/:user_id',
                 {"user_id": user_id || ''},
                 {
-                    get:    {cache: true},
+                    //get:    {cache: true},
                     update: {method: 'PUT'}
                 }
             );
@@ -39,7 +38,7 @@
             return $resource(API_URL + 'banks/' + currentBank() + '/users/:user_id/transactions',
                 {"user_id": user_id, page: page || 1},
                 {
-                    get: {cache: true}
+                    //get: {cache: true}
                 }
             );
         };
@@ -48,7 +47,7 @@
             return $resource(API_URL + 'banks/' + currentBank() + '/users/' + user_id + '/envelopes/:envelope_id',
                 {"envelope_id": ''},
                 {
-                    get: {cache: true}
+                    //get: {cache: true}
                 }
             );
         };

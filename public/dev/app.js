@@ -226,16 +226,18 @@
             } else if (!authService.checkAccess(toState.data.access)) {
                 $rootScope.error = "Seems like you tried accessing a route you don't have access to...";
                 event.preventDefault();
-                if (fromState.url === '^' || fromState.url === '') {
-                    if ($auth.isAuthenticated()) {
-                        console.log('Already logged in. Going to accounts.');
-                        $state.go('root.accounts');
-                    } else {
-                        console.log("Going to login page.");
-                        $rootScope.error = null;
-                        $state.go('root.login');
-                    }
-                }
+            //} else if (fromState.url === '^' || fromState.url === '') {
+            //
+            //        if ($auth.isAuthenticated()) {
+            //            console.log('Already logged in. Going to accounts.');
+            //            //$state.go('root.accounts');
+            //        } else {
+            //            event.preventDefault();
+            //            console.log("Going to login page.");
+            //            $rootScope.error = null;
+            //            $state.go('root.login');
+            //        }
+
             } else if (toState.name === 'root.login' && $auth.isAuthenticated()) {
                 event.preventDefault();
                 $state.go('root.accounts');
