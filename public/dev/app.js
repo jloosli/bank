@@ -1,4 +1,5 @@
 /*global ACCESS_LEVELS:true */
+/* @ngInject */
 ;(function () {
     angular.module('jrbank', ['ui.bootstrap', 'ui.utils', 'ui.router', 'ngAnimate', 'ngResource', 'ngMessages', 'ngSanitize', 'satellizer']);
 
@@ -185,10 +186,13 @@
             $httpProvider.useApplyAsync(true);
 
             $httpProvider.interceptors.push(function($injector, $q) {
+                var isApp = /^app/.test(window.location.host);
                 return {
                     'request': function(config) {
-                        config.params = config.params || {};
-                        config.params['XDEBUG_SESSION_START'] = 'PHPSTORM';
+                        if(!isApp) {
+                            config.params = config.params || {};
+                            config.params['XDEBUG_SESSION_START'] = 'PHPSTORM';
+                        }
                         return config;
                     },
                     response: function(response) {
