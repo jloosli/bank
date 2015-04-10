@@ -1,13 +1,14 @@
 <div  >
     <div class="row touchable">
     <div class="col-xs-4 h3 text-center"><strong>Account Holder</strong></div>
-    <div class="col-xs-4 h3 text-center"><strong>Spending Account <span class="fa fa-bullseye"></span></strong></div>
+    <div class="col-xs-4 h3 text-center"><strong>Main Spending Envelope <span class="fa fa-bullseye"></span></strong></div>
     <div class="col-xs-4 h3 text-center"><strong>Bank Balance</strong></div>
     </div>
 
     <div class="row touchable" ng-repeat="account in accounts.accountsList track by account.id" ng-click="accounts.accountDetails(account.id)">
         <div class="col-xs-4 h4">{{account.name}}</div>
-        <div class="col-xs-4 h4 text-right">{{account.default_spend.name}} {{account.default_spend.balance | currency}}</div>
+        <div class="col-xs-2 h4 text-right">{{account.default_spend.balance | currency}}</div>
+        <div class="col-xs-2 h4">({{account.default_spend.name}})</div>
         <div class="col-xs-4 h4 text-right">{{account.balance | currency}}</div>
     </div>
     <ui-view></ui-view>
