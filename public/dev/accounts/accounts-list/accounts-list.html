@@ -7,8 +7,8 @@
 
     <div class="row touchable" ng-repeat="account in accounts.accountsList track by account.id" ng-click="accounts.accountDetails(account.id)">
         <div class="col-xs-4 h4">{{account.name}}</div>
-        <div class="col-xs-2 h4 text-right">{{account.default_spend.balance | currency}}</div>
-        <div class="col-xs-2 h4">({{account.default_spend.name}})</div>
+        <div class="col-xs-4 col-sm-2 h4 text-right">{{account.default_spend.balance | currency}}</div>
+        <div class="hidden-xs col-sm-2 h4">({{account.default_spend.name}})</div>
         <div class="col-xs-4 h4 text-right">{{account.balance | currency}}</div>
     </div>
     <ui-view></ui-view>
