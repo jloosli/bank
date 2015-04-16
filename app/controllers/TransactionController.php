@@ -6,7 +6,7 @@ use AvantiDevelopment\JrBank\Models\EnvelopeTransaction;
 use AvantiDevelopment\JrBank\Models\Envelope;
 
 class TransactionController extends BaseController {
-    use Dingo\Api\Routing\ControllerTrait;
+//    use Dingo\Api\Routing\ControllerTrait;
     /**
      * Display a listing of the resource.
      *
@@ -82,10 +82,10 @@ class TransactionController extends BaseController {
             DB::commit();
             $trans = $transaction->toArray();
             $trans['envelope_transaction'] = $transaction->envelope_transaction()->get()->toArray();
-            return Response::api()->withArray( array(
+            return  array(
                 'success' => true,
                 'transaction' => $trans
-            ) );
+            );
         } catch ( Exception $e ) {
             DB::rollBack();
             var_dump( $e );

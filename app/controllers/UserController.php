@@ -3,7 +3,7 @@
 use AvantiDevelopment\JrBank\Models\User;
 
 class UserController extends \BaseController {
-    use Dingo\Api\Routing\ControllerTrait;
+//    use Dingo\Api\Routing\ControllerTrait;
     /**
      * Display a listing of the resource.
      *

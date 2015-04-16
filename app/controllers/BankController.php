@@ -4,7 +4,7 @@ use AvantiDevelopment\JrBank\Models\Bank;
 use Illuminate\Support\Facades\Input;
 
 class BankController extends BaseController {
-    use Dingo\Api\Routing\ControllerTrait;
+//    use Dingo\Api\Routing\ControllerTrait;
     /**
      * Display a listing of the resource.
      *

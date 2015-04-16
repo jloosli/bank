@@ -98,7 +98,8 @@ function newTransactionCtrl($scope, $location, banksService, utilsService) {
             });
             banksService.flush('transactions', newTransaction.user_id);
             $scope.trans = {};
-            $scope.addTransaction.$setPristine();
+            $scope.addTransaction.$setPristine(true);
+            $scope.addTransaction.$setUntouched(true);
             self.submitted = true;
         });
     };

@@ -106,7 +106,7 @@ return array(
         'Way\Generators\GeneratorsServiceProvider',
         'Dingo\Api\Provider\ApiServiceProvider',
         'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
-        'Barryvdh\Cors\CorsServiceProvider',
+//        'Barryvdh\Cors\CorsServiceProvider',
     ),
     /*
     |--------------------------------------------------------------------------

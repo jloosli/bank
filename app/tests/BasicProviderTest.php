@@ -42,7 +42,7 @@ class BasicProviderTest extends TestCase {
         $request = Request::create('foo','GET',[],[],[],[ 'HTTP_AUTHORIZATION' => 'Basic '. \JWT::encode( $userToken, $_ENV['token'] ) ]);
         $provider = new AvantiDevelopment\JrBank\Auth\BasicProvider($this->auth);
         $route = m::mock('Illuminate\Routing\Route');
-//        $route->shouldReceive('parameter')->with('bank_id')->andReturn(1);
+        $route->shouldReceive('parameter')->with('bank_id')->andReturn(1);
         $provider->authenticate($request, $route);
 
     }

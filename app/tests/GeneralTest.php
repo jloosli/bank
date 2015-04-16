@@ -9,7 +9,7 @@ class GeneralTest extends TestCase {
 	 */
 	public function testBadRoute()
 	{
-		$crawler = $this->client->request('GET', '/');
+		$crawler = $this->client->request('GET', '/nothere');
 	}
 
 }

@@ -4,7 +4,7 @@ use AvantiDevelopment\JrBank\Models\Envelope;
 use AvantiDevelopment\JrBank\Models\User;
 
 class EnvelopeController extends BaseController {
-    use Dingo\Api\Routing\ControllerTrait;
+//    use Dingo\Api\Routing\ControllerTrait;
     /**
      * Display a listing of a user's envelopes.
      *
