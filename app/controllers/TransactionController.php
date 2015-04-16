@@ -44,6 +44,9 @@ class TransactionController extends BaseController {
             throw new Symfony\Component\HttpKernel\Exception\NotFoundHttpException( "User not found" );
         }
         $mainTransaction       = Input::get( 'transaction' );
+        if(empty($mainTransaction['amount'])) {
+            throw new Symfony\Component\HttpKernel\Exception\BadRequestHttpException( "Missing Transaction Amount" );
+        }
         $envelope_transactions = $mainTransaction['envelope_transactions'];
         $transaction_check     = array_reduce(
             $envelope_transactions,

@@ -69,6 +69,13 @@ function newTransactionCtrl($scope, $location, banksService, utilsService) {
         }
     };
 
+    this.canSubmit = function() {
+
+        var canSub = $scope.balanced && !!$scope.trans.description && !isNaN($scope.trans.amount);
+        console.log(canSub);
+        return canSub;
+    };
+
     this.submitTransaction = function () {
         var transaction = {
             'transaction': {

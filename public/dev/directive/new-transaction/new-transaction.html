@@ -30,10 +30,10 @@
         </fieldset>
         <button class="btn btn-primary btn-lg col-xs-12"
                 ng-click="transactionCtrl.submitTransaction()"
-                ng-class="{disabled: !balanced}">Submit</button>
+                ng-disabled="!transactionCtrl.canSubmit()">Submit</button>
 
     </form>
-    <copy-transaction current="{{user}}" ng-show="transactionCtrl.submitted"
+    <copy-transaction current="{{user}}" ng-if="transactionCtrl.submitted"
                       transaction="transactionCtrl.lastTransaction"
             ></copy-transaction>
 </div>

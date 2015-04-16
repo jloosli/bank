@@ -53,7 +53,7 @@
         };
 
         svc.flush = function (service, user_id) {
-            var key = API_URL + 'banks' + currentBank() + '/users/' + user_id;
+            var key = API_URL + 'banks/' + currentBank() + '/users/' + user_id;
             switch (service) {
                 case 'envelopes':
                     key += '/envelopes/';
