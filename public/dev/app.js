@@ -189,10 +189,10 @@
                 var isApp = /^app/.test(window.location.host);
                 return {
                     'request': function(config) {
-                        if(!isApp) {
-                            config.params = config.params || {};
-                            config.params['XDEBUG_SESSION_START'] = 'PHPSTORM';
-                        }
+                        //if(!isApp) {
+                        //    config.params = config.params || {};
+                        //    config.params['XDEBUG_SESSION_START'] = 'PHPSTORM';
+                        //}
                         return config;
                     },
                     response: function(response) {

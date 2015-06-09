@@ -136,9 +136,9 @@ class AuthController extends \BaseController {
         // Step 3a. If user is already signed in then link accounts.
         if ( Request::header( 'Authorization' ) ) {
             $user = User::where( 'google', '=', $profile['sub'] )->first();
-            if ( $user ) {
-                return Response::json( array( 'message' => 'There is already a Google account that belongs to you' ), 409 );
-            }
+//            if ( $user ) {
+//                return Response::json( array( 'message' => 'There is already a Google account that belongs to you' ), 409 );
+//            }
 
             $token         = explode( ' ', Request::header( 'Authorization' ) )[1];
             $payloadObject = JWT::decode( $token, Config::get( 'secrets.TOKEN_SECRET' ) );
