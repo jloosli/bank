@@ -203,6 +203,7 @@
                     },
                     responseError: function(rejection) {
                         if (rejection.status >= 400 || rejection.status < 500) {
+                            // Seems like 401 and 409 should remove token, but removing anything 4## for now
                             console.log("Response Error " + rejection.status, rejection);
                             $injector.get('$auth').removeToken();
                             $injector.get('$state').go('root.login',{},{reload:true});

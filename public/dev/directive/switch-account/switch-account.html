@@ -1,4 +1,4 @@
-<div class="btn-group">
+<div class="btn-group" ng-show="otherAccountHolders.length">
     <button type="button" class="btn btn-small dropdown-toggle" data-toggle="dropdown">
         Switch Account <span class="caret"></span>
     </button>
@@ -6,4 +6,5 @@
         <li ng-repeat="accountHolder in otherAccountHolders" class="text-left"><a
                 ng-href="#/accounts/{{accountHolder.id}}">{{accountHolder.name}}</a></li>
     </ul>
+
 </div>

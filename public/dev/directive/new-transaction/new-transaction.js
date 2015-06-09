@@ -32,7 +32,7 @@ function newTransactionCtrl($scope, $location, banksService, utilsService) {
     $scope.balanced = true;
     $scope.trans = {
         description: $location.search().description || '',
-        amount: parseFloat($location.search().amount) || 0
+        amount:      parseFloat($location.search().amount) || 0
     };
 
     var checkDiff = function () {
@@ -42,8 +42,8 @@ function newTransactionCtrl($scope, $location, banksService, utilsService) {
 
     var getEnvelopeSum = function () {
         return Math.round(_.reduce($scope.envelopes, function (sum, env) {
-            return parseFloat(sum) + parseFloat(env['amount']);
-        }, 0) * 100) / 100;
+                return parseFloat(sum) + parseFloat(env['amount']);
+            }, 0) * 100) / 100;
     };
 
     this.clearEnvelope = function (id) {
@@ -69,10 +69,8 @@ function newTransactionCtrl($scope, $location, banksService, utilsService) {
         }
     };
 
-    this.canSubmit = function() {
-
-        var canSub = $scope.balanced && !!$scope.trans.description && !isNaN($scope.trans.amount);
-        console.log(canSub);
+    this.canSubmit = function () {
+        var canSub = $scope.balanced && !!$scope.trans.description && (!isNaN($scope.trans.amount) || $scope.trans.amount === '');
         return canSub;
     };
 
@@ -80,7 +78,7 @@ function newTransactionCtrl($scope, $location, banksService, utilsService) {
         var transaction = {
             'transaction': {
                 description:           $scope.trans.description,
-                amount:                $scope.trans.amount,
+                amount:                $scope.trans.amount || 0,
                 envelope_transactions: _.map($scope.envelopes, function (env) {
                     return {amount: env.amount, envelope_id: env.id};
                 })
@@ -97,8 +95,8 @@ function newTransactionCtrl($scope, $location, banksService, utilsService) {
             $scope.transactions.push(newTransaction);
             $scope.$parent.$parent.accountDetails.user.balance += parseFloat(transaction.transaction.amount);
 
-            $scope.envelopes = _.map($scope.envelopes, function(env) {
-                env.balance += _.find(transaction.transaction.envelope_transactions, function(et) {
+            $scope.envelopes = _.map($scope.envelopes, function (env) {
+                env.balance += _.find(transaction.transaction.envelope_transactions, function (et) {
                     return parseInt(et.envelope_id) === parseInt(env.id);
                 }).amount;
                 return env;
@@ -125,8 +123,8 @@ angular.module('jrbank').directive('newTransaction', function () {
         link:         function (scope, element, attrs, transactionCtrl) {
             scope.$watch('trans.amount', transactionCtrl.onTransChange);
             // @todo Hack to run transaction change once envelopes are loaded. Should do something more eloquent.
-            var once = scope.$watch('envelopes', function(env) {
-                if(env.length > 0) {
+            var once = scope.$watch('envelopes', function (env) {
+                if (env.length > 0) {
                     transactionCtrl.onTransChange(scope.trans.amount);
                     once();
                 }

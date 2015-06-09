@@ -1,5 +1,4 @@
-<div class="btn-group btn-block btn-large margin-top" >
-    <div ng-if="otherAccountHolders">
+<div class="btn-group btn-block btn-large margin-top" ng-show="otherAccountHolders.length">
     <button type="button" class="btn dropdown-toggle btn-large btn-warning btn-block margin-top" data-toggle="dropdown">
         Copy Transaction to Another Account? <span class="caret"></span>
     </button>
@@ -7,5 +6,4 @@
         <li class="btn btn-block" ng-repeat="accountHolder in otherAccountHolders"><a
                 ng-href="#/accounts/{{accountHolder.id}}/add/?{{queryString()}}">{{accountHolder.name}}</a></li>
     </ul>
-    </div>
 </div>
