@@ -202,11 +202,12 @@
                         return response || $q.when(response);
                     },
                     responseError: function(rejection) {
-                        if (rejection.status === 401) {
-                            console.log("Response Error 401", rejection);
+                        if (rejection.status >= 400 || rejection.status < 500) {
+                            console.log("Response Error " + rejection.status, rejection);
                             $injector.get('$auth').removeToken();
                             $injector.get('$state').go('root.login',{},{reload:true});
                         }
+
                         return $q.reject(rejection);
                     }
                 };
