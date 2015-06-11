@@ -1,6 +1,5 @@
-/*global ACCESS_LEVELS:true */
 /* @ngInject */
-;(function () {
+(function () {
     angular.module('jrbank', ['ui.bootstrap', 'ui.utils', 'ui.router', 'ngAnimate', 'ngResource', 'ngMessages', 'ngSanitize', 'satellizer']);
 
     var hostparts = window.location.hostname.split('.'),
@@ -164,6 +163,10 @@
                 });
 
 
+            $stateProvider.state('super', {
+        url: '/super',
+        templateUrl: 'partial/super/super.html'
+    });
             /* Add New States Above */
             $urlRouterProvider.otherwise('/user/login/'); // This needs to point to a public url
 
