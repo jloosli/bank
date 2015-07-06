@@ -9,6 +9,7 @@
 
         this.logOut = utilsService.logout;
         this.isLoggedIn = utilsService.isLoggedIn;
+        this.navCollapsed = true;
 
         var updateAlerts = function() {
             vm.alerts = alertsService.get();

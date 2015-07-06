@@ -23,7 +23,7 @@ var alertsService = function ($timeout) {
         if (typeof alert !== 'object') {
             alert = {
                 text: alert
-            }
+            };
         }
         alert.id = _.uniqueId('alert_');
         alert.type = 'alert-' + (alert.type || 'success');

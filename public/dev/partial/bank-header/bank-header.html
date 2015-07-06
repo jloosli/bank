@@ -2,28 +2,28 @@
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <button type="button" class="navbar-toggle collapsed"
+                    ng-click="bankHeader.navCollapsed = !bankHeader.navCollapsed">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" ui-sref="root.accounts">
-                <img src="img/money/png/48x48/Money.png" />
-                <!--JrBank-->
+            <a class="navbar-brand" ui-sref="root.accounts" href="#">
+                <!--<img src="img/money/png/48x48/Money.png" />-->
+                JrBank
             </a>
         </div>
-
         <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <div class="collapse navbar-collapse" collapse="bankHeader.navCollapsed">
             <ul class="nav navbar-nav">
-                <li><a ui-sref="root.accounts">Accounts</a></li>
-                <li><a ui-sref="root.manage">Manage</a></li>
+                <li><a ui-sref="root.accounts" ng-click="bankHeader.navCollapsed=true">Accounts</a></li>
+                <li><a ui-sref="root.manage" ng-click="bankHeader.navCollapsed=true">Manage</a></li>
 
                 </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a ui-sref="root.login" ng-show="!bankHeader.isLoggedIn()">Log In {{access}}</a></li>
-                <li><a ng-click="bankHeader.logOut()" ng-show="bankHeader.isLoggedIn()">Log Out</a></li>
+                <li><a ui-sref="root.login" ng-show="!bankHeader.isLoggedIn()" ng-click="bankHeader.navCollapsed=true">Log In {{access}}</a></li>
+                <li><a ng-click="bankHeader.logOut(); bankHeader.navCollapsed=true;" ng-show="bankHeader.isLoggedIn()">Log Out</a></li>
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
