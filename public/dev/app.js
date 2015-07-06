@@ -236,20 +236,20 @@
                 $rootScope.error = "Seems like you tried accessing a route you don't have access to...";
                 event.preventDefault();
             } else if (toState.name === 'root.login' && $auth.isAuthenticated()) {
-                $auth.removeToken();
                 event.preventDefault();
+                console.log('Already logged in. Going to accounts.');
                 $state.go('root.accounts');
             } else if (toState.name !== 'root.login' && (fromState.url === '^' || fromState.url === '')) {
-                if ($auth.isAuthenticated()) {
-                    console.log('Already logged in. Going to accounts.');
-                    $state.go('root.accounts');
-                } else {
+                //if ($auth.isAuthenticated()) {
+                //    console.log('Already logged in. Going to accounts.');
+                //    $state.go('root.accounts');
+                //} else {
                     event.preventDefault();
                     $auth.removeToken();
                     console.log("Going to login page.");
                     $rootScope.error = null;
                     $state.go('root.login');
-                }
+                //}
             }
         });
 
