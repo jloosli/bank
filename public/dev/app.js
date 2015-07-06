@@ -239,17 +239,17 @@
                 event.preventDefault();
                 console.log('Already logged in. Going to accounts.');
                 $state.go('root.accounts');
-            } else if (toState.name !== 'root.login' && (fromState.url === '^' || fromState.url === '')) {
-                //if ($auth.isAuthenticated()) {
-                //    console.log('Already logged in. Going to accounts.');
-                //    $state.go('root.accounts');
-                //} else {
-                    event.preventDefault();
-                    $auth.removeToken();
-                    console.log("Going to login page.");
-                    $rootScope.error = null;
-                    $state.go('root.login');
-                //}
+            //} else if (toState.name !== 'root.login' && (fromState.url === '^' || fromState.url === '')) {
+            //    //if ($auth.isAuthenticated()) {
+            //    //    console.log('Already logged in. Going to accounts.');
+            //    //    $state.go('root.accounts');
+            //    //} else {
+            //        event.preventDefault();
+            //        $auth.removeToken();
+            //        console.log("Going to login page.");
+            //        $rootScope.error = null;
+            //        $state.go('root.login');
+            //    //}
             }
         });
 

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default" role="navigation">
+<div><nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -10,7 +10,7 @@
             </button>
             <a class="navbar-brand" ui-sref="root.accounts">
                 <img src="img/money/png/48x48/Money.png" />
-                JrBank
+                <!--JrBank-->
             </a>
         </div>
 
@@ -19,7 +19,7 @@
             <ul class="nav navbar-nav">
                 <li><a ui-sref="root.accounts">Accounts</a></li>
                 <li><a ui-sref="root.manage">Manage</a></li>
-                <li><a>{{error}}</a></li>
+
                 </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a ui-sref="root.login" ng-show="!bankHeader.isLoggedIn()">Log In {{access}}</a></li>
@@ -27,4 +27,7 @@
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
+
 </nav>
+    <div>{{error}}</div>
+</div>
