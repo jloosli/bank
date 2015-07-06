@@ -3,7 +3,7 @@
     angular.module('jrbank', ['ui.bootstrap', 'ui.utils', 'ui.router', 'ngAnimate', 'ngResource', 'ngMessages', 'ngSanitize', 'satellizer']);
 
     var hostparts = window.location.hostname.split('.'),
-        API_URL = window.location.protocol + '//' + hostparts[hostparts.length-2] + '.' + hostparts[hostparts.length-1] + '/';
+        API_URL = window.location.protocol + '//' + hostparts[hostparts.length - 2] + '.' + hostparts[hostparts.length - 1] + '/';
     console.log(API_URL);
     angular.module('jrbank')
         .constant('ACCESS_LEVELS', {
@@ -15,14 +15,14 @@
         .constant('API_URL', API_URL + 'api/')
         .config(function ($authProvider) {
             $authProvider.google({
-                clientId: '554520232798-g78ah8n025muphdv0tddf6de3baje83k.apps.googleusercontent.com',
+                clientId:    '554520232798-g78ah8n025muphdv0tddf6de3baje83k.apps.googleusercontent.com',
                 redirectUri: window.location.origin,
-                url: API_URL + 'auth/google'
+                url:         API_URL + 'auth/google'
             });
             $authProvider.github({
-                clientId: 'ef17c21a425f8310c1ab',
+                clientId:    'ef17c21a425f8310c1ab',
                 redirectUri: window.location.origin,
-                url: API_URL + '/auth/github'
+                url:         API_URL + '/auth/github'
             });
             $authProvider.loginUrl = API_URL + 'auth/login';
             $authProvider.signupUrl = API_URL + 'auth/signup';
@@ -164,9 +164,9 @@
 
 
             $stateProvider.state('super', {
-        url: '/super',
-        templateUrl: 'partial/super/super.html'
-    });
+                url:         '/super',
+                templateUrl: 'partial/super/super.html'
+            });
             /* Add New States Above */
             $urlRouterProvider.otherwise('/user/login/'); // This needs to point to a public url
 
@@ -188,28 +188,28 @@
             // Asynchronous $digest (see http://blog.thoughtram.io/angularjs/2015/01/14/exploring-angular-1.3-speed-up-with-applyAsync.html)
             $httpProvider.useApplyAsync(true);
 
-            $httpProvider.interceptors.push(function($injector, $q) {
+            $httpProvider.interceptors.push(function ($injector, $q) {
                 var isApp = /^app/.test(window.location.host);
                 return {
-                    'request': function(config) {
+                    'request':     function (config) {
                         //if(!isApp) {
                         //    config.params = config.params || {};
                         //    config.params['XDEBUG_SESSION_START'] = 'PHPSTORM';
                         //}
                         return config;
                     },
-                    response: function(response) {
+                    response:      function (response) {
                         if (response.status === 401) {
                             console.log("Response 401");
                         }
                         return response || $q.when(response);
                     },
-                    responseError: function(rejection) {
+                    responseError: function (rejection) {
                         if (rejection.status >= 400 || rejection.status < 500) {
                             // Seems like 401 and 409 should remove token, but removing anything 4## for now
                             console.log("Response Error " + rejection.status, rejection);
                             $injector.get('$auth').removeToken();
-                            $injector.get('$state').go('root.login',{},{reload:true});
+                            $injector.get('$state').go('root.login', {}, {reload: true});
                         }
 
                         return $q.reject(rejection);
@@ -235,33 +235,33 @@
             } else if (!authService.checkAccess(toState.data.access)) {
                 $rootScope.error = "Seems like you tried accessing a route you don't have access to...";
                 event.preventDefault();
-            //} else if (fromState.url === '^' || fromState.url === '') {
-            //
-            //        if ($auth.isAuthenticated()) {
-            //            console.log('Already logged in. Going to accounts.');
-            //            //$state.go('root.accounts');
-            //        } else {
-            //            event.preventDefault();
-            //            console.log("Going to login page.");
-            //            $rootScope.error = null;
-            //            $state.go('root.login');
-            //        }
-
             } else if (toState.name === 'root.login' && $auth.isAuthenticated()) {
+                $auth.removeToken();
                 event.preventDefault();
                 $state.go('root.accounts');
+            } else if (toState.name !== 'root.login' && (fromState.url === '^' || fromState.url === '')) {
+                if ($auth.isAuthenticated()) {
+                    console.log('Already logged in. Going to accounts.');
+                    $state.go('root.accounts');
+                } else {
+                    event.preventDefault();
+                    $auth.removeToken();
+                    console.log("Going to login page.");
+                    $rootScope.error = null;
+                    $state.go('root.login');
+                }
             }
         });
 
         $rootScope
             .$on('$stateChangeSuccess',
-            function(event){
+            function (event) {
 
                 if (!$window.ga) {
                     return;
                 }
 
-                $window.ga('send', 'pageview', { page: $location.path() });
+                $window.ga('send', 'pageview', {page: $location.path()});
             });
 
 
@@ -276,7 +276,7 @@
             }
         };
 
-        if($window.ga && $auth.isAuthenticated()) {
+        if ($window.ga && $auth.isAuthenticated()) {
             // Add analytics user trackin if user is logged in
             $window.ga('set', '&uid', authService.getCurrentUser().id);
         }

@@ -23,7 +23,6 @@ Route::api( [ 'version' => 'v1' ], function () {
         Route::delete( '/{bank_id}', 'BankController@destroy' ); // Delete (archive) bank
 
         /* Users */
-
         Route::get( '/{bank_id}/users', 'UserController@index' ); // Get all users for the bank
         Route::get( '/{bank_id}/users/{user_id}', 'UserController@show' ); // Get details about a user
         Route::put( '/{bank_id}/users/{user_id}', 'UserController@update' ); // Update user
