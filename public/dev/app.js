@@ -219,7 +219,7 @@
 
         });
 
-    angular.module('jrbank').run(function ($rootScope, $http, $auth, $state, $window, $location, authService) {
+    angular.module('jrbank').run(function ($rootScope, $http, $auth, $state, $window, $location, authService, alertsService) {
         'use strict';
 
         $http.defaults.withCredentials = false;
@@ -229,33 +229,32 @@
         $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
             //debugger;
             if (!(_.has(toState, "data") && _.has(toState['data'], 'access'))) {
-                $rootScope.error = "Access undefined for this state";
+                alertsService.add({
+                    text: "Access not defined for this state",
+                    type: 'danger'
+                });
                 console.log($rootScope.error + ": " + toState.name);
                 event.preventDefault();
             } else if (!authService.checkAccess(toState.data.access)) {
-                $rootScope.error = "Seems like you tried accessing a route you don't have access to...";
+                //debugger;
+                console.log('Oops');
+                alertsService.add({
+                    text: "Seems like you tried accessing a route you don't have access to...",
+                    type: 'danger'
+                });
                 event.preventDefault();
             } else if (toState.name === 'root.login' && $auth.isAuthenticated()) {
                 event.preventDefault();
                 console.log('Already logged in. Going to accounts.');
                 $state.go('root.accounts');
-            //} else if (toState.name !== 'root.login' && (fromState.url === '^' || fromState.url === '')) {
-            //    //if ($auth.isAuthenticated()) {
-            //    //    console.log('Already logged in. Going to accounts.');
-            //    //    $state.go('root.accounts');
-            //    //} else {
-            //        event.preventDefault();
-            //        $auth.removeToken();
-            //        console.log("Going to login page.");
-            //        $rootScope.error = null;
-            //        $state.go('root.login');
-            //    //}
             }
         });
 
         $rootScope
             .$on('$stateChangeSuccess',
             function (event) {
+
+                alertsService.removeNonEnduring();
 
                 if (!$window.ga) {
                     return;
