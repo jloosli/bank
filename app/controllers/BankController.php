@@ -1,6 +1,7 @@
 <?php
 
 use AvantiDevelopment\JrBank\Models\Bank;
+use AvantiDevelopment\JrBank\Models\User;
 use Illuminate\Support\Facades\Input;
 
 class BankController extends BaseController {
@@ -31,23 +32,39 @@ class BankController extends BaseController {
      * @return Response
      */
     public function store() {
-        $bank              = new Bank();
-        $bank->name        = Input::get( 'name' );
-        $bank->slug        = Input::get( 'slug', Str::slug( $bank->name ) );
-        $bank->password    = Hash::make( Input::get( 'password' ) );
-        $bank->interest    = Input::get( 'interest', 0 );
-        if (Input::get( 'compounding' )) {
-            $bank->compounding = Input::get( 'compounding' );
-        }
 
-        if ( !$bank->save() ) {
-            throw new Dingo\Api\Exception\StoreResourceFailedException( 'Could not create Bank.', $bank->getErrors() );
-        }
+        $bank              = new Bank();
+        $payload = Input::all();
+        $bank->name = $payload['bank']['name'];
+        $bank->slug        = Input::get( 'slug', Str::slug( $bank->name ) );
+        $bank->password = Hash::make( Input::get( 'password', 'password' ) );
+        $bank->interest = $payload['bank']['interest'] ? $payload['bank']['interest'] : 0;
+        $bank->compounding = Input::get( 'bank.compounding', 'monthly' );
+        DB::transaction( function () use ( $bank, $payload ) {
+            if ( !$bank->save() ) {
+                throw new Dingo\Api\Exception\StoreResourceFailedException( 'Could not create Bank.', $bank->getErrors() );
+            }
+
+            if ( !empty( $payload['users'] ) ) {
+                foreach ( $payload['users'] as $user ) {
+                    $u            = new User();
+                    $u->name      = $user['name'];
+                    $u->password  = Hash::make( $user['password'] );
+                    $u->username  = $user['username'];
+                    $u->email     = $user['email'];
+                    $u->user_type = $user['user_type'];
+                    $bank->users()->save( $u );
+                }
+            }
+        } );
 
         return $this->response->array( [
             'success' => true,
             'message' => "{$bank->name} saved Successfully",
-            'data'    => $bank->toArray()
+            'data' => [
+                'bank'  => $bank->toArray(),
+                'users' => $bank->users()
+            ]
         ] );
     }
 

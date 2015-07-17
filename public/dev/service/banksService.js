@@ -3,7 +3,7 @@
     /*
      @ngInject
      */
-    function banksService($resource, $auth, $rootScope, $q, $cacheFactory, authService, API_URL) {
+    function banksService($resource, $auth, $rootScope, $q, $cacheFactory, $http, authService, API_URL) {
         "use strict";
         var svc = {};
 
@@ -82,6 +82,31 @@
             });
 
             return deferred.promise;
+        };
+
+        svc.getBanks = function (ids) {
+            return $q(function (resolve, reject) {
+                $http.get(API_URL + 'banks')
+                    .success(function (data) {
+                        console.log(data);
+                        resolve(data.banks);
+                    })
+                    .error(function (data) {
+                        reject('Could not get banks');
+                    });
+            });
+        };
+
+        svc.createBank = function (bank) {
+            return $q(function (resolve, reject) {
+                $http.post(API_URL + 'banks', bank)
+                    .success(function (data) {
+                        resolve(data.data);
+                    })
+                    .error(function (data) {
+                        reject(data.message);
+                    });
+            });
         };
 
         return svc;

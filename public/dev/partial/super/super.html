@@ -1,0 +1,51 @@
+<div class="col-md-12">
+    <h1>Banks</h1>
+    <ul>
+        <li ng-repeat="bank in Super.banks">{{bank.name}}</li>
+    </ul>
+    <h2>Add Bank</h2>
+
+    <form id="add-bank" ng-submit="Super.addBank()">
+        <div class="form-group">
+            <label for="bankName">Bank Name</label>
+            <input type="text" class="form-control" id="bankName" placeholder="Smith Family"
+                   ng-model="Super.bank.bankname">
+        </div>
+        <div class="form-group">
+            <label for="name">Administrator Name</label>
+            <input type="text" class="form-control" id="name" placeholder="John Smith" ng-model="Super.bank.name"
+                   ng-change="Super.usernameHelper()">
+
+            <p class="help-block">Just add one of the administrators here...you'll get a chance to add more later.</p>
+        </div>
+        <div class="form-group">
+            <label for="username">Administrator Username</label>
+            <input type="text" id="username" class="form-control" placeholder="johnsmith" ng-model="Super.bank.username"
+                   ng-change="Super.usernameChanged = true">
+        </div>
+        <div class="form-group">
+            <label for="email">Administrator Email </label>
+            <input type="email" id="email" class="form-control" placeholder="john@smith.com"
+                   ng-model="Super.bank.email">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" placeholder="iAMsup3rs33krit"
+                   ng-model="Super.bank.password">
+
+            <p class="help-block">Leave blank to set it to 'password'.</p>
+        </div>
+        <div class="form-group">
+            <label for="apr">Bank Interest Rate (annual)</label>
+
+            <div class="input-group">
+                <input type="number" id="apr" class="form-control" placeholder="10" ng-model="Super.bank.interest">
+                <span class="input-group-addon">%</span>
+            </div>
+            <p class="help-block">Interest rate the bank will calculate monthly</p>
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+        <button class="btn btn-default" ng-click="Super.clearAddBank()">Clear</button>
+    </form>
+
+</div>

@@ -163,9 +163,18 @@
                 });
 
 
-            $stateProvider.state('super', {
-                url:         '/super',
-                templateUrl: 'partial/super/super.html'
+            $stateProvider.state('root.super', {
+                url:   '/super',
+                views: {
+                    "container@": {
+                        templateUrl:  'partial/super/super.html',
+                        controller:   'SuperCtrl',
+                        controllerAs: 'Super'
+                    }
+                },
+                data:  {
+                    access: ACCESS_LEVELS.super
+                }
             });
             /* Add New States Above */
             $urlRouterProvider.otherwise('/user/login/'); // This needs to point to a public url
@@ -192,10 +201,10 @@
                 var isApp = /^app/.test(window.location.host);
                 return {
                     'request':     function (config) {
-                        //if(!isApp) {
-                        //    config.params = config.params || {};
-                        //    config.params['XDEBUG_SESSION_START'] = 'PHPSTORM';
-                        //}
+                        if (!isApp) {
+                            config.params = config.params || {};
+                            config.params['XDEBUG_SESSION_START'] = 'PHPSTORM';
+                        }
                         return config;
                     },
                     response:      function (response) {
@@ -205,7 +214,7 @@
                         return response || $q.when(response);
                     },
                     responseError: function (rejection) {
-                        if (rejection.status >= 400 || rejection.status < 500) {
+                        if (rejection.status === 401 || rejection.status === 409) {
                             // Seems like 401 and 409 should remove token, but removing anything 4## for now
                             console.log("Response Error " + rejection.status, rejection);
                             $injector.get('$auth').removeToken();
