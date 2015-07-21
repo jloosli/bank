@@ -50,8 +50,8 @@ class EnvelopeController extends BaseController {
             }
             $envelope->user_id       = $user_id;
             $envelope->name          = $env['name'];
-            $envelope->percent       = $env['percent'] ? $env['percent'] : 0;
-            $envelope->goal          = $env['goal'];
+            $envelope->percent = empty( $env['percent'] ) ? 0 : $env['percent'];
+            $envelope->goal = empty( $env['goal'] ) ? 0 : $env['goal'];
             $envelope->goal_date     = empty($env['goal_date'])? '':$env['goal_date'];
             $envelope->default_spend = empty($env['default_spend']) ? 0: $env['default_spend'];
             $user->envelopes()->save( $envelope );
@@ -63,33 +63,6 @@ class EnvelopeController extends BaseController {
                 'message' => "Envelopes saved",
                 'data'    => $user->envelopes()->get()->toArray()
             ] );
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param $bank_id
-     * @param $user_id
-     * @param $envelope_ids
-     *
-     * @return Response
-     */
-    public function show( $bank_id, $user_id, $envelope_ids ) {
-        $envelope_ids = explode( ',', $envelope_ids );
-        if ( Input::get( 'show_deleted' ) === 'true' ) {
-            $envelopes = Envelope::withTrashed();
-        } else {
-            $envelopes = new Envelope();
-        }
-        $envelopes = $envelopes->where( 'user_id', '=', $user_id )
-                               ->whereIn( 'id', $envelope_ids )->get();
-        if ( count( $envelopes ) === 0 ) {
-            throw new Symfony\Component\HttpKernel\Exception\NotFoundHttpException(
-                'Envelopes not found.'
-            );
-        }
-
-        return $envelopes;
     }
 
     /**
@@ -153,6 +126,33 @@ class EnvelopeController extends BaseController {
             return $this->response->array( [ 'success' => true ] );
         }
         throw new \Symfony\Component\HttpKernel\Exception\PreconditionFailedHttpException( 'Envelope is not empty' );
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param $bank_id
+     * @param $user_id
+     * @param $envelope_ids
+     *
+     * @return Response
+     */
+    public function show( $bank_id, $user_id, $envelope_ids ) {
+        $envelope_ids = explode( ',', $envelope_ids );
+        if ( Input::get( 'show_deleted' ) === 'true' ) {
+            $envelopes = Envelope::withTrashed();
+        } else {
+            $envelopes = new Envelope();
+        }
+        $envelopes = $envelopes->where( 'user_id', '=', $user_id )
+                               ->whereIn( 'id', $envelope_ids )->get();
+        if ( count( $envelopes ) === 0 ) {
+            throw new Symfony\Component\HttpKernel\Exception\NotFoundHttpException(
+                'Envelopes not found.'
+            );
+        }
+
+        return $envelopes;
     }
 
 }
