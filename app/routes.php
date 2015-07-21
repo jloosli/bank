@@ -14,13 +14,11 @@
 Route::api( [ 'version' => 'v1' ], function () {
     Route::get('/test', function() {return "API Test";});
     Route::get( '/users/me', 'UserController@currentUser' ); // Get the current user
-    Route::put( '/users/me', 'UserController@updateUser' ); // Get the current user
     Route::group( [ 'prefix' => '/banks', 'protected' => true ], function () {
         Route::get( '/', 'BankController@index' ); // Get all banks (super admin only)
         Route::post( '/', 'BankController@store' ); // Create new bank
         Route::get( '/{bank_id}', 'BankController@show' ); // Get details on single bank
         Route::put( '/{bank_id}', 'BankController@update' ); // Update bank information
-        Route::patch( '/{bank_id}', 'BankController@update' ); // Update bank information
         Route::delete( '/{bank_id}', 'BankController@destroy' ); // Delete (archive) bank
 
         /* Users */
@@ -40,7 +38,6 @@ Route::api( [ 'version' => 'v1' ], function () {
         /* Transactions */
         Route::get( '/{bank_id}/users/{user_id}/transactions', 'TransactionController@index' ); // Get all transactions (pagination get queries expected)
         Route::post( '/{bank_id}/users/{user_id}/transactions', 'TransactionController@store' ); // Create new transaction
-        Route::put( '/{bank_id}/users/{user_id}/transactions', 'TransactionController@store' ); // Create new transaction
         Route::get( '/{bank_id}/users/{user_id}/transactions/{trans_id}', 'TransactionController@show' ); // Get specific transaction
 
     } );
