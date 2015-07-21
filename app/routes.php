@@ -60,26 +60,13 @@ Route::get('', function() {
     return Redirect::to('/index.html');
 });
 
-//Route::after('CorsFilter');
+Route::after( 'CorsFilter' );
 
 class CorsFilter {
     public function filter( $request, $response ) {
-//        $response->headers->set('Access-Control-Allow-Origin', '*');
-//        $response->headers->set('Access-Control-Allow-Headers', 'accept, authorization, content-type');
-
-        if ( $request->isMethod( 'OPTIONS' ) ) {
-            $request->setMethod( $request->header( 'Access-Control-Request-Method' ) );
-            $routes = \Route::getRoutes();
-
-            try {
-                $route = $routes->match( $request );
-            } catch ( NotFoundHttpException $exception ) {
-                $route = null;
-            }
-
-            if ( !is_null( $route ) ) {
-                $response->headers->set( 'Access-Control-Allow-Methods', implode( ',', $route->methods() ) );
-            }
+        // Looks like either laravel or dingo api is setting allow header and not access-control-allow-methods
+        if ( $request->isMethod( 'OPTIONS' ) && !empty( $response->headers->get( 'allow' ) ) ) {
+            $response->headers->set( 'Access-Control-Allow-Methods', $response->headers->get( 'allow' ) );
         }
     }
 
