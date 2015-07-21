@@ -61,10 +61,10 @@ var alertsService = function ($timeout, $sce) {
     };
 
     return {
-        get:               get,
-        add:               add,
-        remove:            remove,
-        removeAll:         removeAll,
+        get:       get,
+        add:       add,
+        remove:    remove,
+        removeAll: removeAll,
         registerObserverCallback: registerObserverCallback,
         removeNonEnduring: removeNonEnduring
     };

@@ -53,22 +53,22 @@ App::error(function(Exception $exception, $code)
 	Log::error($exception);
 });
 
-App::error(function (Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException $exception) {
+App::error( function ( Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException $exception ) {
     // Add Access Control to API error response
     return Response::make(['error'=>$exception->getMessage()], 401)->header('Access-Control-Allow-Origin','*');
 });
 
-app('Dingo\Api\Exception\Handler')->register(function(Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException $exception) {
-	return Response::make(['error'=>$exception->getMessage()], 401);
+app( 'Dingo\Api\Exception\Handler' )->register( function ( Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException $exception ) {
+    return Response::make( [ 'error' => $exception->getMessage() ], 401 );
 }
 );
 
-App::error(function(Symfony\Component\HttpKernel\Exception\AuthTokenNotAuthorizedException $exception) {
-    if(Request::ajax()) {
-        return Response::json(array('error' => $exception->getMessage()), 401);
+App::error( function ( Symfony\Component\HttpKernel\Exception\AuthTokenNotAuthorizedException $exception ) {
+    if ( Request::ajax() ) {
+        return Response::json( array( 'error' => $exception->getMessage() ), 401 );
     }
 
-});
+} );
 
 App::error(function(Symfony\Component\HttpKernel\Exception\BadRequestHttpException $exception) {
     if(Request::ajax()) {
