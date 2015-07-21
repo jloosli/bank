@@ -160,6 +160,20 @@
                     data:  {
                         access: ACCESS_LEVELS.pub
                     }
+                })
+                .state('root.login.reminder', {
+                    url:   'reminder/',
+                    views: {
+                        "container@": {
+                            templateUrl:  'partial/loginReminder/loginReminder.html',
+                            controller:   'LoginReminderCtrl',
+                            controllerAs: 'LoginReminder'
+                        }
+                    },
+                    data:  {
+                        access: ACCESS_LEVELS.pub
+                    }
+
                 });
 
 
@@ -176,6 +190,7 @@
                     access: ACCESS_LEVELS.super
                 }
             });
+
             /* Add New States Above */
             $urlRouterProvider.otherwise('/user/login/'); // This needs to point to a public url
 

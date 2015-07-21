@@ -53,9 +53,13 @@ Route::post('auth/google', 'AuthController@google');
 Route::post('auth/linkedin', 'AuthController@linkedin');
 Route::get('auth/twitter', 'AuthController@twitter');
 Route::get('auth/unlink/{provider}', array('before' => 'auth', 'uses' => 'AuthController@unlink'));
+Route::post( 'password/remind', 'RemindersController@postReminder' );
+
 Route::get('', function() {
     return Redirect::to('/index.html');
 });
+Route::controller( 'password', 'RemindersController' );
+
 
 Route::after( 'CorsFilter' );
 
@@ -65,6 +69,9 @@ class CorsFilter {
         if ( $request->isMethod( 'OPTIONS' ) && !empty( $response->headers->get( 'allow' ) ) ) {
             $response->headers->set( 'Access-Control-Allow-Methods', $response->headers->get( 'allow' ) );
         }
+//        if(!$response->headers->get('Access-Control-Allow-Origin')) {
+//            $response->headers->set('Access-Control-Allow-Origin', $request->headers->get('origin'));
+//        }
     }
 
 }

@@ -3,8 +3,9 @@
 namespace AvantiDevelopment\JrBank\Models;
 
 use Eloquent;
-use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;
+use Illuminate\Auth\Reminders\RemindableTrait;
+use Illuminate\Auth\UserInterface;
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
 use Watson\Validating\ValidatingTrait;
 
@@ -12,86 +13,29 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
     use SoftDeletingTrait;
     use ValidatingTrait;
+    use RemindableTrait;
     protected $dates = ['deleted_at'];
 
     protected $fillable = array( 'username', 'name', 'email', 'bank_id', 'password', 'user_type' );
     protected $guarded = [ 'id' ];
-
-    public function transactions() {
-        return $this->hasMany( 'AvantiDevelopment\JrBank\Models\Transaction' );
-    }
-
-    public function bank() {
-        return $this->belongsTo( 'AvantiDevelopment\JrBank\Models\Bank' );
-    }
-
-    public function envelopes() {
-        return $this->hasMany( 'AvantiDevelopment\JrBank\Models\Envelope' );
-    }
-
-    public function sessions() {
-        return $this->hasMany( 'Token' );
-    }
-
-
-    public function getRememberToken() {
-        return $this->rememberToken;
-    }
-
-    public function getRememberTokenName() {
-        return 'remember_token';
-    }
-
-    public function setRememberToken( $token ) {
-        $this->remember_token = $token;
-    }
-
     /**
      * Validation rules
      */
     protected $rules = array(
-        'username' => 'required|unique:users|between:4,100',
-        'name' => 'required',
-        'email'    => 'email',
-        'password' => 'min:3',
-        'bank_id'  => 'required|numeric',
+        'username'  => 'required|unique:users|between:4,100',
+        'name'      => 'required',
+        'email'     => 'email',
+        'password'  => 'min:3',
+        'bank_id'   => 'required|numeric',
         'user_type' => 'required'
     );
-
-    protected $observables = ['creating'];
-
-    public static function boot() {
-        parent::boot();
-
-        // Automatically create a base envelope when a new user is created.
-        static::created( function ( $user ) {
-            $baseEnvelope                = new Envelope();
-            $baseEnvelope->user_id       = $user->id;
-            $baseEnvelope->name          = "Spending";
-            $baseEnvelope->default_spend = 1;
-            $baseEnvelope->percent       = 100;
-            $baseEnvelope->balance       = 0;
-            $baseEnvelope->save();
-
-            return true;
-        } );
-
-        static::creating(function($user) {
-            // Start off with 0 balance;
-            $user->balance = 0;
-
-
-        });
-
-    }
-
+    protected $observables = [ 'creating' ];
     /**
      * The database table used by the model.
      *
      * @var string
      */
     protected $table = 'users';
-
     /**
      * The attributes excluded from the model's JSON form.
      *
@@ -109,13 +53,29 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
         'facebook'
     );
 
-    /**
-     * Get the unique identifier for the user.
-     *
-     * @return mixed
-     */
-    public function getAuthIdentifier() {
-        return $this->getKey();
+    public static function boot() {
+        parent::boot();
+
+        // Automatically create a base envelope when a new user is created.
+        static::created( function ( $user ) {
+            $baseEnvelope                = new Envelope();
+            $baseEnvelope->user_id       = $user->id;
+            $baseEnvelope->name          = "Spending";
+            $baseEnvelope->default_spend = 1;
+            $baseEnvelope->percent       = 100;
+            $baseEnvelope->balance       = 0;
+            $baseEnvelope->save();
+
+            return true;
+        } );
+
+        static::creating( function ( $user ) {
+            // Start off with 0 balance;
+            $user->balance = 0;
+
+
+        } );
+
     }
 
     public static function getCreateRules() {
@@ -128,6 +88,43 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
     public static function getAuthRules() {
         return self::$authRules;
+    }
+
+    public function transactions() {
+        return $this->hasMany( 'AvantiDevelopment\JrBank\Models\Transaction' );
+    }
+
+    public function bank() {
+        return $this->belongsTo( 'AvantiDevelopment\JrBank\Models\Bank' );
+    }
+
+    public function envelopes() {
+        return $this->hasMany( 'AvantiDevelopment\JrBank\Models\Envelope' );
+    }
+
+    public function sessions() {
+        return $this->hasMany( 'Token' );
+    }
+
+    public function getRememberToken() {
+        return $this->rememberToken;
+    }
+
+    public function getRememberTokenName() {
+        return 'remember_token';
+    }
+
+    public function setRememberToken( $token ) {
+        $this->remember_token = $token;
+    }
+
+    /**
+     * Get the unique identifier for the user.
+     *
+     * @return mixed
+     */
+    public function getAuthIdentifier() {
+        return $this->getKey();
     }
 
     public function isOwnerOf( $token ) {

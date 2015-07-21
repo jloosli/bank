@@ -1,8 +1,8 @@
 <?php
 
-use GuzzleHttp\Subscriber\Oauth\Oauth1;
-use AvantiDevelopment\JrBank\Models\User;
 use AvantiDevelopment\JrBank\Models\Oauth;
+use AvantiDevelopment\JrBank\Models\User;
+use GuzzleHttp\Subscriber\Oauth\Oauth1;
 
 class AuthController extends \BaseController {
 
@@ -19,10 +19,6 @@ class AuthController extends \BaseController {
         return Response::json( array( 'token' => $this->createToken( $user ) ) );
     }
 
-    protected function link( $provider, $token ) {
-
-    }
-
     public function login() {
         $emailOrUsername = Input::get( 'email' );
         $password        = Input::get( 'password' );
@@ -32,6 +28,8 @@ class AuthController extends \BaseController {
                     ->first();
 
         if ( !$user || !Hash::check( $password, $user->password ) ) {
+            throw new Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException( 'Invalid Login credentials' );
+
             return Response::json( array( 'message' => 'Wrong email and/or password' ), 401 );
         }
         // The passwords match...
@@ -447,5 +445,9 @@ class AuthController extends \BaseController {
 
             return Response::json( array( 'token' => $this->createToken( $user ) ) );
         }
+    }
+
+    protected function link( $provider, $token ) {
+
     }
 }

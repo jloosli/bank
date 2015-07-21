@@ -35,6 +35,6 @@
             <button type="button" class="close" aria-label="Close" ng-click="bankHeader.removeAlert(alert.id)">
                 <span aria-hidden="true">&times;</span>
             </button>
-            {{alert.text}}</div>
+            <span ng-bind-html="alert.text"></span></div>
     </div>
 </div>

@@ -1,16 +1,16 @@
 /* @ngInject */
-var alertsService = function ($timeout) {
+var alertsService = function ($timeout, $sce) {
     'use strict';
 
     var alerts = [],
         observerCallbacks = [];
 
-    var registerObserverCallback = function(callback) {
+    var registerObserverCallback = function (callback) {
         observerCallbacks.push(callback);
     };
 
-    var notifyObservers = function() {
-        angular.forEach(observerCallbacks, function(callback) {
+    var notifyObservers = function () {
+        angular.forEach(observerCallbacks, function (callback) {
             callback();
         });
     };
@@ -27,10 +27,15 @@ var alertsService = function ($timeout) {
         }
         alert.id = _.uniqueId('alert_');
         alert.type = 'alert-' + (alert.type || 'success');
+        if (!!alert.raw) {
+            alert.text = $sce.trustAsHtml(alert.text);
+        }
         alerts.push(alert);
         if (alert.duration && parseInt(alert.duration) > 0) {
             var duration = parseInt(alert.duration) * 1000;
-            $timeout(function() {remove(alert.id);}, duration);
+            $timeout(function () {
+                remove(alert.id);
+            }, duration);
         }
         notifyObservers();
         return alert.id;
@@ -49,17 +54,17 @@ var alertsService = function ($timeout) {
         notifyObservers();
     };
 
-    var removeNonEnduring = function() {
-        _.remove(alerts, function(alert) {
+    var removeNonEnduring = function () {
+        _.remove(alerts, function (alert) {
             return !alert.endure;
         });
     };
 
     return {
-        get:       get,
-        add:       add,
-        remove:    remove,
-        removeAll: removeAll,
+        get:               get,
+        add:               add,
+        remove:            remove,
+        removeAll:         removeAll,
         registerObserverCallback: registerObserverCallback,
         removeNonEnduring: removeNonEnduring
     };
