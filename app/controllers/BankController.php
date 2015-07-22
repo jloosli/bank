@@ -35,11 +35,15 @@ class BankController extends BaseController {
 
         $bank              = new Bank();
         $payload = Input::all();
-        $bank->name = $payload['bank']['name'];
-        $bank->slug        = Input::get( 'slug', Str::slug( $bank->name ) );
-        $bank->password = Hash::make( Input::get( 'password', 'password' ) );
-        $bank->interest = $payload['bank']['interest'] ? $payload['bank']['interest'] : 0;
-        $bank->compounding = Input::get( 'bank.compounding', 'monthly' );
+        try {
+            $bank->name        = $payload['bank']['name'];
+            $bank->slug        = Input::get( 'slug', Str::slug( $bank->name ) );
+            $bank->password    = Hash::make( Input::get( 'password', 'password' ) );
+            $bank->interest    = $payload['bank']['interest'] ? $payload['bank']['interest'] : 0;
+            $bank->compounding = Input::get( 'bank.compounding', 'monthly' );
+        } catch ( ErrorException $e ) {
+            throw new Dingo\Api\Exception\StoreResourceFailedException( 'Could not create Bank. Missing parameters.', [ $e->getMessage() ] );
+        }
         DB::transaction( function () use ( $bank, $payload ) {
             if ( !$bank->save() ) {
                 throw new Dingo\Api\Exception\StoreResourceFailedException( 'Could not create Bank.', $bank->getErrors() );

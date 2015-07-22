@@ -41,9 +41,12 @@ class BankTest extends TestCase {
 
     public function testCreateNew() {
         $params   = [
+            'bank' => [
             'name'        => "My New Bank",
             'password'    => "Pass",
-            'compounding' => 'monthly'
+            'compounding' => 'monthly',
+            'interest'    => 10
+            ]
         ];
         $response = $this->call( "POST", '/api/banks', $params );
         $this->checkJsonResponse( 200, $response );
