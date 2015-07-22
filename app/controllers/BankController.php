@@ -115,6 +115,8 @@ class BankController extends BaseController {
         $inputs = array_filter( $inputs, function ( $val ) {
             return !is_null( $val );
         } );
+        //@todo remove this when this isn't required in the database
+        $inputs['password'] = 'password';
         $bank->update( $inputs );
 
 
