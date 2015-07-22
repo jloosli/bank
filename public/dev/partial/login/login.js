@@ -7,17 +7,28 @@
     function LoginCtrl($auth, $state, alertsService) {
         'use strict';
         var self = this;
+
         this.authenticate = function (provider) {
-            self.loginMessage = "Checking with your provider...";
+            self.msg = alertsService.add({
+                text: 'Checking with ' + provider + '...'
+            });
             $auth.authenticate(provider).then(function () {
+                alertsService.add({
+                    text: 'Authenticated with ' + provider
+                });
                 console.log('authenticated!');
-                self.loginMessage = "Authenticated!";
                 $state.go('root.accounts');
             })
                 .catch(function (response) {
+                    alertsService.add({
+                        text: 'Could not authenticate with ' + provider,
+                        type: 'danger'
+                    });
                     console.log(response.data);
                     self.error = response.data.error;
-                    self.loginMessage = "";
+                })
+                .finally(function () {
+                    alertsService.remove(self.msg);
                 });
         };
         this.login = function () {
