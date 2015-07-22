@@ -31,12 +31,12 @@ class BankTest extends TestCase {
 
     public function testCreateMissingParameter() {
         $params   = [
-//            'name'     => "My New Bank",
+            'name' => "My New Bank",
             'password' => "Pass",
         ];
         $response = $this->call( "POST", '/api/banks', $params );
         $this->checkJsonResponse( 422, $response );
-        $this->assertContains( 'name', $response->getContent() );
+        $this->assertContains( 'bank', $response->getContent() );
     }
 
     public function testCreateNew() {

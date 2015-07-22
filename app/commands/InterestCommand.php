@@ -1,10 +1,8 @@
 <?php
 
-use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
-use AvantiDevelopment\JrBank\Models\Transaction;
 use AvantiDevelopment\JrBank\Models\EnvelopeTransaction;
+use AvantiDevelopment\JrBank\Models\Transaction;
+use Illuminate\Console\Command;
 
 class InterestCommand extends Command {
 
@@ -47,6 +45,9 @@ class InterestCommand extends Command {
             $interest = $bank->interest / ($bank->compounding == 'monthly' ? 12 : 1);
             $this->line("{$bank->name} compounding {$bank->compounding} at {$bank->interest}% interest");
             foreach($bank->users as $user) {
+                if ( $user->user_type !== 'user' ) {
+                    continue;
+                }
                 $this->info($user);
                 $transaction = new Transaction;
                 $transaction->user_id = $user->id;
