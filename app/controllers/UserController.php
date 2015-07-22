@@ -36,7 +36,14 @@ class UserController extends \BaseController {
      */
     public function store( $bank_id ) {
         $user = new User();
-        $user->fill( Input::all() );
+        $inputs = Input::only( $user->getFillable() );
+        $inputs = array_filter( $inputs, function ( $val ) {
+            return !is_null( $val );
+        } );
+        if ( isset( $inputs['password'] ) ) {
+            $inputs['password'] = Hash::make( $inputs['password'] );
+        }
+        $user->fill( $inputs );
         $user->bank_id = $bank_id;
 
         if ( $user->save() ) {

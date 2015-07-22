@@ -1,11 +1,16 @@
-var LoginReminder = function () {
+var LoginReminder = function (usersService) {
     var self= this;
     this.submitted = false;
-    this.email = 'bob@bob.com';
+    this.email = '';
 
     this.submitEmail = function() {
-        self.email = '';
-        self.submitted=true;
-    }
+        //self.submitted=true;
+        usersService.submitPasswordReminder(self.email)
+            .then(function (result) {
+                console.log(result);
+                //self.email = '';
+            });
+
+    };
 };
 angular.module('jrbank').controller('LoginReminderCtrl', LoginReminder);

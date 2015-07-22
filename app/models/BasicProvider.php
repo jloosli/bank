@@ -13,9 +13,10 @@ use AvantiDevelopment\JrBank\Models\User;
 use Dingo\Api\Auth\ProviderInterface;
 use Dingo\Api\Routing\Route;
 use Illuminate\Http\Request;
-//use Illuminate\Routing\Route;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use UnexpectedValueException;
+
+//use Illuminate\Routing\Route;
 
 class BasicProvider implements ProviderInterface {
 
@@ -38,6 +39,8 @@ class BasicProvider implements ProviderInterface {
             $payload = \JWT::decode( $auth, $_ENV['token'] );
         } catch ( UnexpectedValueException $e ) {
             throw new UnauthorizedHttpException( null, 'Token not valid.' );
+        } catch ( \DomainException $e) {
+            throw new UnauthorizedHttpException(null, 'Token not valid.');
         }
 
         $user = User::find( $payload->user->id );

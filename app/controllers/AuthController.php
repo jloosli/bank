@@ -29,8 +29,6 @@ class AuthController extends \BaseController {
 
         if ( !$user || !Hash::check( $password, $user->password ) ) {
             throw new Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException( 'Invalid Login credentials' );
-
-            return Response::json( array( 'message' => 'Wrong email and/or password' ), 401 );
         }
         // The passwords match...
         unset( $user->password );

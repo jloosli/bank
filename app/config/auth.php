@@ -29,7 +29,7 @@ return array(
 	|
 	*/
 
-	'model' => 'User',
+	'model' => 'AvantiDevelopment\JrBank\Models\User',
 
 	/*
 	|--------------------------------------------------------------------------

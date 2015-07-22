@@ -22,10 +22,11 @@ class RemindersController extends Controller {
 		switch ($response = Password::remind(Input::only('email')))
 		{
 			case Password::INVALID_USER:
-				return Redirect::back()->with('error', Lang::get($response));
+				throw new Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 			case Password::REMINDER_SENT:
-				return Redirect::back()->with('status', Lang::get($response));
+				return Response::make( [ 'success' => true ] );
+//				return Redirect::back()->with('status', Lang::get($response));
 		}
 	}
 

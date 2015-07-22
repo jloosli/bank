@@ -14,6 +14,7 @@
 Route::api( [ 'version' => 'v1' ], function () {
     Route::get('/test', function() {return "API Test";});
     Route::get( '/users/me', 'UserController@currentUser' ); // Get the current user
+    Route::post( '/password/remind', 'RemindersController@postRemind' );
     Route::group( [ 'prefix' => '/banks', 'protected' => true ], function () {
         Route::get( '/', 'BankController@index' ); // Get all banks (super admin only)
         Route::post( '/', 'BankController@store' ); // Create new bank
@@ -53,12 +54,12 @@ Route::post('auth/google', 'AuthController@google');
 Route::post('auth/linkedin', 'AuthController@linkedin');
 Route::get('auth/twitter', 'AuthController@twitter');
 Route::get('auth/unlink/{provider}', array('before' => 'auth', 'uses' => 'AuthController@unlink'));
-Route::post( 'password/remind', 'RemindersController@postReminder' );
+
 
 Route::get('', function() {
     return Redirect::to('/index.html');
 });
-Route::controller( 'password', 'RemindersController' );
+//Route::controller( 'password', 'RemindersController' );
 
 
 Route::after( 'CorsFilter' );
@@ -66,12 +67,12 @@ Route::after( 'CorsFilter' );
 class CorsFilter {
     public function filter( $request, $response ) {
         // Looks like either laravel or dingo api is setting allow header and not access-control-allow-methods
-        if ( $request->isMethod( 'OPTIONS' ) && !empty( $response->headers->get( 'allow' ) ) ) {
+        if ( $request->isMethod( 'OPTIONS' ) && $response->headers->get( 'allow' ) ) {
             $response->headers->set( 'Access-Control-Allow-Methods', $response->headers->get( 'allow' ) );
         }
-//        if(!$response->headers->get('Access-Control-Allow-Origin')) {
-//            $response->headers->set('Access-Control-Allow-Origin', $request->headers->get('origin'));
-//        }
+        if ( !$response->headers->get( 'Access-Control-Allow-Origin' ) ) {
+            $response->headers->set( 'Access-Control-Allow-Origin', $request->headers->get( 'origin' ) );
+        }
     }
 
 }

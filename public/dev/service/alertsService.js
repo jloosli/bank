@@ -27,9 +27,9 @@ var alertsService = function ($timeout, $sce) {
         }
         alert.id = _.uniqueId('alert_');
         alert.type = 'alert-' + (alert.type || 'success');
-        if (!!alert.raw) {
-            alert.text = $sce.trustAsHtml(alert.text);
-        }
+        //if (!!alert.raw) {
+        //    alert.text = $sce.trustAsHtml(alert.text);
+        //}
         alerts.push(alert);
         if (alert.duration && parseInt(alert.duration) > 0) {
             var duration = parseInt(alert.duration) * 1000;
