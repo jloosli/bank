@@ -3,17 +3,27 @@
     /*
      @ngInject
      */
-    function banksService($resource, $auth, $rootScope, $q, $cacheFactory, $http, authService, API_URL) {
+    function banksService($resource, $auth, $q, $cacheFactory, $http, authService, API_URL, $state) {
         "use strict";
-        var svc = {};
+        var svc = {},
+            useBank = false;
+
 
         function currentBank() {
             if ($auth.isAuthenticated()) {
+                if (useBank) {
+                    return useBank;
+                }
                 var user = authService.getCurrentUser();
                 return user.bank_id;
             }
             return 0;
         }
+
+        svc.setBank = function (bank_id) {
+            useBank = bank_id;
+            $state.go('root.accounts', {}, {reload: true});
+        };
 
         svc.bank = function (bank_id) {
             bank_id = bank_id || currentBank();

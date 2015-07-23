@@ -7,10 +7,10 @@
     console.log(API_URL);
     angular.module('jrbank')
         .constant('ACCESS_LEVELS', {
-            pub:    0,
-            user:   1,
-            parent: 2,
-            super:  3
+            pub:           0,
+            user:          1,
+            admin:         2,
+            'super-admin': 3
         })
         .constant('API_URL', API_URL + 'api/')
         .config(function ($authProvider) {
@@ -187,7 +187,7 @@
                     }
                 },
                 data:  {
-                    access: ACCESS_LEVELS.super
+                    access: ACCESS_LEVELS['super-admin']
                 }
             });
 

@@ -1,4 +1,4 @@
-angular.module('jrbank').factory('usersService', function ($http, $q, API_URL) {
+angular.module('jrbank').factory('usersService', function ($http, $q, API_URL, $auth) {
 
     var submitPasswordReminder = function (email) {
         return $q(function (resolve, reject) {

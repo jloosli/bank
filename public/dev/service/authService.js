@@ -10,19 +10,9 @@
             var payload = $auth.getPayload();
 
             if(!payload || !payload.user) {
-                return 0;
+                return ACCESS_LEVELS.pub;
             } else  {
-                switch (payload.user.user_type) {
-                    case 'user':
-                        return 1;
-                    case 'admin':
-                    case 'parent':
-                        return 2;
-                    case 'super-admin':
-                        return 3;
-                    default:
-                        return 0;
-                }
+                return ACCESS_LEVELS[payload.user.user_type];
             }
         }
 
