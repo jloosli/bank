@@ -15,6 +15,7 @@ Route::api( [ 'version' => 'v1' ], function () {
     Route::get('/test', function() {return "API Test";});
     Route::get( '/users/me', 'UserController@currentUser' ); // Get the current user
     Route::post( '/password/remind', 'RemindersController@postRemind' );
+    Route::post( '/password/reset', 'RemindersController@postReset' );
     Route::group( [ 'prefix' => '/banks', 'protected' => true ], function () {
         Route::get( '/', 'BankController@index' ); // Get all banks (super admin only)
         Route::post( '/', 'BankController@store' ); // Create new bank
@@ -59,7 +60,7 @@ Route::get('auth/unlink/{provider}', array('before' => 'auth', 'uses' => 'AuthCo
 Route::get('', function() {
     return Redirect::to('/index.html');
 });
-//Route::controller( 'password', 'RemindersController' );
+Route::controller( 'password', 'RemindersController' );
 
 
 Route::after( 'AvantiDevelopment\JrBank\lib\CorsFilter' );

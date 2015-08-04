@@ -54,7 +54,7 @@ return array(
 	|
 	*/
 
-	'from'    => array( 'address' => 'jloosli@gmail.com', 'name' => 'Jr Bank' ),
+	'from'    => array( 'address' => 'support@jrbank.co', 'name' => 'Jr Bank' ),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -119,6 +119,6 @@ return array(
 	|
 	*/
 
-	'pretend' => true,
+	'pretend' => false,
 
 );

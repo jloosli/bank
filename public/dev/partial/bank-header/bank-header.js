@@ -13,11 +13,15 @@
         this.notSuper = false;
         this.banks = [];
 
-        banksService.getBanks()
-            .then(function (results) {
-                vm.banks = results;
-                console.log(results);
-            });
+
+        if (authService.checkAccess(ACCESS_LEVELS['super-admin'])) {
+
+            banksService.getBanks()
+                .then(function (results) {
+                    vm.banks = results;
+                    console.log(results);
+                });
+        }
 
         var updateAlerts = function () {
             vm.alerts = alertsService.get();
@@ -35,6 +39,7 @@
         this.notSuper = !authService.checkAccess(ACCESS_LEVELS['super-admin']);
 
     }
+
     angular.module('jrbank').controller('BankHeaderCtrl', BankHeaderController);
 })();
 

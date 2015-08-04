@@ -1,0 +1,60 @@
+<div class="col-xs-12 col-sm-6 col-sm-offset-3">
+    <h2>Reset your password</h2>
+
+    <form name="resetForm" ng-submit="LoginReset.submitPassword()" ng-if="LoginReset.state==LoginReset.states.init"
+          novalidate
+          autocomplete="off">
+        <input type="password" style="display:none;"/><!-- Hack to force autocomplete off -->
+        <div class="form-group" ng-class="{'has-error':(resetForm.username.$touched && resetForm.username.$invalid)}">
+            <label for="username">Username</label>
+            <input class="form-control" type="text" id="username"
+                   ng-model="LoginReset.credentials.username"
+                   name="username" autocomplete="off"
+                   required>
+
+            <div ng-messages="resetForm.username.$error" role="alert" class="help-block"
+                 ng-show="resetForm.username.$touched && resetForm.username.$invalid">
+                <div ng-message="required">Username is required</div>
+            </div>
+        </div>
+        <div class="form-group" ng-class="{'has-error':(resetForm.password.$touched && resetForm.password.$invalid)}">
+            <label for="password">New Password</label>
+
+            <div class="input-group">
+                <input class="form-control" type="{{showPassword ? 'text' : 'password'}}" id="password"
+                       ng-model="LoginReset.credentials.password"
+                       ng-minlength="3" name="password"
+                       required>
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" btn-checkbox ng-model="showPassword"
+                            title="Show/hide password">
+                        <i class="fa" ng-class="{'fa-eye':showPassword, 'fa-eye-slash':!showPassword}"></i>
+                    </button>
+                </span>
+            </div>
+            <div class="help-block">Click on eye to show/hide password</div>
+            <div ng-messages="resetForm.password.$error" role="alert" class="help-block has-error"
+                 ng-show="resetForm.password.$touched && resetForm.password.$invalid">
+                <div ng-message="required">Password is required</div>
+                <div ng-message="minlength">Password is too short</div>
+            </div>
+
+        </div>
+        <button class="btn btn-primary" ng-disabled="resetForm.$invalid">Reset Password</button>
+        <div ng-messages="resetForm" role="alert">
+            <ng-message>Passwords don't match</ng-message>
+        </div>
+    </form>
+    <div ng-if="LoginReset.state==LoginReset.states.checking">
+        <h3>Submitting...</h3>
+        <!--<h3>Whoops....This feature isn't implemented yet. Talk to Jared if you need your password reset or try-->
+        <!--using the Google log in.</h3>-->
+    </div>
+    <div ng-if="LoginReset.state==LoginReset.states.success">
+        <h3>Submitting...</h3>
+        <!--<h3>Whoops....This feature isn't implemented yet. Talk to Jared if you need your password reset or try-->
+        <!--using the Google log in.</h3>-->
+    </div>
+    <div class="top-20"><a ui-sref="root.login">Go to login page</a></div>
+
+</div>

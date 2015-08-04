@@ -4,9 +4,9 @@ var LoginReminder = function (usersService) {
     this.email = '';
 
     this.submitEmail = function() {
-        //self.submitted=true;
         usersService.submitPasswordReminder(self.email)
             .then(function (result) {
+                self.submitted = true;
                 console.log(result);
                 //self.email = '';
             });

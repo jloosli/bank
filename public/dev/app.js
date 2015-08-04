@@ -174,6 +174,19 @@
                         access: ACCESS_LEVELS.pub
                     }
 
+                })
+                .state('root.login.reset', {
+                    url:   'reset/:token',
+                    views: {
+                        "container@": {
+                            templateUrl:  'partial/loginReset/loginReset.html',
+                            controller:   'LoginResetCtrl',
+                            controllerAs: 'LoginReset'
+                        }
+                    },
+                    data:  {
+                        access: ACCESS_LEVELS.pub
+                    }
                 });
 
 
