@@ -18,7 +18,7 @@ var LoginResetCtrl = function (usersService, $state) {
                 $state.go('root.login');
             })
             .catch(function (result) {
-                self.state = self.states.init
+                self.state = self.states.init;
             });
 
     };
