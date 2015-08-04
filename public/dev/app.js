@@ -233,10 +233,14 @@
                             // Seems like 401 and 409 should remove token, but removing anything 4## for now
                             console.log("Response Error " + rejection.status, rejection);
                             $injector.get('$auth').removeToken();
-                            $injector.get('$state').go('root.login', {}, {reload: true});
+                            // If you're already on the login page, then don't do anything
+                            if ($injector.get('$state').current.name !== 'root.login') {
+                                $injector.get('$state').go('root.login', {}, {reload: true});
+                                return $q.reject(rejection);
+                            }
                         }
+                        return rejection;
 
-                        return $q.reject(rejection);
                     }
                 };
             });
